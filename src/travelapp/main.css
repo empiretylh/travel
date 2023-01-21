@@ -182,8 +182,6 @@
   position:'relative';
   padding:0px;
   width:100%;
-  background-color:#f0f0f0;
-
 }
 
 .pagewarpper{
@@ -357,3 +355,11 @@ a{
 	color:white !important;
 }
 
+
+
+.searchfield{
+  padding:5px;
+  padding-left:8px;
+  border-radius:15px;
+
+}
