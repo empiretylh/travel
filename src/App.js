@@ -1,2 +1,2 @@
-import Voting from './votingapp/main';
-export default Voting;
+import Travel from './travelapp/main';
+export default Travel;
