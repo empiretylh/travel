@@ -12,9 +12,8 @@ import Download from "./screens/download";
 import Home from "./screens/home";
 import Login from "./screens/login";
 import Admin from "./screens/admin";
-import AddAdmin from './screens/AddAdmin';
-import Package from './screens/package';
-
+import AddAdmin from "./screens/AddAdmin";
+import Package from "./screens/package";
 
 import { useEffect } from "react";
 import services from "./data/services";
@@ -54,7 +53,6 @@ import SideBar from "./screens/sidebar";
 
 import { IMAGE } from "../assets/assets";
 
-
 const queryClient = new QueryClient();
 axios.defaults.baseURL = baseURL;
 
@@ -64,7 +62,7 @@ const VotingMain = () => {
   const [WTLogout, setWTLogout] = useState(false);
   const [is_clientview, setClietView] = useState(true);
 
-  const [is_loading,setIsLoading] = useState(false);
+  const [is_loading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // services.logout();
@@ -73,6 +71,7 @@ const VotingMain = () => {
       axios.defaults.headers.common = {
         Authorization: `Token ${current_token}`,
       };
+      console.log(current_token);
     } else {
       axios.defaults.headers.common = {
         Authorization: null,
@@ -95,16 +94,22 @@ const VotingMain = () => {
     [WTLogout, setWTLogout]
   );
 
-  const is_CAValue = useMemo(()=>({is_clientview,setClietView}),[is_clientview,setClietView]);
+  const is_CAValue = useMemo(
+    () => ({ is_clientview, setClietView }),
+    [is_clientview, setClietView]
+  );
 
-  const loadingValue = useMemo(()=>({is_loading,setIsLoading}),[is_loading,setIsLoading]);
+  const loadingValue = useMemo(
+    () => ({ is_loading, setIsLoading }),
+    [is_loading, setIsLoading]
+  );
 
   const ClientView = () => (
     <>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-           <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>
@@ -112,102 +117,109 @@ const VotingMain = () => {
 
   return (
     <LoadingContext.Provider value={loadingValue}>
-    <CAContext.Provider value={is_CAValue}>
-    <LogoutContext.Provider value={logoutvalue}>
-      <div>
-        <QueryClientProvider client={queryClient}>
-          <TokenContext.Provider value={tokenValue}>
-            <HashRouter>
-              <>
-                {is_clientview ? (
-                  <>{ClientView()}</>
-                ) : (
+      <CAContext.Provider value={is_CAValue}>
+        <LogoutContext.Provider value={logoutvalue}>
+          <div>
+            <QueryClientProvider client={queryClient}>
+              <TokenContext.Provider value={tokenValue}>
+                <HashRouter>
                   <>
-                    {token === null ? (
+                    {is_clientview ? (
                       <>{ClientView()}</>
                     ) : (
                       <>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                          }}
-                        >
-                          <SideBar />
-                          <div className='pagewarpper'>
-                          <Routes>
-                            <Route path="/" element={<Admin />} />
-                            <Route path="/admin" element={<Admin />} />
-                            <Route path="/addnewadmin" element={<AddAdmin />} />
-                            <Route path="/packages" element={<Package />} />
-                          </Routes>
-                          </div>
-                        </div>
+                        {token === null ? (
+                          <>{ClientView()}</>
+                        ) : (
+                          <>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                              }}
+                            >
+                              <SideBar />
+                              <div className="pagewarpper">
+                                <Routes>
+                                  <Route path="/" element={<Admin />} />
+                                  <Route path="/admin" element={<Admin />} />
+                                  <Route
+                                    path="/addnewadmin"
+                                    element={<AddAdmin />}
+                                  />
+                                  <Route
+                                    path="/packages"
+                                    element={<Package />}
+                                  />
+                                </Routes>
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </>
                     )}
                   </>
-                )}
-              </>
-            </HashRouter>
-          </TokenContext.Provider>
-        </QueryClientProvider>
-      </div>
-      <Modal
-        show={WTLogout}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body>
-          <Modal.Title>Logout</Modal.Title>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <p>
-              Are you sure want to logout from this account. If you want to use
-              this account, you need to remember your username and password.
-            </p>
+                </HashRouter>
+              </TokenContext.Provider>
+            </QueryClientProvider>
           </div>
-          <Modal.Footer>
-            <Button variant={"danger"} onClick={() => Logout()}>
-              Yes, I want to Logout Now
-            </Button>
-            <Button variant={"primary"} onClick={() => setWTLogout(false)}>
-              No
-            </Button>
-          </Modal.Footer>
-        </Modal.Body>
-      </Modal>
-
-      {is_loading && (
-        <div
-          style={{
-            position: "absolute",
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              padding: 10,
-              backgroundColor: "white",
-              borderRadius: 15,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+          <Modal
+            show={WTLogout}
+            size="md"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
           >
-            <img
-              src={IMAGE.loading}
-              style={{ width: 50, height: 50 }}
-              alt={"loading"}
-            />
-          </div>
-        </div>
-      )}
-    </LogoutContext.Provider>
-    </CAContext.Provider>
+            <Modal.Body>
+              <Modal.Title>Logout</Modal.Title>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <p>
+                  Are you sure want to logout from this account. If you want to
+                  use this account, you need to remember your username and
+                  password.
+                </p>
+              </div>
+              <Modal.Footer>
+                <Button variant={"danger"} onClick={() => Logout()}>
+                  Yes, I want to Logout Now
+                </Button>
+                <Button variant={"primary"} onClick={() => setWTLogout(false)}>
+                  No
+                </Button>
+              </Modal.Footer>
+            </Modal.Body>
+          </Modal>
+
+          {is_loading && (
+            <div
+              style={{
+                position: "absolute",
+                width: "100vw",
+                height: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  padding: 10,
+                  backgroundColor: "white",
+                  borderRadius: 15,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={IMAGE.loading}
+                  style={{ width: 50, height: 50 }}
+                  alt={"loading"}
+                />
+              </div>
+            </div>
+          )}
+        </LogoutContext.Provider>
+      </CAContext.Provider>
     </LoadingContext.Provider>
   );
 };

@@ -9,11 +9,7 @@ class AuthService {
   }
 
   addPackage(data) {
-    return axios.post(API_URL + "/api/packageadmin/", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    return axios.get(API_URL + "/api/packageadmin/");
   }
 
   admin() {
