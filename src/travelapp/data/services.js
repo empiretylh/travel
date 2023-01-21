@@ -8,6 +8,13 @@ class AuthService {
     return axios.postForm(API_URL + "/auth/login/", data);
   }
 
+  addPackage(data) {
+    return axios.post(API_URL + "/api/packageadmin/", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));
