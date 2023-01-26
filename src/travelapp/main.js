@@ -53,16 +53,20 @@ import SideBar from "./screens/sidebar";
 
 import { IMAGE } from "../assets/assets";
 
+import { useLocation } from 'react-router-dom'
+
 const queryClient = new QueryClient();
 axios.defaults.baseURL = baseURL;
 
-const VotingMain = () => {
+const TravelMain = () => {
   const [token, setToken] = useState(null);
 
   const [WTLogout, setWTLogout] = useState(false);
   const [is_clientview, setClietView] = useState(true);
 
   const [is_loading, setIsLoading] = useState(false);
+
+
 
   useEffect(() => {
     // services.logout();
@@ -104,16 +108,9 @@ const VotingMain = () => {
     [is_loading, setIsLoading]
   );
 
-  const ClientView = () => (
-    <>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </>
-  );
+
+
+
 
   return (
     <LoadingContext.Provider value={loadingValue}>
@@ -123,42 +120,29 @@ const VotingMain = () => {
             <QueryClientProvider client={queryClient}>
               <TokenContext.Provider value={tokenValue}>
                 <HashRouter>
-                  <>
-                    {is_clientview ? (
-                      <>{ClientView()}</>
-                    ) : (
-                      <>
-                        {token === null ? (
-                          <>{ClientView()}</>
-                        ) : (
-                          <>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                              }}
-                            >
-                              <SideBar />
-                              <div className="pagewarpper">
-                                <Routes>
-                                  <Route path="/" element={<Admin />} />
-                                  <Route path="/admin" element={<Admin />} />
-                                  <Route
-                                    path="/addnewadmin"
-                                    element={<AddAdmin />}
-                                  />
-                                  <Route
-                                    path="/packages"
-                                    element={<Package />}
-                                  />
-                                </Routes>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                  {is_clientview?
+                    <NavBar/>:
+                    <SideBar />}
+                    <div className="pagewarpper">
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/admin" element={<Admin />} />
+                        <Route
+                          path="/admin/addnewadmin"
+                          element={<AddAdmin />}
+                        />
+                        <Route path="/admin/packages" element={<Package />} />
+                      </Routes>
+                    </div>
+                  </div>
                 </HashRouter>
               </TokenContext.Provider>
             </QueryClientProvider>
@@ -193,6 +177,7 @@ const VotingMain = () => {
             <div
               style={{
                 position: "absolute",
+                top: 0,
                 width: "100vw",
                 height: "100vh",
                 display: "flex",
@@ -208,6 +193,7 @@ const VotingMain = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
                 }}
               >
                 <img
@@ -224,4 +210,4 @@ const VotingMain = () => {
   );
 };
 
-export default VotingMain;
+export default TravelMain;

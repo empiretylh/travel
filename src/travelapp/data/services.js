@@ -9,7 +9,41 @@ class AuthService {
   }
 
   addPackage(data) {
-    return axios.get(API_URL + "/api/packageadmin/");
+    // axios.defaults.headers.common = null;
+          // console.log(JSON.stringify(axios.defaults.headers.common))
+    return axios.post(API_URL + "/api/packageadmin/",data,{
+         headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
+  getPackage(){
+    return axios.get(API_URL+"/api/packageadmin/");
+  }
+
+  putPackage(data){
+    return axios.put(API_URL+"/api/packageadmin/",data,{
+      headers:{
+        "Content-Type":"multipart/form-data"
+      }
+    });
+  }
+
+  putPackageDescription(data){
+     return axios.put(API_URL+"/api/packagedescription/",data,{
+      headers:{
+        "Content-Type":"multipart/form-data"
+      }
+    });
+  }
+
+
+  deletePackage(data){
+   
+    return axios.delete(API_URL+"/api/packageadmin/",{
+      params:data
+    });
   }
 
   admin() {

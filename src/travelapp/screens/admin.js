@@ -1,6 +1,15 @@
-import React from 'react';
+import React,{useContext,useEffect} from 'react';
 import {Container,Row,Col} from 'react-bootstrap';
+import {CAContext} from '../context/Context';
 const Admin =()=>{
+
+    const {is_clientview,setClietView} = useContext(CAContext);
+
+    useEffect(()=>{
+        setClietView(false)
+    },[])
+
+
  return(
  	  <div className='pages'>
         <h1>

@@ -1,1 +1,1 @@
-export const baseURL = 'https://8000-empiretylh-travelserver-dwh56axj1bs.ws-us83.gitpod.io';
+export const baseURL = 'http://127.0.0.1:8000';

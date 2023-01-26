@@ -104,7 +104,7 @@ const SideBar = (props) => {
 							</CDBSidebarMenuItem>
 						</NavLink>
 						<NavLink
-							to="/packages"
+							to="/admin/packages"
 							onClick={() => UpdateActive("packages")}
 						>
 							<CDBSidebarMenuItem
@@ -122,7 +122,7 @@ const SideBar = (props) => {
 						</NavLink>
 
 						<NavLink
-							to="/bookings"
+							to="/admin/bookings"
 							onClick={() => UpdateActive("bookings")}
 						>
 							<CDBSidebarMenuItem
@@ -139,7 +139,7 @@ const SideBar = (props) => {
 						</NavLink>
 						<div className="divider" />
 						<NavLink
-							to="/addnewadmin"
+							to="/admin/addnewadmin"
 							onClick={() => UpdateActive("admin")}
 						>
 							<CDBSidebarMenuItem
@@ -155,7 +155,7 @@ const SideBar = (props) => {
 							</CDBSidebarMenuItem>
 						</NavLink>
 						<NavLink
-							to="/changeinfo"
+							to="/admin/changeinfo"
 							onClick={() => UpdateActive("changeinfo")}
 						>
 							<CDBSidebarMenuItem
@@ -173,7 +173,7 @@ const SideBar = (props) => {
 						<div className="divider" />
 						<NavLink
 							to="/home"
-							onClick={() => {UpdateActive("vas"); setClietView(true)}}
+							onClick={() => {UpdateActive("vas");}}
 						>
 							<CDBSidebarMenuItem
 								iconSize="lg"
