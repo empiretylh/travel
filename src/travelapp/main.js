@@ -8,12 +8,12 @@ import {
   Routes,
   HashRouter,
 } from "react-router-dom";
-import Download from "./screens/download";
 import Home from "./screens/home";
 import Login from "./screens/login";
 import Admin from "./screens/admin";
 import AddAdmin from "./screens/AddAdmin";
 import Package from "./screens/package";
+import Booking from "./screens/booking";
 
 import { useEffect } from "react";
 import services from "./data/services";
@@ -140,6 +140,7 @@ const TravelMain = () => {
                           element={<AddAdmin />}
                         />
                         <Route path="/admin/packages" element={<Package />} />
+                         <Route path="/admin/bookings" element={<Booking />} />
                       </Routes>
                     </div>
                   </div>

@@ -7,4 +7,5 @@ export const IMAGE = {
   ph2: require("./voting/ph2.webp"),
 
   background: require("./travel/travelimage.jpg"),
+  simpleimage:require("./travel/travelimage.jpg"),
 };

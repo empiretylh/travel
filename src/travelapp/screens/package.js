@@ -42,22 +42,22 @@ const TextEditor = ({
   defaultData,
   descriptionShow,
   setDescriptionShow,
+
   EditDes,
 }) => {
-  console.log(defaultData, "Default Data");
- const esdata= EditorState.createWithContent(
-      ContentState.createFromBlockArray(htmlToDraft(defaultData).contentBlocks)
-    )
+  // console.log(defaultData, "Default Data");
+  const esdata = EditorState.createWithContent(
+    ContentState.createFromBlockArray(htmlToDraft(defaultData).contentBlocks)
+  );
   const [editorState, setEditorStateChange] = useState(esdata);
 
-
-  useEffect(()=>{
-    const esdata= EditorState.createWithContent(
+  useEffect(() => {
+    const esdata = EditorState.createWithContent(
       ContentState.createFromBlockArray(htmlToDraft(defaultData).contentBlocks)
-    )
+    );
 
-    setEditorStateChange(esdata)
-  },[defaultData])
+    setEditorStateChange(esdata);
+  }, [defaultData]);
 
   return (
     <Modal
@@ -104,7 +104,7 @@ const TextEditor = ({
   );
 };
 
-const PackageCard = ({ data, edit, onDelete, openDes }) => {
+const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
   return (
     <Col xs={12} sm={6} md={4} className="mb-3">
       <Card>
@@ -116,15 +116,18 @@ const PackageCard = ({ data, edit, onDelete, openDes }) => {
               // placeholder={({ imageProps, ref }) => (
               //   <img ref={ref} src="../../assets/travel/travelimage.jpg" {...imageProps} />
               // )}
-              placeholderSrc={IMAGE.background}
+              placeholderSrc={IMAGE.simpleimage}
             />
           </div>
 
           <div style={{ padding: 10 }}>
             <Card.Title>{data.destination}</Card.Title>
             <div className="includeplace">
-              <GeoAlt /> > {data.destination} > {data.destination}>{" "}
-              {data.destination}> {data.destination}> {data.destination}
+              <GeoAlt /> >{" "}
+              {data.includeplace.map((data, id) => {
+                return <>{data.placename + " > "}</>;
+              })}
+              {data.destination}
             </div>
             <div className="packageinfo">
               <p>{data.duration}</p>
@@ -133,7 +136,7 @@ const PackageCard = ({ data, edit, onDelete, openDes }) => {
           </div>
           <div className="divider" />
           <div className="packagetools">
-            <Button>
+            <Button onClick={() => openPlace(data)}>
               <GeoAlt /> Include Places
             </Button>
             <Button onClick={() => openDes(data)}>
@@ -152,6 +155,26 @@ const PackageCard = ({ data, edit, onDelete, openDes }) => {
   );
 };
 
+const PlaceItem = ({ data }) => {
+  return (
+    <div className="mb-3">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundColor: "#f0f0f0f0",
+        }}
+      >
+        <div style={{ marginLeft: 5 }}>
+          <h5>{data.placename}</h5>
+          <h6>{data.hotels}</h6>
+          <h6>{data.lengthofstay}</h6>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Package = () => {
   const [newPackageShow, setNewPackageShow] = useState(false);
 
@@ -164,9 +187,16 @@ const Package = () => {
 
   const [descriptionShow, setDescriptionShow] = useState(false);
 
+  const [placeShow, setPlaceShow] = useState(false);
+
   const { is_loading, setIsLoading } = useContext(LoadingContext);
 
   const { setClietView } = useContext(CAContext);
+  useEffect(() => {
+    // console.log("You Entering.....");
+    setClietView(false);
+  }, []);
+
 
   const package_data = useQuery("package_data", services.getPackage);
 
@@ -178,11 +208,7 @@ const Package = () => {
   const placeimageRef = useRef(0);
   const packageid = useRef(0);
 
-  useEffect(() => {
-    // console.log("You Entering.....");
-    setClietView(false);
-  }, []);
-
+  
   const PackageDescription = useMutation(services.putPackageDescription, {
     onMutate: () => {
       setIsLoading(true);
@@ -223,6 +249,32 @@ const Package = () => {
   });
 
   const PackageDelete = useMutation(services.deletePackage, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: () => {
+      setIsLoading(false);
+      package_data.refetch();
+    },
+    onError: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const AddIncludePlace = useMutation(services.postIncludePlace, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: () => {
+      setIsLoading(false);
+      package_data.refetch();
+    },
+    onError: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const DeleteIncludePlace = useMutation(services.deleteIncludePlace, {
     onMutate: () => {
       setIsLoading(true);
     },
@@ -290,6 +342,14 @@ const Package = () => {
     }
   }, [package_data.data, searchText]);
 
+  const Places = useMemo(() => {
+    if (package_data && placeShow) {
+      const data = packagedata.filter((d) => packageid.current == d.id);
+      console.log(data, "Chanageee");
+      return data[0].includeplace;
+    }
+  }, [packagedata, packageid.current, placeShow]);
+
   const OpenEdit = (data) => {
     packageid.current = data.id;
 
@@ -316,20 +376,53 @@ const Package = () => {
     setDescriptionShow(true);
   };
 
-  const [IPS,setIPS] = useState(false);
+  const PlaceShowRef = useRef(0);
 
+  const OpenPlaceShow = (data) => {
+    packageid.current = data.id;
+    dnameRef.current = data.destination;
+    PlaceShowRef.current = data.includeplace;
+    setPlaceShow(true);
+  };
 
+  const [IPS, setIPS] = useState(false);
 
   const del_dnameRef = useRef(0);
 
+  const placeRef = useRef(0);
+  const hotelRef = useRef(0);
+  const LosRef = useRef(0);
+  const imageRef = useRef(0);
+
+  const includeplace_form = useRef(0);
+
+  const selectIP = useRef(0);
+
+  const [showDeleteIP, setShowDeleteIP] = useState(false);
+
   // const [editorState, setEditorStateChange] = useState('');
+  const OpenPlaceShowDelete = (data) => {
+    selectIP.current = data;
+    setShowDeleteIP(true);
+  };
+
+  const AddIncludePlaceClick = () => {
+    // console.log('Include Place Clikced')
+    if (placeRef.current.value) {
+      AddIncludePlace.mutate({
+        packageid: packageid.current,
+        placename: placeRef.current.value,
+        hotel: hotelRef.current.value ? hotelRef.current.value : "No Hotel",
+        lengthofstay: LosRef.current.value,
+        image: imageRef.current.files[0] ? imageRef.current.files[0] : "",
+      });
+    } else {
+      alert("Please Fill Require Fields");
+    }
+  };
 
   return (
     <div className={"pages"}>
-      {/*   <textarea */}
-      {/*   disabled */}
-      {/*   value={editorState && draftToHtml(convertToRaw(editorState.getCurrentContent()))} */}
-      {/* /> */}
       <TextEditor
         descriptionShow={descriptionShow}
         setDescriptionShow={setDescriptionShow}
@@ -340,26 +433,201 @@ const Package = () => {
       />
 
       <Modal
-        show={true}
-        onHide={() => setDeletePackageShow(false)}
-        size="lg"
+        show={placeShow}
+        onHide={() => setPlaceShow(false)}
+        size="xl"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Body>
-        <div>
-          <Button className='btn btn-primary'>
-           Add Place
-          </Button>
-        </div>
-          <div className='divider'/>
+          <div style={{ padding: 10 }}>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <h4>{dnameRef.current}</h4>
+              {is_loading && (
+                <img src={IMAGE.loading} style={{ width: 40, height: 40 }} />
+              )}
+            </div>
+
+            <div className="divider" />
+            <Form
+              ref={includeplace_form}
+              className="includePlace"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                AddIncludePlaceClick();
+              }}
+            >
+              <Container fluid>
+                <Row>
+                  <Col>
+                    <InputGroup>
+                      <Form.Label>Place Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        className="mb-3"
+                        placeholder="Place Name"
+                        required
+                        ref={placeRef}
+                      />
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup>
+                      <Form.Label>Hotel Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        className="mb-3"
+                        placeholder="Hotel"
+                        ref={hotelRef}
+                      />
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup>
+                      <Form.Label>Length Of Stay</Form.Label>
+                      <Form.Control
+                        type="text"
+                        className="mb-3"
+                        placeholder="Length Of Stay"
+                        ref={LosRef}
+                      />
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <InputGroup>
+                      <Form.Label>Choose Image</Form.Label>
+                      <Form.Control
+                        type="file"
+                        className="mb-3"
+                        placeholder="Choose Image"
+                        ref={imageRef}
+                      />
+                    </InputGroup>
+                  </Col>
+                  <Col style={{}}>
+                    <InputGroup>
+                      <Form.Label>
+                        <br />
+                      </Form.Label>
+                      <Button
+                        onClick={() => {
+                          AddIncludePlaceClick();
+                        }}
+                        className="btn btn-primary"
+                        style={{
+                          borderRadius: 0,
+                        }}
+                      >
+                        Add New Place
+                      </Button>
+                    </InputGroup>
+                  </Col>
+                </Row>
+              </Container>
+            </Form>
+          </div>
+          <div className="divider" />
+          <div>
+            <Table striped>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Image</th>
+                  <th>Place Name</th>
+                  <th>Hotel Name</th>
+                  <th>Length Of Stay</th>
+                  <th>Manage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {package_data.data &&
+                  packagedata &&
+                  Places &&
+                  Places.map((data, id) => (
+                    <>
+                      <tr key={id}>
+                        <td>{id + 1}</td>
+                        <td>
+                          <LazyLoadImage
+                            src={axios.defaults.baseURL + data.image}
+                            placeholderSrc={IMAGE.simpleimage}
+                            style={{
+                              width: 100,
+                              height: 50,
+                              objectFit: "cover",
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <strong>{data.placename}</strong>
+                        </td>
+                        <td>{data.hotels}</td>
+                        <td>{data.lengthofstay ? data.lengthofstay : "No"}</td>
+                        <td>
+                          <Button
+                            variant="danger"
+                            onClick={() => {
+                              OpenPlaceShowDelete(data);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+              </tbody>
+            </Table>
+          </div>
         </Modal.Body>
         <Modal.Footer>
-         
+          <Button variant={"secondary"} onClick={(e) => setPlaceShow(false)}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showDeleteIP}
+        onHide={() => setShowDeleteIP(false)}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h4 style={{ color: "red" }}>
+            Delete <strong>{selectIP.current.placename}</strong> Place
+          </h4>
+          <p>
+            <b>Are you sure want to Delete?</b>
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
           <Button
-            variant={"secondary"}
-            onClick={(e) => setDeletePackageShow(false)}
+            type="submit"
+            variant={"danger"}
+            onClick={() => {
+              DeleteIncludePlace.mutate({
+                id: selectIP.current.id,
+              });
+              setShowDeleteIP(false);
+            }}
           >
+            Delete Place
+          </Button>
+          <Button variant={"primary"} onClick={(e) => setShowDeleteIP(false)}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -587,6 +855,7 @@ const Package = () => {
                     edit={OpenEdit}
                     onDelete={OpenDelete}
                     openDes={OpenDescription}
+                    openPlace={OpenPlaceShow}
                   />
                 ))
               : null}

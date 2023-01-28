@@ -21,6 +21,22 @@
     url("../fonts/Roboto-Italic.ttf") format("truetype");
 }
 
+.btn{
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.btn-primary{
+  background-color:#1A2C44  !important;
+  border:none !important;
+}
+
+.btn-primary:hover{
+  background-color:#20344f  !important;
+}
+
 .uploadimage {
   width: 130px;
   height: 80px;
@@ -420,11 +436,11 @@ a{
 
 
 .packagetools button:nth-child(2){
-  background-color:#114155;
+  background-color:#114155  !important;
 }
 
 .packagetools button:nth-child(3){
-  background-color:#FFC404;
+  background-color:#FFC404 !important;
 }
 
 .addnewpackage_btn{
@@ -437,4 +453,52 @@ a{
   background-color:#f0f0f0;
   min-height:300px;
   padding:5px;
+}
+.includePlace{
+  position:relative;
+}
+
+.includePlace .input-group{
+  display:flex;
+  flex-direction:column;
+
+}
+
+
+.includePlace .input-group input{
+  width:100%;
+  border-radius:0px;
+}
+
+.bookingpage{
+  padding:10px;
+}
+
+.booking_card{
+  display:flex;
+  flex-direction:row;
+  background-color:#f0f0f0f0;
+  padding:10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /*border-radius:15px;*/
+}
+
+.booking_card .input-group{
+  margin-left:10px;
+
+}
+
+.booking_data{
+  margin-top:20px;
+  /*background-color:#f0f0f0f0;*/
+  padding:10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.booking_dateselect{
+  margin-top:10px;
+}
+
+.booking_dateselect .toogle{
+  margin-right:10px;
 }
