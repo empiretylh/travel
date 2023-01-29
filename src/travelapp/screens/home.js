@@ -19,7 +19,6 @@ import { Link } from "react-router-dom";
 import services from "../data/services";
 import { TokenContext, VotingCodeContext,CAContext } from "../context/Context";
 import { useMutation, useQuery } from "react-query";
-import QRCode from "react-qr-code";
 import { IMAGE } from "../../assets/assets";
 
 const Home = () => {

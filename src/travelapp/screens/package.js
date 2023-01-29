@@ -124,13 +124,14 @@ const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
             <Card.Title>{data.destination}</Card.Title>
             <div className="includeplace">
               <GeoAlt /> >{" "}
-              {data.includeplace.map((data, id) => {
-                return <>{data.placename + " > "}</>;
-              })}
+              {data.includeplace &&
+                data.includeplace.map((data, id) => {
+                  return <>{data.placename + " > "}</>;
+                })}
               {data.destination}
             </div>
             <div className="packageinfo">
-              <p>{data.duration}</p>
+              <p style={{color:'red'}}>{data.duration}, {data.people_limit} People, {new Date(data.travel_sdate).toLocaleDateString()}</p>
               <p>{nwc(data.cost)}</p>
             </div>
           </div>
@@ -197,7 +198,6 @@ const Package = () => {
     setClietView(false);
   }, []);
 
-
   const package_data = useQuery("package_data", services.getPackage);
 
   const [searchText, setSearchText] = useState("");
@@ -206,9 +206,11 @@ const Package = () => {
   const costRef = useRef(0);
   const durationRef = useRef(0);
   const placeimageRef = useRef(0);
+  const peoplelimtRef = useRef(0);
+  const sdateRef = useRef(0);
+  const stimeRef = useRef(0);
   const packageid = useRef(0);
 
-  
   const PackageDescription = useMutation(services.putPackageDescription, {
     onMutate: () => {
       setIsLoading(true);
@@ -292,12 +294,17 @@ const Package = () => {
       dnameRef.current.value &&
       costRef.current.value &&
       durationRef.current.value &&
+      peoplelimtRef.current.value &&
+      stimeRef.current.value &&
+      sdateRef.current.value &&
       placeimageRef.current.files[0]
     ) {
       PackageUpload.mutate({
         destination: dnameRef.current.value,
         cost: costRef.current.value,
         duration: durationRef.current.value,
+        people_limit: peoplelimtRef.current.value,
+        travel_sdate: sdateRef.current.value + " " + stimeRef.current.value,
         image: placeimageRef.current.files[0],
       });
     } else {
@@ -309,7 +316,9 @@ const Package = () => {
     if (
       dnameRef.current.value &&
       costRef.current.value &&
-      durationRef.current.value
+      durationRef.current.value&&
+      peoplelimtRef.current.value &&
+      sdateRef.current.value 
       // placeimageRef.current.files[0]
     ) {
       // console.log(placeimageRef.current.files[0],'I am Image')
@@ -319,6 +328,8 @@ const Package = () => {
         destination: dnameRef.current.value,
         cost: costRef.current.value,
         duration: durationRef.current.value,
+        people_limit:peoplelimtRef.current.value,
+        travel_sdate:sdateRef.current.value + ' ' +stimeRef.current.value,
         image: placeimageRef.current.files[0]
           ? placeimageRef.current.files[0]
           : "",
@@ -356,6 +367,12 @@ const Package = () => {
     dnameRef.current = data.destination;
     costRef.current = data.cost;
     durationRef.current = data.duration;
+    peoplelimtRef.current = data.people_limit;
+    sdateRef.current = data.travel_sdate.slice(0,10);
+    stimeRef.current = data.travel_sdate.slice(11,19);
+
+    console.log(sdateRef.current)
+    console.log(stimeRef.current)
     // placeimageRef.current = null;
     OpenEditPackageShow();
   };
@@ -731,6 +748,30 @@ const Package = () => {
               required
               ref={durationRef}
             />
+            <Form.Label>People Limit</Form.Label>
+            <Form.Control
+              type="number"
+              className="mb-3"
+              placeholder="People Limit"
+              required
+              ref={peoplelimtRef}
+            />
+            <Form.Label>Depature Date</Form.Label>
+            <Form.Control
+              type="date"
+              className="mb-3"
+              placeholder="Depature Date"
+              required
+              ref={sdateRef}
+            />
+            <Form.Label>Depature Time</Form.Label>
+            <Form.Control
+              type="time"
+              className="mb-3"
+              placeholder="Depature Date"
+              required
+              ref={stimeRef}
+            />
             <Form.Label>Place Image</Form.Label>
             <Form.Control type="file" className="mb-3" ref={placeimageRef} />
           </Form>
@@ -791,6 +832,34 @@ const Package = () => {
               required
               defaultValue={durationRef.current && durationRef.current}
               ref={durationRef}
+            />
+            
+            <Form.Label>People Limit</Form.Label>
+            <Form.Control
+              type="number"
+              className="mb-3"
+              placeholder="People Limit"
+              defaultValue={peoplelimtRef.current}
+              required
+              ref={peoplelimtRef}
+            />
+            <Form.Label>Depature Date</Form.Label>
+            <Form.Control
+              type="date"
+              className="mb-3"
+              placeholder="Depature Date"
+              defaultValue={sdateRef.current}
+              required
+              ref={sdateRef}
+            />
+            <Form.Label>Depature Time</Form.Label>
+            <Form.Control
+              type="time"
+              className="mb-3"
+              placeholder="Depature Date"
+              required
+              defaultValue={stimeRef.current}
+              ref={stimeRef}
             />
             <Form.Label>Place Image</Form.Label>
             <Form.Control type="file" className="mb-3" ref={placeimageRef} />
