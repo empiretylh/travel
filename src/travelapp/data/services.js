@@ -71,6 +71,15 @@ class AuthService {
     })
   }
 
+  getTraveler({queryKey}){
+    const [_,travelerid] = queryKey;
+    return axios.get(API_URL+"/api/traveler/",{
+      params:{
+        travelerid:travelerid
+      }
+    })
+  }
+
   getBookings({queryKey}){
     const [_,type] = queryKey;
 
@@ -79,6 +88,23 @@ class AuthService {
         type:type
       }
     })
+  }
+
+
+  putBooking(data){
+    return axios.put(API_URL+"/api/adminbooking/",data);
+  }
+
+  
+  getFeedBack(){
+    return axios.get(API_URL+"/api/feedbacks/");
+  }
+
+  deleteFeedBack(data){
+
+    return axios.delete(API_URL+'/api/feedbacks/',{
+      params:data
+    });
   }
 
   admin() {

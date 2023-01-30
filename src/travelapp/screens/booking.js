@@ -20,210 +20,163 @@ import {
   LayoutTextSidebar,
   Pencil,
   Trash,
+  Person,
+  BookFill,
+  ListColumns,
+  List,
 } from "react-bootstrap-icons";
 
 import services from "../data/services";
-import { TokenContext, LoadingContext, CAContext } from "../context/Context";
+import { LoadingContext, CAContext } from "../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../assets/assets";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-
-import htmlToDraft from "html-to-draftjs";
 
 String.prototype.replaceAllTxt = function replaceAll(search, replace) {
   return this.split(search).join(replace);
 };
 
-const TextEditor = ({
-  dnameRef,
-  packageid,
-  defaultData,
-  descriptionShow,
-  setDescriptionShow,
+const PersonDetail = ({ show, setShow, travelerid,bookingdate }) => {
 
-  EditDes,
-}) => {
-  // console.log(defaultData, "Default Data");
-  const esdata = EditorState.createWithContent(
-    ContentState.createFromBlockArray(htmlToDraft(defaultData).contentBlocks)
-  );
-  const [editorState, setEditorStateChange] = useState(esdata);
+  const persondata = useQuery(['persondetail',travelerid],services.getTraveler)
 
-  useEffect(() => {
-    const esdata = EditorState.createWithContent(
-      ContentState.createFromBlockArray(htmlToDraft(defaultData).contentBlocks)
-    );
+  const data = persondata.data && persondata.data.data;
 
-    setEditorStateChange(esdata);
-  }, [defaultData]);
-
+  if(data){
   return (
     <Modal
-      show={descriptionShow}
-      onHide={() => setDescriptionShow(false)}
-      size="lg"
+      show={show}
+      onHide={() => setShow(false)}
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Body>
-        {/*   <textarea */}
-        {/*   disabled */}
-        {/*   value={editorState && draftToHtml(convertToRaw(editorState.getCurrentContent()))} */}
-        {/* /> */}
-        <Editor
-          editorState={editorState}
-          toolbarClassName="toolbarClassName"
-          wrapperClassName="wrapperClassName"
-          editorClassName="editorClassName"
-          onEditorStateChange={(data) => setEditorStateChange(data)}
-        />
+        <h1>{data.name}</h1>
+        <Table striped responsive hover className="persontable">
+        <tbody>
+            <tr>
+              <td>Name</td>
+              <th>{data.name}</th>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <th>{data.phoneno}</th>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <th>{data.email}</th>
+            </tr>
+            <tr>
+              <td>NRC No</td>
+              <th>{data.idcardno}</th>
+            </tr>
+            <tr>
+              <td>Booking Date</td>
+              <th>{new Date(bookingdate).toUTCString()}</th>
+            </tr>
+          </tbody>
+          </Table>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          type="submit"
-          variant={"danger"}
-          onClick={() => {
-            EditDes.mutate({
-              packageid: packageid.current,
-              description: draftToHtml(
-                convertToRaw(editorState.getCurrentContent())
-              ),
-            });
-            setDescriptionShow(false);
-          }}
-        >
+        <Button type="submit" variant={"danger"}>
           Update Description
         </Button>
-        <Button variant={"primary"} onClick={(e) => setDescriptionShow(false)}>
+        <Button variant={"primary"} onClick={(e) => setShow(false)}>
           Cancel
         </Button>
       </Modal.Footer>
     </Modal>
   );
-};
-
-const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
-  return (
-    <Col xs={12} sm={6} md={4} className="mb-3">
-      <Card>
-        <Card.Body style={{ padding: 0, margin: 0 }}>
-          <div className={"packageContainer"}>
-            <LazyLoadImage
-              className={"packageImg"}
-              src={axios.defaults.baseURL + data.image}
-              // placeholder={({ imageProps, ref }) => (
-              //   <img ref={ref} src="../../assets/travel/travelimage.jpg" {...imageProps} />
-              // )}
-              placeholderSrc={IMAGE.simpleimage}
-            />
-          </div>
-
-          <div style={{ padding: 10 }}>
-            <Card.Title>{data.destination}</Card.Title>
-            <div className="includeplace">
-              <GeoAlt /> >{" "}
-              {data.includeplace.map((data, id) => {
-                return <>{data.placename + " > "}</>;
-              })}
-              {data.destination}
-            </div>
-            <div className="packageinfo">
-              <p>{data.duration}</p>
-              <p>{nwc(data.cost)}</p>
-            </div>
-          </div>
-          <div className="divider" />
-          <div className="packagetools">
-            <Button onClick={() => openPlace(data)}>
-              <GeoAlt /> Include Places
-            </Button>
-            <Button onClick={() => openDes(data)}>
-              <LayoutTextSidebar />
-            </Button>
-            <Button onClick={() => edit(data)}>
-              <Pencil />
-            </Button>
-            <Button variant="danger" onClick={() => onDelete(data)}>
-              <Trash />
-            </Button>
-          </div>
-        </Card.Body>
-      </Card>
-    </Col>
-  );
-};
-
-const PlaceItem = ({ data }) => {
-  return (
-    <div className="mb-3">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          backgroundColor: "#f0f0f0f0",
-        }}
-      >
-        <div style={{ marginLeft: 5 }}>
-          <h5>{data.placename}</h5>
-          <h6>{data.hotels}</h6>
-          <h6>{data.lengthofstay}</h6>
-        </div>
-      </div>
-    </div>
-  );
+  }
 };
 
 const Bookings = () => {
-  const [type, setType] = useState("finish");
-
   const { setClietView } = useContext(CAContext);
   useEffect(() => {
     // console.log("You Entering.....");
     setClietView(false);
   }, []);
 
+  const { is_loading, setIsLoading } = useContext(LoadingContext);
+
   const [searchText, setSearchText] = useState("");
 
-  const [radioValue, setRadioValue] = useState("unfinish");
+  const [radioValue, setRadioValue] = useState("all");
+
+  const [showTI, setShowTI] = useState(false);
+  const travelerid = useRef(0);
+  const bookingdate = useRef(0);
 
   const radios = [
+    { name: "All", value: "all" },
     { name: "UnComplete", value: "unfinish" },
     { name: "Complete", value: "finish" },
   ];
 
-  const [dateSelect, setDateSelect] = useState("Today");
+  const [placeSelect, setPlaceSelect] = useState("All");
 
   const booking_data = useQuery(["booking", radioValue], services.getBookings);
+
+  const StatusUpdate = useMutation(services.putBooking, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: () => {
+      setIsLoading(false);
+      booking_data.refetch();
+    },
+    onError: () => {
+      setIsLoading(false);
+      booking_data.refetch();
+    },
+  });
 
   const BD = useMemo(() => {
     if (booking_data.data) {
       const data = booking_data.data.data;
-      return data;
-    }
-  }, [booking_data.data, searchText]);
+      const st = searchText.toLowerCase().replaceAllTxt(" ", "");
+      const search = data.filter(
+        (item) =>
+          item.travelcode.includes(st) ||
+          item.package.replaceAllTxt(" ", "").toLowerCase().includes(st) ||
+          item.traveler.replaceAllTxt(" ", "").toLowerCase().includes(st)
+      );
+      if (placeSelect !== "All") {
+        const filter = search.filter((item) => item.package === placeSelect);
+        return filter;
+      }
 
-  const onlyDate = useMemo(() => {
+      return search.reverse();
+    }
+  }, [booking_data.data, searchText, placeSelect]);
+
+  const onlyPlace = useMemo(() => {
     if (booking_data.data) {
-      const data = BD;
+      const data = booking_data.data.data;
       const sdate = [];
 
       data.map((item, id) => {
-        sdate.push(new Date(item.travel_sdate).toLocaleDateString());
+        sdate.push(item.package);
       });
       const final = sdate.filter(
         (item, index) => sdate.indexOf(item) === index
       );
       return final.sort();
     }
-  }, [BD]);
+  }, [booking_data.data]);
 
   return (
     <div className={"pages bookingpage"}>
-      <h3>Bookings</h3>
+      <h3>
+      <List/> Bookings</h3>
+      <PersonDetail
+        show={showTI}
+        setShow={setShowTI}
+        travelerid={travelerid.current}
+        bookingdate={bookingdate.current}
+      />
       <div className={"booking_card"}>
         <ButtonGroup>
           {radios.map((radio, idx) => (
@@ -256,22 +209,23 @@ const Bookings = () => {
           </Button>
         </InputGroup>
       </div>
-      <div className="booking_dateselect">
+      <div className="booking_placeselect">
         <ToggleButton
-          id={"toogle-110"}
           className="toogle"
+          id={`toogle-$121`}
           type="radio"
           variant={"outline-dark"}
           name="toogle"
-          value={dateSelect}
-          checked={dateSelect === "Today"}
-          onChange={(e) => setDateSelect("Today")}
+          value={placeSelect}
+          checked={placeSelect === "All"}
+          onChange={(e) => setPlaceSelect("All")}
         >
-          Today
+          All
         </ToggleButton>
+
         {booking_data &&
-          onlyDate &&
-          onlyDate.map((radio, idx) => (
+          onlyPlace &&
+          onlyPlace.map((radio, idx) => (
             <ToggleButton
               key={idx}
               className="toogle"
@@ -280,8 +234,8 @@ const Bookings = () => {
               variant={"outline-dark"}
               name="toogle"
               value={radio}
-              checked={dateSelect === radio}
-              onChange={(e) => setDateSelect(e.currentTarget.value)}
+              checked={placeSelect === radio}
+              onChange={(e) => setPlaceSelect(e.currentTarget.value)}
             >
               {radio}
             </ToggleButton>
@@ -291,33 +245,116 @@ const Bookings = () => {
         <Table striped responsive hover>
           <thead>
             <tr>
+              <th>#</th>
               <th>No</th>
               <th>Code</th>
               <th>Customer</th>
               <th>Package</th>
-              <th>Depature Date</th>
-              <th>Package Cost</th>
+              <th>Cost</th>
               <th>Paid</th>
+              <th>Balance</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {booking_data.data &&
               BD.map((item, id) => (
-                <tr>
+                <tr
+                >
+                  <td>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        setShowTI(true);
+                        travelerid.current = item.travelerid;
+                        bookingdate.current = item.booking_date;
+                      }}
+                    >
+                      <Person />
+                    </Button>
+                  </td>
                   <td>{id + 1}</td>
-                  <td>{item.travelcode}</td>
-                  <td>{item.traveler}</td>
+                  <td>{item.travelcode} {item.bookingdate}</td>
+                  <td onClick={() => {
+                        setShowTI(true);
+                        travelerid.current = item.travelerid;
+                        bookingdate.current = item.booking_date;
+                      }}>{item.traveler}</td>
                   <td>{item.package && item.package}</td>
-                  <td>{new Date(item.travel_sdate).toLocaleDateString()}</td>
-                  <td>{nwc(item.cost)}</td>
-                  <td>{nwc(item.paid)}</td>
-                  <td>{item.is_finish}</td>
+                  <td style={{ textAlign: "right" }}>{nwc(item.cost)}</td>
+                  <td style={{ textAlign: "right" }}>{nwc(item.paid)}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {nwc(item.cost - item.paid)}
+                  </td>
+                  <td
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ButtonGroup>
+                      <ToggleButton
+                        className="toogle"
+                        disabled={item.is_fullpaid}
+                        // id={`toogle-${id+100}`}
+                        type="radio"
+                        variant={"outline-danger"}
+                        name={"toogleprepaid" + id}
+                        defaultValue={item.is_halfpaid}
+                        checked={item.is_halfpaid}
+                        onClick={(e) => {
+                          StatusUpdate.mutate({
+                            bookingid: item.id,
+                            prepaid: !item.is_halfpaid,
+                          });
+                        }}
+                      >
+                        Pre-Paid
+                      </ToggleButton>
+                      <ToggleButton
+                        className="toogle"
+                        disabled={!item.is_halfpaid || item.is_finish}
+                        // id={`toogle-${id+100}`}
+                        type="radio"
+                        variant={"outline-success"}
+                        name={"toogle-fullpaid" + id}
+                        defaultValue={item.is_fullpaid}
+                        checked={item.is_fullpaid}
+                        onClick={(e) => {
+                          StatusUpdate.mutate({
+                            bookingid: item.id,
+                            fullpaid: !item.is_fullpaid,
+                          });
+                        }}
+                      >
+                        Full-Paid
+                      </ToggleButton>
+
+                      <ToggleButton
+                        className="toogle"
+                        disabled={!item.is_fullpaid}
+                        // id={`toogle-${id+100}`}
+                        type="radio"
+                        variant={"outline-primary"}
+                        name={"toogle-complete" + id}
+                        defaultValue={item.is_finish}
+                        checked={item.is_finish}
+                        onClick={(e) => {
+                          StatusUpdate.mutate({
+                            bookingid: item.id,
+                            is_finish: !item.is_finish,
+                          });
+                        }}
+                      >
+                        Complete
+                      </ToggleButton>
+                    </ButtonGroup>
+                  </td>
                 </tr>
               ))}
           </tbody>
         </Table>
-        {booking_data.data && JSON.stringify(booking_data.data.data)}
       </div>
     </div>
   );

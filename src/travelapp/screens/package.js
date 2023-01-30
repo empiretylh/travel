@@ -123,7 +123,7 @@ const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
           <div style={{ padding: 10 }}>
             <Card.Title>{data.destination}</Card.Title>
             <div className="includeplace">
-              <GeoAlt /> >{" "}
+              <GeoAlt /> {">  "}
               {data.includeplace &&
                 data.includeplace.map((data, id) => {
                   return <>{data.placename + " > "}</>;
@@ -369,7 +369,7 @@ const Package = () => {
     durationRef.current = data.duration;
     peoplelimtRef.current = data.people_limit;
     sdateRef.current = data.travel_sdate.slice(0,10);
-    stimeRef.current = data.travel_sdate.slice(11,19);
+    stimeRef.current = data.travel_sdate.slice(11,16);
 
     console.log(sdateRef.current)
     console.log(stimeRef.current)

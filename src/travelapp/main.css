@@ -495,10 +495,27 @@ a{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.booking_dateselect{
+.booking_placeselect{
   margin-top:10px;
+  width: 100%;
+  overflow: auto !important;
+ 
 }
 
-.booking_dateselect .toogle{
-  margin-right:10px;
+.booking_placeselect .toogle{
+  margin:5px;
+}
+
+th{
+  text-align: center !important;
+}
+
+.persontable tbody tr td{
+  text-align: right !important;
+
+}
+
+.persontable tbody tr th{
+  text-align: left !important;
+
 }

@@ -137,6 +137,22 @@ const SideBar = (props) => {
 								Bookings
 							</CDBSidebarMenuItem>
 						</NavLink>
+						<NavLink
+							to="/admin/feedbacks"
+							onClick={() => UpdateActive("feedbacks")}
+						>
+							<CDBSidebarMenuItem
+								iconSize="lg"
+								icon="comment"
+								className={
+									active === "feedbacks"
+										? "sidebar-menu-item active"
+										: "sidebar-menu-item"
+								}
+							>
+								Feedbacks
+							</CDBSidebarMenuItem>
+						</NavLink>
 						<div className="divider" />
 						<NavLink
 							to="/admin/addnewadmin"
