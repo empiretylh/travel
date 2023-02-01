@@ -15,6 +15,7 @@ import AddAdmin from "./screens/AddAdmin";
 import Package from "./screens/package";
 import Booking from "./screens/booking";
 import FeedBack from "./screens/FeedBack";
+import ChangeInfo from "./screens/ChaneInfo";
 import { useEffect } from "react";
 import services from "./data/services";
 import "./main.css";
@@ -142,6 +143,7 @@ const TravelMain = () => {
                         <Route path="/admin/packages" element={<Package />} />
                          <Route path="/admin/bookings" element={<Booking />} />
                          <Route path="/admin/feedbacks" element={<FeedBack />} />
+                         <Route path='/admin/changeinfo/' element={<ChangeInfo/>}/>
                       </Routes>
                     </div>
                   </div>

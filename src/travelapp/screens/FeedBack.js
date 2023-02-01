@@ -108,7 +108,7 @@ const FeedBackItem = ({ data, onDelete }) => {
   };
 
   return (
-    <div className="booking_data">
+    <div className="booking_data fbitem">
       <div>
         <div>
           {[...Array(parseInt(data.star))].map((x, i) => (
@@ -119,7 +119,7 @@ const FeedBackItem = ({ data, onDelete }) => {
         <h5>{data.package}</h5>
         <p>{data.message}</p>
       </div>
-      <Button variant="danger" onClick={() => onDelete(data)}>
+      <Button style={{position:'absolute',bottom:10,right:10}} variant="danger" onClick={() => onDelete(data)}>
         <Trash />
       </Button>
     </div>
@@ -255,10 +255,14 @@ const FeedBack = () => {
               </ToggleButton>
             ))}
         </div>
-        {feedback_data.data &&
-          Fbdata.map((data, id) => (
-            <FeedBackItem data={data} key={id} onDelete={onDelete} />
-          ))}
+        <Row>
+          {feedback_data.data &&
+            Fbdata.map((data, id) => (
+              <Col lg={6}>
+                <FeedBackItem data={data} key={id} onDelete={onDelete} />
+              </Col>
+            ))}
+        </Row>
       </Container>
     </div>
   );

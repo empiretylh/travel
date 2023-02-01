@@ -64,46 +64,55 @@ class AuthService {
     });
   }
   deleteIncludePlace(data) {
-    return axios.delete(API_URL + "/api/includeplaces/",{
-      params:{
-        includeplaceid:data.id,
-      }
-    })
+    return axios.delete(API_URL + "/api/includeplaces/", {
+      params: {
+        includeplaceid: data.id,
+      },
+    });
   }
 
-  getTraveler({queryKey}){
-    const [_,travelerid] = queryKey;
-    return axios.get(API_URL+"/api/traveler/",{
-      params:{
-        travelerid:travelerid
-      }
-    })
+  getTraveler({ queryKey }) {
+    const [_, travelerid] = queryKey;
+    return axios.get(API_URL + "/api/traveler/", {
+      params: {
+        travelerid: travelerid,
+      },
+    });
   }
 
-  getBookings({queryKey}){
-    const [_,type] = queryKey;
+  getBookings({ queryKey }) {
+    const [_, type] = queryKey;
 
-    return axios.get(API_URL+"/api/adminbooking/",{
-      params:{
-        type:type
-      }
-    })
+    return axios.get(API_URL + "/api/adminbooking/", {
+      params: {
+        type: type,
+      },
+    });
   }
 
-
-  putBooking(data){
-    return axios.put(API_URL+"/api/adminbooking/",data);
+  putBooking(data) {
+    return axios.put(API_URL + "/api/adminbooking/", data);
   }
 
-  
-  getFeedBack(){
-    return axios.get(API_URL+"/api/feedbacks/");
+  getFeedBack() {
+    return axios.get(API_URL + "/api/feedbacks/");
   }
 
-  deleteFeedBack(data){
+  deleteFeedBack(data) {
+    return axios.delete(API_URL + "/api/feedbacks/", {
+      params: data,
+    });
+  }
 
-    return axios.delete(API_URL+'/api/feedbacks/',{
-      params:data
+  getCompanyInfo() {
+    return axios.get(API_URL + "/api/companyinfo/");
+  }
+
+  postCompanyInfo(data) {
+    return axios.post(API_URL + "/api/companyinfo/", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   }
 
