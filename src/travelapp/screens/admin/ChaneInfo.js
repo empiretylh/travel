@@ -11,18 +11,20 @@ import {
 } from "react-bootstrap";
 import { Info, InfoCircleFill, PersonAdd } from "react-bootstrap-icons";
 
-import services from "../data/services";
-import { TokenContext, LoadingContext, CAContext } from "../context/Context";
+import services from "../../data/services";
+import { TokenContext, LoadingContext, CAContext,NavigationContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
-import { IMAGE } from "../../assets/assets";
+import { IMAGE } from "../../../assets/assets";
 import { useMemo } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from "axios";
 
 const ChangeInfo = () => {
   const { setClietView } = useContext(CAContext);
+  const {active,UpdateActive} = useContext(NavigationContext)
   useEffect(() => {
     // console.log("You Entering.....");
+    UpdateActive('admin')
     setClietView(false);
   }, []);
 

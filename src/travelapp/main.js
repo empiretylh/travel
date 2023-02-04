@@ -10,12 +10,12 @@ import {
 } from "react-router-dom";
 import Home from "./screens/home";
 import Login from "./screens/login";
-import Admin from "./screens/admin";
-import AddAdmin from "./screens/AddAdmin";
-import Package from "./screens/package";
-import Booking from "./screens/booking";
-import FeedBack from "./screens/FeedBack";
-import ChangeInfo from "./screens/ChaneInfo";
+import Admin from "./screens/admin/admin";
+import AddAdmin from "./screens/admin/AddAdmin";
+import Package from "./screens/admin/package";
+import Booking from "./screens/admin/booking";
+import FeedBack from "./screens/admin/FeedBack";
+import ChangeInfo from "./screens/admin/ChaneInfo";
 import { useEffect } from "react";
 import services from "./data/services";
 import "./main.css";
@@ -46,6 +46,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import {
   TokenContext,
   CAContext,
+  NavigationContext,
   LogoutContext,
   LoadingContext,
 } from "./context/Context";
@@ -66,6 +67,10 @@ const TravelMain = () => {
   const [is_clientview, setClietView] = useState(true);
 
   const [is_loading, setIsLoading] = useState(false);
+
+  const [active, UpdateActive] = useState("home");
+  
+  const NavValue =  useMemo(()=>({active,UpdateActive}),[active,UpdateActive])
 
 
 
@@ -109,11 +114,8 @@ const TravelMain = () => {
     [is_loading, setIsLoading]
   );
 
-
-
-
-
   return (
+    <NavigationContext.Provider value={NavValue}>
     <LoadingContext.Provider value={loadingValue}>
       <CAContext.Provider value={is_CAValue}>
         <LogoutContext.Provider value={logoutvalue}>
@@ -211,6 +213,7 @@ const TravelMain = () => {
         </LogoutContext.Provider>
       </CAContext.Provider>
     </LoadingContext.Provider>
+    </NavigationContext.Provider>
   );
 };
 

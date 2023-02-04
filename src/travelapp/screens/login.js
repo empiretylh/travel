@@ -35,7 +35,7 @@ const Login = () => {
   const LoginS = useMutation(services.login, {
     onSuccess: (e) => {
       localStorage.setItem("user_token", e.data.token);
-      window.location.href = 'home'
+      window.location.href = '#/admin'  
       setToken(e.data.token);
       setIsLoading(false);
 

@@ -16,19 +16,19 @@ const NavigationBar = () => {
                 </Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link>
-                        <Link to="login">Home</Link>
+                        <Link to="home">Home</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="login">Booking</Link>
+                        <Link to="booking">Booking</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="login">Places</Link>
+                        <Link to="places">Places</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="login">Maps</Link>
+                        <Link to="maps">Maps</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="login">About</Link>
+                        <Link to="about">About</Link>
                     </Nav.Link>
                     <Nav.Link>
                         {token ? (

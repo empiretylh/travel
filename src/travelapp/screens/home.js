@@ -34,7 +34,7 @@ const Home = () => {
   return (
     <div className="home">
       <Container className="home_container">
-        <Row>
+        <Row> 
           <Col>
             <div style={{ backgroundColor: "whtie" }}>
               <h1>Travel Booking</h1>

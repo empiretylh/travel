@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
-import { CAContext } from "../context/Context";
+import { CAContext,NavigationContext } from "../../context/Context";
 import {
   BookFill,
   ChatRightFill,
@@ -13,12 +13,14 @@ import {
 } from "react-bootstrap-icons";
 import { Column } from "@ant-design/charts";
 import { useQuery } from "react-query";
-import services from "../data/services";
+import services from "../../data/services";
 const Admin = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
+  const {active,UpdateActive} = useContext(NavigationContext);
 
   useEffect(() => {
     setClietView(false);
+    UpdateActive('home')
   }, []);
 
   const package_data = useQuery("package_data", services.getPackage);

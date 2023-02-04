@@ -2,7 +2,7 @@ import React, { useState,useContext } from "react";
 import { Nav,Modal,Button, } from "react-bootstrap";
 import "../main.css";
 import Sidebar from "react-bootstrap-sidebar-menu";
-import {CAContext} from '../context/Context';
+import {CAContext,NavigationContext} from '../context/Context';
 
 import {
 	CDBSidebar,
@@ -17,11 +17,12 @@ import { Link as NavLink } from "react-router-dom";
 import services from "../data/services";
 
 const SideBar = (props) => {
-	const [active, UpdateActive] = useState("home");
+	
+	
 
 	const {is_clientview,setClietView} = useContext(CAContext);
 
-
+	const {active,UpdateActive} = useContext(NavigationContext)
 	const [showLogout,setShowLogout] = useState(false);
 	return (
 		<div

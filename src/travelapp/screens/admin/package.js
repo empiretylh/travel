@@ -20,10 +20,10 @@ import {
   Trash,
 } from "react-bootstrap-icons";
 
-import services from "../data/services";
-import { TokenContext, LoadingContext, CAContext } from "../context/Context";
+import services from "../../data/services";
+import { TokenContext, LoadingContext, CAContext,NavigationContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
-import { IMAGE } from "../../assets/assets";
+import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Editor } from "react-draft-wysiwyg";
@@ -193,8 +193,10 @@ const Package = () => {
   const { is_loading, setIsLoading } = useContext(LoadingContext);
 
   const { setClietView } = useContext(CAContext);
+  const {active,UpdateActive} = useContext(NavigationContext)
   useEffect(() => {
     // console.log("You Entering.....");
+    UpdateActive('packages')
     setClietView(false);
   }, []);
 

@@ -26,10 +26,10 @@ import {
   List,
 } from "react-bootstrap-icons";
 
-import services from "../data/services";
-import { LoadingContext, CAContext } from "../context/Context";
+import services from "../../data/services";
+import { LoadingContext, CAContext,NavigationContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
-import { IMAGE } from "../../assets/assets";
+import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -94,8 +94,10 @@ const PersonDetail = ({ show, setShow, travelerid,bookingdate }) => {
 
 const Bookings = () => {
   const { setClietView } = useContext(CAContext);
+  const {active,UpdateActive} = useContext(NavigationContext)
   useEffect(() => {
     // console.log("You Entering.....");
+    UpdateActive('bookings')
     setClietView(false);
   }, []);
 
