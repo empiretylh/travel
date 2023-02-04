@@ -8,7 +8,7 @@ import {
   Routes,
   HashRouter,
 } from "react-router-dom";
-import Home from "./screens/home";
+import Home from "./screens/client/home";
 import Login from "./screens/login";
 import Admin from "./screens/admin/admin";
 import AddAdmin from "./screens/admin/AddAdmin";

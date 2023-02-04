@@ -19,13 +19,10 @@ const NavigationBar = () => {
                         <Link to="home">Home</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="booking">Booking</Link>
+                        <Link to="booking">Packages</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="places">Places</Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                        <Link to="maps">Maps</Link>
+                        <Link to="places">Booking</Link>
                     </Nav.Link>
                     <Nav.Link>
                         <Link to="about">About</Link>

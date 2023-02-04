@@ -298,6 +298,10 @@
     ); /* Create a grid with three equal-width columns */
     grid-gap: 20px;
   }
+
+  .hpimage{
+    height: 50vh;
+  }
 }
 
 @media (max-width: 400px) {
@@ -345,10 +349,7 @@
 }
 
 .home {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  background-image: url("../assets/travel/travelimage.jpg");
+   
   width: 100%;
   height: 500px;
 }
@@ -627,4 +628,47 @@ th{
 
 .box1 div h5{
   font-family: 'Roboto-Black'
+}
+
+
+.hpimage{
+  width: 100%;
+  height: 80vh;
+  object-fit: cover;
+}
+
+.PackageContainer{
+  margin-top: 20px;
+}
+.packageImghome{
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: height 1s;
+}
+
+.pkcard{
+ 
+  cursor: pointer;
+  transition: width 2s;
+}
+
+.pkcard:hover{
+  background-color: #f0f0f0;
+ 
+ 
+}
+
+.pkcard .packageImghome:hover {
+  height: 290px;
+}
+
+
+.hsb{
+  width: 98%;
+  max-width: 500px;
+}
+
+section {
+  margin-top: 20px;
 }
