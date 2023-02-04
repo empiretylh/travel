@@ -80,11 +80,8 @@ const PersonDetail = ({ show, setShow, travelerid,bookingdate }) => {
           </Table>
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" variant={"danger"}>
-          Update Description
-        </Button>
         <Button variant={"primary"} onClick={(e) => setShow(false)}>
-          Cancel
+          Close
         </Button>
       </Modal.Footer>
     </Modal>

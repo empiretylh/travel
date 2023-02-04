@@ -25,7 +25,7 @@ import {
 } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
-import { ArrowRightCircle, GeoAlt, Search } from "react-bootstrap-icons";
+import { ArrowRightCircle, GeoAlt, Search,Phone } from "react-bootstrap-icons";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -143,7 +143,6 @@ const Home = () => {
 
   const cinfo_data = useQuery(["cinfodata"], services.getCompanyInfo);
 
-  
   const infodata = useMemo(() => {
     if (cinfo_data.data) {
       return cinfo_data.data.data;
@@ -152,8 +151,8 @@ const Home = () => {
 
   return (
     <div className="home">
-    <section>
-      <ControlledCarousel />
+      <section>
+        <ControlledCarousel />
       </section>
       <section>
         <div
@@ -183,37 +182,148 @@ const Home = () => {
 
         <Container className="PackageContainer">
           <Row>
-            {package_data.data
-              ? packagedata.map((item, id) => (
-                  <PackageCard data={item} key={id} />
-                ))
-              : null}
+            {package_data.data ? (
+              <>
+                {isData(packagedata) ? (
+                  packagedata.map((item, id) => (
+                    <PackageCard data={item} key={id} />
+                  ))
+                ) : (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <h4>No Packages To Show</h4>
+                    </div>
+                  </>
+                )}
+              </>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <img src={IMAGE.error} style={{ width: 300, height: 300 }} />
+                <h3 style={{ fontFamily: "Roboto-Black" }}>
+                  Cannot Connect To Server
+                </h3>
+              </div>
+            )}
 
-            <div>
-              <Button style={{padding:10,display:'flex',justifyContent:'center',alignItems:'center'}}>
-                Show More <ArrowRightCircle style={{marginLeft:5}} size={18} />
-              </Button>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div className={"hshowmore"}>
+                <div>Show More</div>{" "}
+                <ArrowRightCircle
+                  size={18}
+                  style={{ marginLeft: 5 }}
+                  size={18}
+                />
+              </div>
             </div>
           </Row>
         </Container>
       </section>
       <section>
-      <Container>
-        <h3>Services</h3>
-        <Row>
-          {cinfo_data.data && JSON.stringify(infodata)}
-        </Row>
+        <Container>
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>Services</h2>
+          <p>
+            There are many services offer in our company. There are some popular
+            services.
+          </p>
+          <Row style={{ marginTop: 10 }}>
+            <Col>
+              <div className="SerCard">
+                <img src={IMAGE.bus} />
+                <h4>Modem Express Bus</h4>
+                <p>
+                  We use modem express bus to traveler more comfortable to
+                  travel.
+                </p>
+              </div>
+            </Col>
+            <Col>
+              <div className="SerCard">
+                <img src={IMAGE.food} />
+                <h4>Food</h4>
+                <p>
+                  We use modem express bus to traveler more comfortable to
+                  travel.
+                </p>
+              </div>
+            </Col>
+            <Col>
+              <div className="SerCard">
+                <img src={IMAGE.hotel} />
+                <h4>Hotel</h4>
+                <p>
+                  We use modem express bus to traveler more comfortable to
+                  travel.
+                </p>
+              </div>
+            </Col>
+            <Col>
+              <div className="SerCard">
+                <img src={IMAGE.fan} />
+                <h4>AirCon Bus</h4>
+                <p>
+                  We use modem express bus to traveler more comfortable to
+                  travel.
+                </p>
+              </div>
+            </Col>
+          </Row>
         </Container>
       </section>
       <section>
-      <Container>
-        <h3>Contact Us</h3>
-        <Row>
-          {cinfo_data.data && JSON.stringify(infodata)}
-        </Row>
+        <Container>
+          <h2 style={{fontFamily:'Roboto-Bold'}}>Contact Us</h2>
+          <Row>
+            <Col>{cinfo_data.data && 
+            <div>
+              <div>
+                <Phone/>
+              </div>
+            </div>}</Col>
+            <Col>
+              <div class="mapouter">
+                <div class="gmap_canvas">
+                  <iframe
+                    src="https://maps.google.com/maps?q=university%20of%20computer%20studies%20dawei&amp;t=&amp;z=18&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                    id="gmap_canvas"
+                  
+                    style={{
+                      width:'100%',
+                      height:400,
+                  
+                    }}
+                  ></iframe>
+                  <a href="https://fnfmods.net">fnf mod</a>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </Container>
       </section>
     </div>
   );
 };
 export default Home;
+
+const isData = (d = []) => {
+  return d.length >= 1;
+};
