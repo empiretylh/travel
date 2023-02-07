@@ -20,6 +20,12 @@
     url("../fonts/Roboto-Italic.ttf") format("truetype");
 }
 
+
+
+h3{
+  font-family: 'Roboto-Bold';
+ }
+
 .btn {
   white-space: nowrap;
   overflow: hidden;
@@ -655,13 +661,58 @@ section {
 .mapouter {
   position: relative;
   text-align: right;
-  height: 400px;
+  height: 300px;
   width: 100%;
   border: #4e00ad solid 1px;
 }
 .gmap_canvas {
   overflow: hidden;
   background: none !important;
-  height: 400px;
+  height: 300px;
   width: 100%;
+}
+
+.conantuswrap{
+  display:flex;
+  justify-content:center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.conantuswrap h4{
+  margin: 5px;
+}
+
+.lastelement{
+  width: 100%;
+  margin-top: 20px;
+  background-color: #4e00ad;
+}
+
+
+.pkimgshow{
+  width:100%;
+  height:400px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.ponebar{
+  padding: 15px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+};
+
+.includeplaceslide{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.includeplaceslide div img{
+  width:150px;
+  height:100px;
+  object-fit: cover;
 }

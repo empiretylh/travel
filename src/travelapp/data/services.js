@@ -22,6 +22,16 @@ class AuthService {
     return axios.get(API_URL + "/api/packageadmin/");
   }
 
+  
+  getOnePackage({queryKey}) {
+    const [_,pkid] = queryKey;
+    return axios.get(API_URL + "/api/package/",{
+      params:{
+        pkid:pkid,
+      }
+    });
+  }
+
   putPackage(data) {
     return axios.put(API_URL + "/api/packageadmin/", data, {
       headers: {

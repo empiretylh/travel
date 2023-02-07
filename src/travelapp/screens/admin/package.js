@@ -107,7 +107,7 @@ const TextEditor = ({
 const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
   return (
     <Col xs={12} sm={6} md={4} className="mb-3">
-      <Card>
+      <Card >
         <Card.Body style={{ padding: 0, margin: 0 }}>
           <div className={"packageContainer"}>
             <LazyLoadImage

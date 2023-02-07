@@ -16,6 +16,9 @@ import Package from "./screens/admin/package";
 import Booking from "./screens/admin/booking";
 import FeedBack from "./screens/admin/FeedBack";
 import ChangeInfo from "./screens/admin/ChaneInfo";
+import PackageClient from './screens/client/package';
+import PackageDetail from "./screens/client/packagedetail";
+
 import { useEffect } from "react";
 import services from "./data/services";
 import "./main.css";
@@ -136,8 +139,13 @@ const TravelMain = () => {
                       <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/home" element={<Home />} />
+                        <Route path='/packages' element={<PackageClient/>}/>
+                        <Route path='/packages/:pkid' element={<PackageDetail/>}/>
+
+
                         <Route path="/login" element={<Login />} />
                         <Route path="/admin" element={<Admin />} />
+                      
                         <Route
                           path="/admin/addnewadmin"
                           element={<AddAdmin />}

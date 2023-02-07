@@ -19,7 +19,7 @@ const NavigationBar = () => {
                         <Link to="home">Home</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="booking">Packages</Link>
+                        <Link to="packages">Packages</Link>
                     </Nav.Link>
                     <Nav.Link>
                         <Link to="places">Booking</Link>
