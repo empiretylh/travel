@@ -32,7 +32,9 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 const PackageCard = ({ data }) => {
   return (
     <Col xs={12} sm={6} md={4} className="mb-3">
-      <Card className="pkcard">
+      <Card className="pkcard" onClick={()=>{
+       window.location.href = `#/packages/${data.id}`;
+      }}>
         <Card.Body
           style={{
             display: "flex",
@@ -226,12 +228,14 @@ const Home = () => {
                 alignItems: "center",
               }}
             >
-              <div className={"hshowmore"}>
+              <div className={"hshowmore"} onClick={()=>{
+                window.location.href='/packages'
+              }}>
                 <div>Show More</div>{" "}
                 <ArrowRightCircle
                   size={18}
                   style={{ marginLeft: 5 }}
-                  size={18}
+               
                 />
               </div>
             </div>
