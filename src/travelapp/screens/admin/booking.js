@@ -27,7 +27,11 @@ import {
 } from "react-bootstrap-icons";
 
 import services from "../../data/services";
-import { LoadingContext, CAContext,NavigationContext } from "../../context/Context";
+import {
+  LoadingContext,
+  CAContext,
+  NavigationContext,
+} from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
@@ -37,64 +41,66 @@ String.prototype.replaceAllTxt = function replaceAll(search, replace) {
   return this.split(search).join(replace);
 };
 
-const PersonDetail = ({ show, setShow, travelerid,bookingdate }) => {
-
-  const persondata = useQuery(['persondetail',travelerid],services.getTraveler)
+const PersonDetail = ({ show, setShow, travelerid, bookingdate }) => {
+  const persondata = useQuery(
+    ["persondetail", travelerid],
+    services.getTraveler
+  );
 
   const data = persondata.data && persondata.data.data;
 
-  if(data){
-  return (
-    <Modal
-      show={show}
-      onHide={() => setShow(false)}
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body>
-        <h1>{data.name}</h1>
-        <Table striped responsive hover className="persontable">
-        <tbody>
-            <tr>
-              <td>Name</td>
-              <th>{data.name}</th>
-            </tr>
-            <tr>
-              <td>Phone Number</td>
-              <th>{data.phoneno}</th>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <th>{data.email}</th>
-            </tr>
-            <tr>
-              <td>NRC No</td>
-              <th>{data.idcardno}</th>
-            </tr>
-            <tr>
-              <td>Booking Date</td>
-              <th>{new Date(bookingdate).toUTCString()}</th>
-            </tr>
-          </tbody>
+  if (data) {
+    return (
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h1>{data.name}</h1>
+          <Table striped responsive hover className="persontable">
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <th>{data.name}</th>
+              </tr>
+              <tr>
+                <td>Phone Number</td>
+                <th>{data.phoneno}</th>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <th>{data.email}</th>
+              </tr>
+              <tr>
+                <td>NRC No</td>
+                <th>{data.idcardno}</th>
+              </tr>
+              <tr>
+                <td>Booking Date</td>
+                <th>{new Date(bookingdate).toUTCString()}</th>
+              </tr>
+            </tbody>
           </Table>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant={"primary"} onClick={(e) => setShow(false)}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant={"primary"} onClick={(e) => setShow(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
   }
 };
 
 const Bookings = () => {
   const { setClietView } = useContext(CAContext);
-  const {active,UpdateActive} = useContext(NavigationContext)
+  const { active, UpdateActive } = useContext(NavigationContext);
   useEffect(() => {
     // console.log("You Entering.....");
-    UpdateActive('bookings')
+    UpdateActive("bookings");
     setClietView(false);
   }, []);
 
@@ -109,7 +115,7 @@ const Bookings = () => {
   const bookingdate = useRef(0);
 
   const radios = [
-    { name: "All", value: "all" },
+    { name: "All", value: "alls" },
     { name: "UnComplete", value: "unfinish" },
     { name: "Complete", value: "finish" },
   ];
@@ -169,7 +175,8 @@ const Bookings = () => {
   return (
     <div className={"pages bookingpage"}>
       <h3>
-      <List/> Bookings</h3>
+        <List /> Bookings
+      </h3>
       <PersonDetail
         show={showTI}
         setShow={setShowTI}
@@ -181,13 +188,16 @@ const Bookings = () => {
           {radios.map((radio, idx) => (
             <ToggleButton
               key={idx}
-              id={`radio-${idx}`}
+              id={`radios-${idx}`}
               type="radio"
               variant={"outline-dark"}
-              name="radio"
+              name="radios"
               value={radio.value}
               checked={radioValue === radio.value}
-              onChange={(e) => setRadioValue(e.currentTarget.value)}
+              onChange={(e) => {
+                setRadioValue(e.currentTarget.value);
+                console.log(e.currentTarget.value)
+              }}
             >
               {radio.name}
             </ToggleButton>
@@ -234,7 +244,9 @@ const Bookings = () => {
               name="toogle"
               value={radio}
               checked={placeSelect === radio}
-              onChange={(e) => setPlaceSelect(e.currentTarget.value)}
+              onChange={(e) => {
+                setPlaceSelect(e.currentTarget.value);
+              }}
             >
               {radio}
             </ToggleButton>
@@ -258,8 +270,7 @@ const Bookings = () => {
           <tbody>
             {booking_data.data &&
               BD.map((item, id) => (
-                <tr
-                >
+                <tr>
                   <td>
                     <Button
                       variant="primary"
@@ -273,12 +284,18 @@ const Bookings = () => {
                     </Button>
                   </td>
                   <td>{id + 1}</td>
-                  <td>{item.travelcode} {item.bookingdate}</td>
-                  <td onClick={() => {
-                        setShowTI(true);
-                        travelerid.current = item.travelerid;
-                        bookingdate.current = item.booking_date;
-                      }}>{item.traveler}</td>
+                  <td>
+                    {item.travelcode} {item.bookingdate}
+                  </td>
+                  <td
+                    onClick={() => {
+                      setShowTI(true);
+                      travelerid.current = item.travelerid;
+                      bookingdate.current = item.booking_date;
+                    }}
+                  >
+                    {item.traveler}
+                  </td>
                   <td>{item.package && item.package}</td>
                   <td style={{ textAlign: "right" }}>{nwc(item.cost)}</td>
                   <td style={{ textAlign: "right" }}>{nwc(item.paid)}</td>

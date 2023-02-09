@@ -20,11 +20,43 @@
     url("../fonts/Roboto-Italic.ttf") format("truetype");
 }
 
+h3 {
+  font-family: "Roboto-Bold";
+}
+/* 
+body::-webkit-scrollbar{
+  width: 0.14m;
+  background-color: #f5f5f5;
+}
 
+body::-webkit-scrollbar-thumb{
+  background-color:red;
+}
 
-h3{
-  font-family: 'Roboto-Bold';
- }
+body::-webkit-scrollbar-thumb:hover{
+  background-color: #5555;
+} */
+
+.ipc{
+  background-color: #f0f0f0;
+  padding:5px;
+  margin:5px;
+  font-family: 'Roboto-Regular';
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor:pointer;
+}
+
+.ipcimage {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  transition: width 0.5s, height 1s;
+}
+
+.ipcimage:hover{
+  width:170px;
+  height: 120px;
+}
 
 .btn {
   white-space: nowrap;
@@ -130,23 +162,6 @@ h3{
   margin-right: 15px;
 }
 
-.voting_card {
-  display: grid; /* Enable the grid layout */
-  grid-template-columns: repeat(
-    3,
-    1fr
-  ); /* Create a grid with three equal-width columns */
-  grid-gap: 20px;
-}
-
-.profile_card {
-  display: grid; /* Enable the grid layout */
-  grid-template-columns: repeat(
-    5,
-    1fr
-  ); /* Create a grid with three equal-width columns */
-  grid-gap: 20px;
-}
 
 .textgroup {
   display: flex;
@@ -155,12 +170,6 @@ h3{
   justify-content: center;
   font-family: "Roboto-Bold";
   animation: LeftfadeIn 1s ease-out forwards;
-}
-
-.text_thura {
-  font-family: "Roboto-Light";
-  padding: 2px;
-  animation: fadeIn 1s ease-in forwards;
 }
 
 .profileLarge {
@@ -245,6 +254,8 @@ h3{
   width: "100%";
   background-color: rgba(0, 0, 0, 0.19);
   padding-top: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 @media (max-width: 1000px) {
@@ -672,47 +683,47 @@ section {
   width: 100%;
 }
 
-.conantuswrap{
-  display:flex;
-  justify-content:center;
+.conantuswrap {
+  display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.conantuswrap h4{
+.conantuswrap h4 {
   margin: 5px;
 }
 
-.lastelement{
+.lastelement {
   width: 100%;
   margin-top: 20px;
   background-color: #4e00ad;
 }
 
-
-.pkimgshow{
-  width:100%;
-  height:400px;
+.pkimgshow {
+  width: 100%;
+  height: 400px;
   object-fit: cover;
   border-radius: 15px;
 }
 
-.ponebar{
+.ponebar {
   padding: 15px;
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
-
-};
-
-.includeplaceslide{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
 }
 
-.includeplaceslide div img{
+/* 
+.ips div{
+  width:100px;
+  background-color: black;
+  padding:20px;
+}
+
+.ips div img{
   width:150px;
   height:100px;
   object-fit: cover;
-}
+  
+} */

@@ -35,6 +35,7 @@ import {
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
+import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 
 function nwc(x = 0) {
   return x
@@ -42,7 +43,46 @@ function nwc(x = 0) {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     .concat(" Ks");
 }
+const IPC = ({ data }) => {
+  return (
+    <div className="ipc">
+      <LazyLoadImage
+        src={axios.defaults.baseURL + data.image}
+        className="ipcimage"
+        // placeholder={({ imageProps, ref }) => (
+        //   <img ref={ref} src="../../assets/travel/travelimage.jpg" {...imageProps} />
+        // )}
 
+        placeholderSrc={IMAGE.simpleimage}
+      />
+      <div style={{ marginTop: 8 }}>
+        <h5 style={{ fontFamily: "Roboto-Bold" }}>{data.placename}</h5>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <HomeOutlined /> <span style={{ marginLeft: 5 }}>{data.hotels}</span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <ClockCircleOutlined />{" "}
+          <span style={{ marginLeft: 5 }}>
+            {data.lengthofstay ? data.lengthofstay : "-"}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 const PackageDetail = () => {
   let params = useParams();
   const { is_clientview, setClietView } = useContext(CAContext);
@@ -123,37 +163,34 @@ const PackageDetail = () => {
                 </Col>
                 <Col lg={6}>
                   <div>
-                    <h1>Booking</h1>
-                  </div>
+                
+                    <h3 style={{color:'#1d4a85'}}><GeoAlt style={{marginRight:5}}/> {packagedata.destination}</h3>
+                      <div>
+                        <h4></h4>
+                      </div>
+                    </div>
                 </Col>
-              </Row>
-              <Row>
-                <div>
-                  <h4>Include Places</h4>
-                  <div className='includeplaceslide'>
-                  {packagedata.includeplace &&
-                    packagedata.includeplace.map((data, id) => {
-                      return (
-                        <div>
-                          <LazyLoadImage
-                            src={axios.defaults.baseURL + data.image}
-                            
-                            // placeholder={({ imageProps, ref }) => (
-                            //   <img ref={ref} src="../../assets/travel/travelimage.jpg" {...imageProps} />
-                            // )}
-                            
-                            placeholderSrc={IMAGE.simpleimage}
 
-                          />
-                          <h6>{JSON.stringify(data)}</h6>
-                        </div>
-                      );
-                    })}
-                 </div>
-                </div>
+              </Row>
+              <Row style={{ marginTop: 10 }}>
+                <div className="divider" /> 
+                <h6 style={{margin:5,fontFamily:'Roboto-Bold'}}>Include Places</h6>
+                <Col
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    overflow: "auto",
+                  }}
+                >
+                  {packagedata.includeplace &&
+                    packagedata.includeplace.map((data, id) => (
+                      <IPC data={data} key={id} />
+                    ))}
+                </Col>
               </Row>
             </Row>
             <Row style={{ marginTop: 13 }}>
+              <div className="divider" />
               <div
                 dangerouslySetInnerHTML={{
                   __html: packagedata.description,

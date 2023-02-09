@@ -92,7 +92,7 @@ class AuthService {
 
   getBookings({ queryKey }) {
     const [_, type] = queryKey;
-
+    console.log(type,'Bookingss.....')
     return axios.get(API_URL + "/api/adminbooking/", {
       params: {
         type: type,
