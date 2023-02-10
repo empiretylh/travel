@@ -58,6 +58,25 @@ body::-webkit-scrollbar-thumb:hover{
   height: 120px;
 }
 
+.bookingbtn{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+  cursor:pointer;
+  border-radius: 15px;
+  width:100%;
+  padding:10px !important;
+  font-family: 'Roboto-Bold' !important;
+  background-color: #4e00ad !important;  
+}
+
+
+.bookingbtn:hover{
+  background-color: #2d6efa !important;  
+}
+
+
 .btn {
   white-space: nowrap;
   overflow: hidden;
@@ -298,6 +317,10 @@ body::-webkit-scrollbar-thumb:hover{
     min-width: 370px;
   }
 
+  .ponebar{
+    flex-direction: column;
+  }
+
   .profile_card {
     display: grid; /* Enable the grid layout */
     grid-template-columns: repeat(
@@ -504,6 +527,17 @@ a {
 
 th {
   text-align: center !important;
+}
+
+
+.pkdetail tbody tr td {
+  text-align: left !important;
+  font-size: large;
+}
+
+.pkdetail tbody tr th {
+  text-align: left !important;
+   font-size: large;
 }
 
 .persontable tbody tr td {

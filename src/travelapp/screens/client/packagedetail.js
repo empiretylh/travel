@@ -29,6 +29,7 @@ import {
   ArrowRightCircle,
   GeoAlt,
   Search,
+  PencilFill,
   Telephone,
   Mailbox,
 } from "react-bootstrap-icons";
@@ -87,7 +88,27 @@ const PackageDetail = () => {
   let params = useParams();
   const { is_clientview, setClietView } = useContext(CAContext);
 
-  const [searchText, setSearchText] = useState("");
+  const [ticketShow, setTicketShow] = useState(false);
+
+  const [travelerInfo, setTravelerInfo] = useState({
+    travelerName: "",
+    phoneNo: "",
+    email: "",
+    nrcNo: "",
+    address: "",
+  });
+
+  const handleChange = (event) => {
+    setTravelerInfo({
+      ...travelerInfo,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(travelerInfo);
+  };
 
   const package_data = useQuery(
     ["package_data", params.pkid],
@@ -110,6 +131,100 @@ const PackageDetail = () => {
   if (package_data.data) {
     return (
       <div className="home">
+        <Modal
+          show={true}
+          onHide={() => setTicketShow(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <Container className="ticket-booking-form">
+              <Row>
+                <Col md={{ span: 6, offset: 3 }}>
+                  <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="formTravelerName">
+                      <Form.Label>Traveler Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="travelerName"
+                        value={travelerInfo.travelerName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="formPhoneNo">
+                      <Form.Label>Phone No</Form.Label>
+                      <Form.Control
+                        type="tel"
+                        name="phoneNo"
+                        value={travelerInfo.phoneNo}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="formEmail">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={travelerInfo.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="formNRCNo">
+                      <Form.Label>NRC No</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="nrcNo"
+                        value={travelerInfo.nrcNo}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="formAddress">
+                      <Form.Label>Address</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="address"
+                        value={travelerInfo.address}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+
+                    <Button variant="primary" type="submit">
+                      Book Ticket
+                    </Button>
+                  </Form>
+                </Col>
+              </Row>
+            </Container>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              type="submit"
+              variant={"danger"}
+              onClick={() => {
+                // DeleteIncludePlace.mutate({
+                //   id: selectIP.current.id,
+                // });
+                // setShowDeleteIP(false);
+              }}
+            >
+              Delete Place
+            </Button>
+            <Button variant={"primary"} onClick={(e) => setTicketShow(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <div
           style={{
             display: "flex",
@@ -121,7 +236,7 @@ const PackageDetail = () => {
         >
           <Container>
             <Row>
-              <div className="ponebar">
+              <Col>
                 <div>
                   <h3>{packagedata.destination}</h3>
                   <div className="includeplace">
@@ -133,10 +248,12 @@ const PackageDetail = () => {
                     {packagedata.destination}
                   </div>
                 </div>
-                <h4
+              </Col>
+              <Col style={{ display: "flex", flexDirection: "row-reverse" }}>
+                <h5
                   style={{
                     padding: 10,
-                    backgroundColor: "#1d4a85",
+                    backgroundColor: "red",
                     color: "white",
                     borderRadius: 15,
                     display: "flex",
@@ -145,13 +262,21 @@ const PackageDetail = () => {
                   }}
                 >
                   {nwc(packagedata.cost)}
-                </h4>
-              </div>
+                </h5>
+              </Col>
             </Row>
             <div className="divider" />
             <Row style={{ marginTop: 15 }}>
               <Row>
-                <Col lg={6}>
+                <Col
+                  lg={6}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginBottom: 10,
+                  }}
+                >
                   <LazyLoadImage
                     src={axios.defaults.baseURL + packagedata.image}
                     className="pkimgshow"
@@ -163,18 +288,65 @@ const PackageDetail = () => {
                 </Col>
                 <Col lg={6}>
                   <div>
-                
-                    <h3 style={{color:'#1d4a85'}}><GeoAlt style={{marginRight:5}}/> {packagedata.destination}</h3>
-                      <div>
-                        <h4></h4>
-                      </div>
+                    <h3 style={{ color: "#1d4a85" }}>
+                      <GeoAlt style={{ marginRight: 5 }} />{" "}
+                      {packagedata.destination}
+                    </h3>
+                    <div>
+                      <Table striped responsive hover className="pkdetail">
+                        <tbody>
+                          <tr>
+                            <td>Duration</td>
+                            <th>{packagedata.duration}</th>
+                          </tr>
+                          <tr>
+                            <td>Depature Date</td>
+                            <th>
+                              {new Date(
+                                packagedata.travel_sdate
+                              ).toLocaleDateString()}
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Depature Time</td>
+                            <th>
+                              {new Date(
+                                packagedata.travel_sdate
+                              ).toLocaleTimeString()}
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Include Places</td>
+                            <th>
+                              <p style={{ fontSize: 18 }}>
+                                {packagedata.includeplace &&
+                                  packagedata.includeplace.map((data, id) => {
+                                    return <>{data.placename + ", "}</>;
+                                  })}
+                                {packagedata.destination}
+                              </p>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Price</td>
+                            <th>{nwc(packagedata.cost)}</th>
+                          </tr>
+                        </tbody>
+                      </Table>
                     </div>
+                    <div className="bookingbtn">
+                      <PencilFill style={{ marginRight: 10 }} />
+                      <div> Register Booking</div>
+                    </div>
+                  </div>
                 </Col>
-
               </Row>
               <Row style={{ marginTop: 10 }}>
-                <div className="divider" /> 
-                <h6 style={{margin:5,fontFamily:'Roboto-Bold'}}>Include Places</h6>
+                <div className="divider" />
+                <h6 style={{ margin: 5, fontFamily: "Roboto-Bold" }}>
+                  {" "}
+                  Include Places
+                </h6>
                 <Col
                   style={{
                     display: "flex",
