@@ -18,11 +18,7 @@ import NavBar from "../navbar";
 import { Link } from "react-router-dom";
 
 import services from "../../data/services";
-import {
-  TokenContext,
-  VotingCodeContext,
-  CAContext,
-} from "../../context/Context";
+import { TokenContext, LoadingContext, CAContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import {
@@ -32,11 +28,13 @@ import {
   PencilFill,
   Telephone,
   Mailbox,
+  PhoneFill,
 } from "react-bootstrap-icons";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
+import { nrcdata } from "../../data/data";
 
 function nwc(x = 0) {
   return x
@@ -84,19 +82,45 @@ const IPC = ({ data }) => {
     </div>
   );
 };
+
+const nrcode = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+const nrcType = [
+  { en: "N", mm: "နိုင်" },
+  { en: "E", mm: "ဧည့်" },
+  { en: "P", mm: "ပြု" },
+  { en: "T", mm: "သာသနာ" },
+  { en: "R", mm: "ယာယီ" },
+  { en: "S", mm: "စ" },
+];
+
 const PackageDetail = () => {
   let params = useParams();
   const { is_clientview, setClietView } = useContext(CAContext);
 
+  const { is_loading, setIsLoading } = useContext(LoadingContext);
   const [ticketShow, setTicketShow] = useState(false);
 
   const [travelerInfo, setTravelerInfo] = useState({
-    travelerName: "",
-    phoneNo: "",
+    name: "",
+    phoneno: "",
     email: "",
-    nrcNo: "",
     address: "",
   });
+
+  const [NRCCodeSelect, setNRCCodeSelect] = useState(1);
+  const placen = useMemo(() => {
+    const data = nrcdata;
+    const result = data.filter((item) => item.nrc_code == NRCCodeSelect);
+    return result;
+  }, [NRCCodeSelect]);
+
+  const [NRCPlaceSelect, setNRCPlaceSelect] = useState(placen[0].name_en);
+  const [NRCTypeSelect, setNRCTypeSelect] = useState(nrcType[0].en);
+  const [NRCCode, setNRCCode] = useState("");
+  const [sdata,setSData] = useState([]);
+
+
+  const [successShow, setSuccessShow] = useState(false);
 
   const handleChange = (event) => {
     setTravelerInfo({
@@ -119,6 +143,39 @@ const PackageDetail = () => {
     setClietView(true);
   });
 
+  const postBooking = useMutation(services.RegisterBooking, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: (e) => {
+      setIsLoading(false);
+      setSuccessShow(true);
+      setSData(e.data)
+      package_data.refetch();
+    },
+    onError: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const onSumbitBooking = (e) => {
+    e.preventDefault();
+    postBooking.mutate(
+      Object.assign(travelerInfo, {
+        package_id: packagedata.id,
+        idcardno:
+          NRCCodeSelect +
+          "/" +
+          NRCPlaceSelect +
+          "(" +
+          NRCTypeSelect +
+          ")" +
+          NRCCode,
+      })
+    );
+    setTicketShow(false);
+  };
+
   const packagedata = useMemo(() => {
     if (package_data.data) {
       const data = package_data.data.data;
@@ -132,24 +189,95 @@ const PackageDetail = () => {
     return (
       <div className="home">
         <Modal
-          show={true}
+          show={ticketShow}
           onHide={() => setTicketShow(false)}
-          size="md"
+          size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
           <Modal.Body>
-            <Container className="ticket-booking-form">
+            <Container>
               <Row>
-                <Col md={{ span: 6, offset: 3 }}>
-                  <Form onSubmit={handleSubmit}>
+                <Col
+                  lg={5}
+                  md={12}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <LazyLoadImage
+                    src={axios.defaults.baseURL + packagedata.image}
+                    style={{
+                      display: "flex",
+                      width: "100%",
+
+                      height: 200,
+                      objectFit: "cover",
+                      borderRadius: 15,
+                      marginBottom: 10,
+                    }}
+                    // placeholder={({ imageProps, ref }) => (
+                    //   <img ref={ref} src="../../assets/travel/travelimage.jpg" {...imageProps} />
+                    // )}
+                    placeholderSrc={IMAGE.simpleimage}
+                  />
+                  <Table striped responsive hover className="pkbuydetail">
+                    <tbody>
+                      <tr>
+                        <td width={120}>Duration</td>
+                        <th>{packagedata.duration}</th>
+                      </tr>
+                      <tr>
+                        <td>Depature Date</td>
+                        <th>
+                          {new Date(
+                            packagedata.travel_sdate
+                          ).toLocaleDateString()}
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>Depature Time</td>
+                        <th>
+                          {new Date(
+                            packagedata.travel_sdate
+                          ).toLocaleTimeString()}
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>Include Places</td>
+                        <th>
+                          <p>
+                            {packagedata.includeplace &&
+                              packagedata.includeplace.map((data, id) => {
+                                return <>{data.placename + ", "}</>;
+                              })}
+                            {packagedata.destination}
+                          </p>
+                        </th>
+                      </tr>
+                      <tr>
+                        <td>Price</td>
+                        <th>{nwc(packagedata.cost)}</th>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </Col>
+                <Col lg={7} md={12}>
+                  <Form onSubmit={onSumbitBooking}>
+                    <h4 style={{ fontFamily: "Roboto-Bold" }}>
+                      {packagedata.destination}
+                    </h4>
                     <Form.Group controlId="formTravelerName">
                       <Form.Label>Traveler Name</Form.Label>
                       <Form.Control
                         type="text"
-                        name="travelerName"
+                        name="name"
                         value={travelerInfo.travelerName}
                         onChange={handleChange}
+                        placeholder={"Name"}
                         required
                       />
                     </Form.Group>
@@ -158,8 +286,10 @@ const PackageDetail = () => {
                       <Form.Label>Phone No</Form.Label>
                       <Form.Control
                         type="tel"
-                        name="phoneNo"
+                        name="phoneno"
                         value={travelerInfo.phoneNo}
+                        placeholder={"09xxxxxxxxx"}
+                        max={11}
                         onChange={handleChange}
                         required
                       />
@@ -172,19 +302,58 @@ const PackageDetail = () => {
                         name="email"
                         value={travelerInfo.email}
                         onChange={handleChange}
+                        placeholder={"travel@gmail.com"}
                         required
                       />
                     </Form.Group>
 
                     <Form.Group controlId="formNRCNo">
                       <Form.Label>NRC No</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="nrcNo"
-                        value={travelerInfo.nrcNo}
-                        onChange={handleChange}
-                        required
-                      />
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <Form.Select
+                          value={NRCCodeSelect}
+                          onChange={(e) => setNRCCodeSelect(e.target.value)}
+                          style={{ maxWidth: 80, marginRight: 5 }}
+                        >
+                          {nrcode.map((item, index) => (
+                            <option value={item}>{item}</option>
+                          ))}
+                        </Form.Select>
+
+                        <Form.Select
+                          value={NRCPlaceSelect}
+                          onChange={(e) => setNRCPlaceSelect(e.target.value)}
+                          style={{ maxWidth: 110, marginRight: 5 }}
+                        >
+                          {placen.map((item, index) => (
+                            <option value={item.name_en}>
+                              {item.name_en + " - " + item.name_mm}
+                            </option>
+                          ))}
+                        </Form.Select>
+
+                        <Form.Select
+                          value={NRCTypeSelect}
+                          onChange={(e) => setNRCTypeSelect(e.target.value)}
+                          style={{ maxWidth: 100, marginRight: 5 }}
+                        >
+                          {nrcType.map((item, index) => (
+                            <option value={item.en}>
+                              {item.en + " - " + item.mm}
+                            </option>
+                          ))}
+                        </Form.Select>
+
+                        <Form.Control
+                          type="number"
+                          name="nrcNo"
+                          placeHolder={"xxxxxxx"}
+                          maxLength={6}
+                          onChange={(e) => setNRCCode(e.target.value)}
+                          required
+                          style={{ maxWidth: "100%" }}
+                        />
+                      </div>
                     </Form.Group>
 
                     <Form.Group controlId="formAddress">
@@ -194,12 +363,20 @@ const PackageDetail = () => {
                         name="address"
                         value={travelerInfo.address}
                         onChange={handleChange}
+                        placeHolder="St.0, Dawei, Computer University"
                         required
                       />
                     </Form.Group>
-
-                    <Button variant="primary" type="submit">
-                      Book Ticket
+                    <Button
+                      type="submit"
+                      variant={"primary"}
+                      style={{
+                        marginTop: 10,
+                        width: "100%",
+                        padding: 10,
+                      }}
+                    >
+                      Register
                     </Button>
                   </Form>
                 </Col>
@@ -207,9 +384,130 @@ const PackageDetail = () => {
             </Container>
           </Modal.Body>
           <Modal.Footer>
+            <Button variant={"danger"} onClick={(e) => setTicketShow(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={successShow}
+          onHide={() => setSuccessShow(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <div>
+              <h5
+                style={{
+                  color: "green",
+                  display: "flex",
+                  textAlign: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Successfully Registered.
+              </h5>
+              <div className="divider" />
+              <p>
+                <strong>Dear {sdata && sdata.traveler},</strong> <br />
+                Thank you for making a reservation with our company. We have
+                sent your voucher to your email.{" "}
+                <strong>{travelerInfo.email}</strong>{" "}
+                <br/>
+              </p>
+
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#1a2c44",
+                  padding: 10,
+                  color: "white",
+                }}
+              >
+                <h4>Tavel Code : {sdata&&sdata.travelcode}</h4>
+              </div>
+              <div>
+                <h6 style={{ fontFamily: "Roboto-Bold", marginTop: 5 }}>
+                  Person Details
+                </h6>
+                <Table striped responsive hover>
+                  <tbody>
+                    <tr>
+                      <th>No</th>
+                      <th>Name</th>
+                      <th>NRC No</th>
+                      <th>Phone No</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                    </tr>
+                    <tr>
+                    <td style={{ textAlign: "center" }}>1</td>
+                    <td style={{ textAlign: "center" }}>{travelerInfo.name}</td>
+                    <td style={{ textAlign: "center" }}>{sdata&& sdata.idcardno}</td>
+                    <td style={{ textAlign: "center" }}>{travelerInfo.phoneno}</td>
+                    <td style={{ textAlign: "center" }}>{travelerInfo.email}</td>
+                    <td style={{ textAlign: "center" }}>{travelerInfo.address}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <h6 style={{display:'flex',backgroundColor:'', fontFamily: "Roboto-Bold", marginTop: 10 }}>
+                  Package Details
+                </h6>
+                <Table striped responsive hover>
+                  <tbody>
+                    <tr>
+                      <th>Destination</th>
+                      <th>Departure Date</th>
+                      <th>Departure Time</th>
+                      <th>Include Places</th>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "center" }}>{sdata&&sdata.package}</td>
+                      <td style={{ textAlign: "center" }}>{new Date(packagedata.travel_sdate).toDateString()}</td>
+                      <td style={{ textAlign: "center" }}>{new Date(packagedata.travel_sdate).toTimeString()}</td>
+                      <td style={{ textAlign: "center" }}> {packagedata.includeplace &&
+                                  packagedata.includeplace.map((data, id) => {
+                                    return <>{data.placename + ", "}</>;
+                                  })}
+                                {packagedata.destination}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <h6 style={{ fontFamily: "Roboto-Bold", marginTop: 10 }}>
+                  Pricing Details
+                </h6>
+                <Table
+                  striped
+                  responsive
+                  hover
+                  style={{ position: "relative" }}
+                >
+                  <tbody>
+                    <tr>
+                      <th>Package Costs</th>
+                      <th>Paid</th>
+                      <th>Balance</th>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.cost)}</td>
+                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.paid)}</td>
+                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.cost-sdata.paid)}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
             <Button
               type="submit"
-              variant={"danger"}
+              variant={"success"}
               onClick={() => {
                 // DeleteIncludePlace.mutate({
                 //   id: selectIP.current.id,
@@ -217,9 +515,9 @@ const PackageDetail = () => {
                 // setShowDeleteIP(false);
               }}
             >
-              Delete Place
+            <Telephone/>  Call
             </Button>
-            <Button variant={"primary"} onClick={(e) => setTicketShow(false)}>
+            <Button variant={"primary"} onClick={(e) => setSuccessShow(false)}>
               Cancel
             </Button>
           </Modal.Footer>
@@ -334,7 +632,10 @@ const PackageDetail = () => {
                         </tbody>
                       </Table>
                     </div>
-                    <div className="bookingbtn">
+                    <div
+                      className="bookingbtn"
+                      onClick={() => setTicketShow(true)}
+                    >
                       <PencilFill style={{ marginRight: 10 }} />
                       <div> Register Booking</div>
                     </div>
@@ -381,3 +682,4 @@ export default PackageDetail;
 const isData = (d = []) => {
   return d.length >= 1;
 };
+

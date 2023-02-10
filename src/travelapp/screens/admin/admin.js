@@ -23,9 +23,9 @@ const Admin = () => {
     UpdateActive('home')
   }, []);
 
-  const package_data = useQuery("package_data", services.getPackage);
-  const feedback_data = useQuery("feedback_data", services.getFeedBack);
-  const booking_data = useQuery(["booking", "all"], services.getBookings);
+  const package_data = useQuery("adminpackage_data", services.getPackage);
+  const feedback_data = useQuery("adminfeedback_data", services.getFeedBack);
+  const booking_data = useQuery(["admin_booking", "all"], services.getBookings);
 
   const pk = useMemo(() => {
     if (package_data.data) {

@@ -14,6 +14,7 @@ import services from "../data/services";
 import { TokenContext } from "../context/Context";
 import { useMutation } from "react-query";
 import { IMAGE } from "../../assets/assets";
+import axios from "axios";
 const Login = () => {
   const loginSubmit = () => {
     console.log("Login Submit");
@@ -35,6 +36,9 @@ const Login = () => {
   const LoginS = useMutation(services.login, {
     onSuccess: (e) => {
       localStorage.setItem("user_token", e.data.token);
+      axios.defaults.headers.common = {
+        Authorization: `Token ${e.data.token}`,
+      };
       window.location.href = '#/admin'  
       setToken(e.data.token);
       setIsLoading(false);

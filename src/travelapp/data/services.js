@@ -126,6 +126,10 @@ class AuthService {
     });
   }
 
+  RegisterBooking(data){
+    return axios.post(API_URL+"/api/clientbooking/",data);
+  }
+
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));
   }
