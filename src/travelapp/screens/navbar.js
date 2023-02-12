@@ -22,7 +22,7 @@ const NavigationBar = () => {
                         <Link to="packages">Packages</Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to="places">Booking</Link>
+                        <Link to="bookings">Booking</Link>
                     </Nav.Link>
                     <Nav.Link>
                         <Link to="about">About</Link>

@@ -66,6 +66,10 @@ class AuthService {
     });
   }
 
+  postFeedBack(data){
+    return axios.post(API_URL + "/api/feedbacks/",data)
+  }
+
   postIncludePlace(data) {
     return axios.post(API_URL + "/api/includeplaces/", data, {
       headers: {

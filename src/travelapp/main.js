@@ -18,6 +18,7 @@ import FeedBack from "./screens/admin/FeedBack";
 import ChangeInfo from "./screens/admin/ChaneInfo";
 import PackageClient from './screens/client/package';
 import PackageDetail from "./screens/client/packagedetail";
+import BookingsClient from "./screens/client/booking";
 
 import { useEffect } from "react";
 import services from "./data/services";
@@ -51,6 +52,7 @@ import {
   CAContext,
   NavigationContext,
   LogoutContext,
+  BookedContext,
   LoadingContext,
 } from "./context/Context";
 import NavBar from "./screens/navbar";
@@ -75,6 +77,7 @@ const TravelMain = () => {
   
   const NavValue =  useMemo(()=>({active,UpdateActive}),[active,UpdateActive])
 
+  const [booked,setBooked] = useState([]);
 
 
   useEffect(() => {
@@ -92,6 +95,16 @@ const TravelMain = () => {
     }
     setToken(current_token);
   }, [token]);
+
+
+  useEffect(()=>{
+    const Booked = localStorage.getItem('booked')
+    if(Booked){
+      setBooked(booked)
+    }else{
+      localStorage.setItem('booked',JSON.stringify([{}]))
+    }
+  },[booked])
 
   const tokenValue = useMemo(() => ({ token, setToken }), [token, setToken]);
 
@@ -117,7 +130,10 @@ const TravelMain = () => {
     [is_loading, setIsLoading]
   );
 
+  const BookedValue = useMemo(()=>({booked,setBooked}),[booked,setBooked])
+
   return (
+  <BookedContext.Provider value={BookedValue}>
     <NavigationContext.Provider value={NavValue}>
     <LoadingContext.Provider value={loadingValue}>
       <CAContext.Provider value={is_CAValue}>
@@ -141,6 +157,7 @@ const TravelMain = () => {
                         <Route path="/home" element={<Home />} />
                         <Route path='/packages' element={<PackageClient/>}/>
                         <Route path='/packages/:pkid' element={<PackageDetail/>}/>
+                        <Route path='/bookings/' element={<BookingsClient/>}/>
 
 
                         <Route path="/login" element={<Login />} />
@@ -222,6 +239,7 @@ const TravelMain = () => {
       </CAContext.Provider>
     </LoadingContext.Provider>
     </NavigationContext.Provider>
+    </BookedContext.Provider>
   );
 };
 

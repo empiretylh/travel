@@ -10,3 +10,5 @@ export const CAContext = createContext(null);
 export const LoadingContext = createContext(null);
 
 export const NavigationContext = createContext(null);
+
+export const BookedContext = createContext(null);
