@@ -29,12 +29,37 @@ import {
   Telephone,
   Mailbox,
   PhoneFill,
+  Chat,
+  Send,
+  Stars,
+  StarFill,
+  Star,
 } from "react-bootstrap-icons";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useParams } from "react-router-dom";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { nrcdata } from "../../data/data";
+import { Icon } from "react-bootstrap-icons";
+
+const StarRating = ({rating,setRating}) => {
+  // const [rating, setRating] = useState(0);
+
+  const handleClick = (starindex) => {
+    setRating(starindex + 1);
+  };
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (i >= rating) {
+      stars.push(<Star style={{marginRight:5}}  onClick={() => handleClick(i)} size={20}/>);
+    } else {
+      stars.push(<StarFill style={{marginRight:5}} onClick={() => handleClick(i)} size={20} color={'yellow'}/>);
+    }
+
+  }
+      
+  return <div style={{display:'flex',flexDirection:'row'}}>{stars}</div>;
+};
 
 function nwc(x = 0) {
   return x
@@ -107,6 +132,8 @@ const PackageDetail = () => {
     address: "",
   });
 
+  const [feedbackShow, setFeedbackShow] = useState(false);
+
   const [NRCCodeSelect, setNRCCodeSelect] = useState(1);
   const placen = useMemo(() => {
     const data = nrcdata;
@@ -117,8 +144,22 @@ const PackageDetail = () => {
   const [NRCPlaceSelect, setNRCPlaceSelect] = useState(placen[0].name_en);
   const [NRCTypeSelect, setNRCTypeSelect] = useState(nrcType[0].en);
   const [NRCCode, setNRCCode] = useState("");
-  const [sdata,setSData] = useState([]);
+  const [sdata, setSData] = useState([]);
 
+  const [PLimitShow, setPLimitShow] = useState(false);
+
+  const cinfo_data = useQuery(["cinfodata"], services.getCompanyInfo);
+
+  const [rating, setRating] = useState(0);
+  const [message,setMessage] = useState('');
+
+  const [paidtype, setPaidtype] = useState(0);
+
+  const infodata = useMemo(() => {
+    if (cinfo_data.data) {
+      return cinfo_data.data.data;
+    }
+  }, [cinfo_data.data]);
 
   const [successShow, setSuccessShow] = useState(false);
 
@@ -143,6 +184,7 @@ const PackageDetail = () => {
     setClietView(true);
   });
 
+  
   const postBooking = useMutation(services.RegisterBooking, {
     onMutate: () => {
       setIsLoading(true);
@@ -150,8 +192,25 @@ const PackageDetail = () => {
     onSuccess: (e) => {
       setIsLoading(false);
       setSuccessShow(true);
-      setSData(e.data)
+      setSData(e.data);
       package_data.refetch();
+
+      // localStorage.setItems('booked',)
+    },
+    onError: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const postFeedBack = useMutation(services.postFeedBack, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: (e) => {
+      setIsLoading(false);
+      // setSuccessShow(true);
+      // setSData(e.data);
+      // package_data.refetch();
     },
     onError: () => {
       setIsLoading(false);
@@ -162,6 +221,7 @@ const PackageDetail = () => {
     e.preventDefault();
     postBooking.mutate(
       Object.assign(travelerInfo, {
+        paidtype,
         package_id: packagedata.id,
         idcardno:
           NRCCodeSelect +
@@ -188,6 +248,83 @@ const PackageDetail = () => {
   if (package_data.data) {
     return (
       <div className="home">
+        <Modal
+          show={feedbackShow}
+          onHide={() => setFeedbackShow(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <h4 style={{ color: "black" }}>
+              <Chat /> Write FeedBack
+            </h4>
+            <Form onSubmit={(e)=>{
+              e.preventDefault();
+              postFeedBack.mutate({
+                star:rating,
+                packageid:packagedata.id,
+                message:message,
+              })
+              setFeedbackShow(false);
+          
+            }}>
+              <Form.Group>
+                <StarRating rating={rating} setRating={setRating} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Feedback</Form.Label>
+                <Form.Control type="textarea" placeholder="your feedback" required disabled={rating===0} onChange={e=>setMessage(e.target.value)}/>
+              </Form.Group>
+              <Button
+                type="submit"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  padding: 10,
+                  marginTop: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Send /> <div style={{ marginLeft: 5 }}> Submit Feedback</div>
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant={"danger"}
+              onClick={(e) => setFeedbackShow(false)(false)}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          show={PLimitShow}
+          onHide={() => setPLimitShow(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Body>
+            <h4 style={{ color: "red" }}>
+              Sorry, This package can not booking right now
+            </h4>
+            <p>
+              We regret to inform you that {packagedata.destination} is
+              currently fully booked and we are unable to accept any new
+              reservations at this time. <br />
+              Thank you for your interest and please check back with us for
+              future avaliablity.
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant={"danger"} onClick={(e) => setPLimitShow(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Modal
           show={ticketShow}
           onHide={() => setTicketShow(false)}
@@ -367,6 +504,38 @@ const PackageDetail = () => {
                         required
                       />
                     </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Kpay, Wave : {infodata.phoneno}</Form.Label>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <div onClick={() => setPaidtype("prepaid")}>
+                          <Form.Check
+                            type="checkbox"
+                            name="address"
+                            // value={travelerInfo.address}
+                            // onChange={handleChange}
+                            value={paidtype === "prepaid"}
+                            checked={paidtype === "prepaid"}
+                            label="Pre Paid"
+                            required={paidtype === 0}
+                          />
+                        </div>
+                        <div
+                          style={{ marginLeft: 10 }}
+                          onClick={() => setPaidtype("fullpaid")}
+                        >
+                          <Form.Check
+                            type="checkbox"
+                            name="address"
+                            value={paidtype === "fullpaid"}
+                            checked={paidtype === "fullpaid"}
+                            // value={travelerInfo.address}
+                            // onChange={handleChange}
+                            label="Full Paid"
+                            required={paidtype === 0}
+                          />
+                        </div>
+                      </div>
+                    </Form.Group>
                     <Button
                       type="submit"
                       variant={"primary"}
@@ -415,8 +584,7 @@ const PackageDetail = () => {
                 <strong>Dear {sdata && sdata.traveler},</strong> <br />
                 Thank you for making a reservation with our company. We have
                 sent your voucher to your email.{" "}
-                <strong>{travelerInfo.email}</strong>{" "}
-                <br/>
+                <strong>{travelerInfo.email}</strong> <br />
               </p>
 
               <div
@@ -430,7 +598,7 @@ const PackageDetail = () => {
                   color: "white",
                 }}
               >
-                <h4>Tavel Code : {sdata&&sdata.travelcode}</h4>
+                <h4>Tavel Code : {sdata && sdata.travelcode}</h4>
               </div>
               <div>
                 <h6 style={{ fontFamily: "Roboto-Bold", marginTop: 5 }}>
@@ -447,16 +615,33 @@ const PackageDetail = () => {
                       <th>Address</th>
                     </tr>
                     <tr>
-                    <td style={{ textAlign: "center" }}>1</td>
-                    <td style={{ textAlign: "center" }}>{travelerInfo.name}</td>
-                    <td style={{ textAlign: "center" }}>{sdata&& sdata.idcardno}</td>
-                    <td style={{ textAlign: "center" }}>{travelerInfo.phoneno}</td>
-                    <td style={{ textAlign: "center" }}>{travelerInfo.email}</td>
-                    <td style={{ textAlign: "center" }}>{travelerInfo.address}</td>
+                      <td style={{ textAlign: "center" }}>1</td>
+                      <td style={{ textAlign: "center" }}>
+                        {travelerInfo.name}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {sdata && sdata.idcardno}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {travelerInfo.phoneno}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {travelerInfo.email}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {travelerInfo.address}
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
-                <h6 style={{display:'flex',backgroundColor:'', fontFamily: "Roboto-Bold", marginTop: 10 }}>
+                <h6
+                  style={{
+                    display: "flex",
+                    backgroundColor: "",
+                    fontFamily: "Roboto-Bold",
+                    marginTop: 10,
+                  }}
+                >
                   Package Details
                 </h6>
                 <Table striped responsive hover>
@@ -468,14 +653,23 @@ const PackageDetail = () => {
                       <th>Include Places</th>
                     </tr>
                     <tr>
-                      <td style={{ textAlign: "center" }}>{sdata&&sdata.package}</td>
-                      <td style={{ textAlign: "center" }}>{new Date(packagedata.travel_sdate).toDateString()}</td>
-                      <td style={{ textAlign: "center" }}>{new Date(packagedata.travel_sdate).toTimeString()}</td>
-                      <td style={{ textAlign: "center" }}> {packagedata.includeplace &&
-                                  packagedata.includeplace.map((data, id) => {
-                                    return <>{data.placename + ", "}</>;
-                                  })}
-                                {packagedata.destination}</td>
+                      <td style={{ textAlign: "center" }}>
+                        {sdata && sdata.package}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {new Date(packagedata.travel_sdate).toDateString()}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {new Date(packagedata.travel_sdate).toTimeString()}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {" "}
+                        {packagedata.includeplace &&
+                          packagedata.includeplace.map((data, id) => {
+                            return <>{data.placename + ", "}</>;
+                          })}
+                        {packagedata.destination}
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
@@ -495,9 +689,15 @@ const PackageDetail = () => {
                       <th>Balance</th>
                     </tr>
                     <tr>
-                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.cost)}</td>
-                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.paid)}</td>
-                      <td style={{ textAlign: "center" }}>{sdata && nwc(sdata.cost-sdata.paid)}</td>
+                      <td style={{ textAlign: "center" }}>
+                        {sdata && nwc(sdata.cost)}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {sdata && nwc(sdata.paid)}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {sdata && nwc(sdata.cost - sdata.paid)}
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
@@ -506,19 +706,16 @@ const PackageDetail = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button
-              type="submit"
-              variant={"success"}
+              varinat={"success"}
               onClick={() => {
-                // DeleteIncludePlace.mutate({
-                //   id: selectIP.current.id,
-                // });
-                // setShowDeleteIP(false);
+                window.location.href =
+                  "tel:" + infodata.phoneno && infodata.phoneno;
               }}
             >
-            <Telephone/>  Call
+              <Telephone /> Call
             </Button>
             <Button variant={"primary"} onClick={(e) => setSuccessShow(false)}>
-              Cancel
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
@@ -634,10 +831,26 @@ const PackageDetail = () => {
                     </div>
                     <div
                       className="bookingbtn"
-                      onClick={() => setTicketShow(true)}
+                      onClick={() => {
+                        if (packagedata.people_limit > 0) {
+                          setTicketShow(true);
+                        } else {
+                          setPLimitShow(true);
+                        }
+                      }}
                     >
                       <PencilFill style={{ marginRight: 10 }} />
                       <div> Register Booking</div>
+                    </div>
+                    <div
+                      className="bookingbtn"
+                      style={{ marginTop: 10 }}
+                      onClick={() => {
+                       setFeedbackShow(true)
+                      }}
+                    >
+                      <Chat style={{ marginRight: 10 }} />
+                      <div> Write Feedback</div>
                     </div>
                   </div>
                 </Col>
@@ -682,4 +895,3 @@ export default PackageDetail;
 const isData = (d = []) => {
   return d.length >= 1;
 };
-
