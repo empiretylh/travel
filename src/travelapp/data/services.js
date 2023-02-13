@@ -67,7 +67,7 @@ class AuthService {
   }
 
   postFeedBack(data){
-    return axios.post(API_URL + "/api/feedbacks/",data)
+    return axios.post(API_URL + "/api/feedbacks/",data);
   }
 
   postIncludePlace(data) {

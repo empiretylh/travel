@@ -98,13 +98,14 @@ const TravelMain = () => {
 
 
   useEffect(()=>{
+    //  localStorage.removeItem('booked');
     const Booked = localStorage.getItem('booked')
+    console.log(Booked);
     if(Booked){
-      setBooked(booked)
-    }else{
-      localStorage.setItem('booked',JSON.stringify([{}]))
+      setBooked(JSON.parse(Booked));
     }
-  },[booked])
+    
+  },[])
 
   const tokenValue = useMemo(() => ({ token, setToken }), [token, setToken]);
 

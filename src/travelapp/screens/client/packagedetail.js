@@ -18,7 +18,7 @@ import NavBar from "../navbar";
 import { Link } from "react-router-dom";
 
 import services from "../../data/services";
-import { TokenContext, LoadingContext, CAContext } from "../../context/Context";
+import { TokenContext, LoadingContext, CAContext,BookedContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import {
@@ -123,6 +123,9 @@ const PackageDetail = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
 
   const { is_loading, setIsLoading } = useContext(LoadingContext);
+
+  const {booked,setBooked} =  useContext(BookedContext);
+
   const [ticketShow, setTicketShow] = useState(false);
 
   const [travelerInfo, setTravelerInfo] = useState({
@@ -194,8 +197,10 @@ const PackageDetail = () => {
       setSuccessShow(true);
       setSData(e.data);
       package_data.refetch();
-
-      // localStorage.setItems('booked',)
+      setBooked((booked)=>booked.concat([{travelcode:e.data.travelcode}]))
+      console.log(e.data.travelcode)
+      localStorage.setItem('booked',JSON.stringify(booked.concat([{travelcode:e.data.travelcode}])));
+      console.log(localStorage.getItem('booked'))
     },
     onError: () => {
       setIsLoading(false);
@@ -267,7 +272,6 @@ const PackageDetail = () => {
                 message:message,
               })
               setFeedbackShow(false);
-          
             }}>
               <Form.Group>
                 <StarRating rating={rating} setRating={setRating} />

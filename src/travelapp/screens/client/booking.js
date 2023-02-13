@@ -4,13 +4,6 @@ import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
 
 import {
   Col,
-  Row,
-  Container,
-  Table,
-  Form,
-  InputGroup,
-  Button,
-  Modal,
   Card,
   Carousel,
 } from "react-bootstrap";
@@ -20,7 +13,7 @@ import { Link , useParams} from "react-router-dom";
 import services from "../../data/services";
 import {
   TokenContext,
-  VotingCodeContext,
+  BookedContext,
   CAContext,
 } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
@@ -88,6 +81,8 @@ const Booking = () => {
 
   const package_data = useQuery("package_data", services.getPackage);
 
+  const {booked,setBooked} = useContext(BookedContext);
+
   useEffect(() => {
     setClietView(true);
   });
@@ -121,71 +116,10 @@ const Booking = () => {
             flexDirection: "column",
           }}
         >
-          <h2 style={{ fontFamily: "Roboto-Bold" }}>Packages We Offer</h2>
-          <InputGroup className="hsb">
-            <Form.Control
-              type="text"
-              placeholder="Search Packages"
-              className="searchfield"
-              onChange={(e) => {
-                setSearchText(e.target.value);
-              }}
-            />
-            <Button>
-              <Search size={20} style={{ marginLeft: 3 }} />
-            </Button>
-          </InputGroup>
+          
+          {JSON.stringify(booked)}
         </div>
 
-        <Container className="PackageContainer">
-          <Row>
-            {package_data.data ? (
-              <>
-                {isData(packagedata) ? (
-                  packagedata.map((item, id) => (
-                    <PackageCard data={item} key={id} />
-                  ))
-                ) : (
-                  <>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <h4>No Packages To Show</h4>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <img src={IMAGE.error} style={{ width: 300, height: 300 }} />
-                <h3 style={{ fontFamily: "Roboto-Black" }}>
-                  Cannot Connect To Server
-                </h3>
-              </div>
-            )}
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-            </div>
-          </Row>
-        </Container>
       </section>
      
     </div>
