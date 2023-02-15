@@ -197,9 +197,9 @@ const PackageDetail = () => {
       setSuccessShow(true);
       setSData(e.data);
       package_data.refetch();
-      setBooked((booked)=>booked.concat([{travelcode:e.data.travelcode}]))
+      setBooked((booked)=>booked.concat([e.data.travelcode]))
       console.log(e.data.travelcode)
-      localStorage.setItem('booked',JSON.stringify(booked.concat([{travelcode:e.data.travelcode}])));
+      localStorage.setItem('booked',JSON.stringify(booked.concat([e.data.travelcode])));
       console.log(localStorage.getItem('booked'))
     },
     onError: () => {
@@ -298,7 +298,7 @@ const PackageDetail = () => {
           <Modal.Footer>
             <Button
               variant={"danger"}
-              onClick={(e) => setFeedbackShow(false)(false)}
+              onClick={(e) => setFeedbackShow(false)}
             >
               Cancel
             </Button>

@@ -102,7 +102,7 @@ class AuthService {
         type: type,
       },
     });
-  }
+  } 
 
   putBooking(data) {
     return axios.put(API_URL + "/api/adminbooking/", data);
@@ -132,6 +132,16 @@ class AuthService {
 
   RegisterBooking(data){
     return axios.post(API_URL+"/api/clientbooking/",data);
+  }
+
+  getBooked({queryKey}){
+    const [_,travelcode] = queryKey;
+    console.log(travelcode,'-----------------')
+    return axios.get(API_URL+"/api/checkcode/",{
+      params:{
+        travelcode:JSON.stringify(travelcode),
+      }
+    })
   }
 
   admin() {
