@@ -1,6 +1,10 @@
 export const IMAGE = {
  
   loading: require("./travel/spinnerloading.gif"),
+  logo:require('./travel/logo.png'),
+
+  tzp:require('./travel/tzp.jpg'),
+  tmt:require('./travel/tmt.jpg'),
 
 
   background: require("./travel/travelimage.jpg"),

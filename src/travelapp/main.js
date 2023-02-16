@@ -13,6 +13,7 @@ import Login from "./screens/login";
 import Admin from "./screens/admin/admin";
 import AddAdmin from "./screens/admin/AddAdmin";
 import Package from "./screens/admin/package";
+import About from "./screens/client/about";
 import Booking from "./screens/admin/booking";
 import FeedBack from "./screens/admin/FeedBack";
 import ChangeInfo from "./screens/admin/ChaneInfo";
@@ -158,20 +159,21 @@ const TravelMain = () => {
                         <Route path="/home" element={<Home />} />
                         <Route path='/packages' element={<PackageClient/>}/>
                         <Route path='/packages/:pkid' element={<PackageDetail/>}/>
-                        <Route path='/bookings/' element={<BookingsClient/>}/>
+                        <Route path='/bookings' element={<BookingsClient/>}/>
+                        <Route path='/about' element={<About/>}/>
 
 
                         <Route path="/login" element={<Login />} />
-                        <Route path="/admin" element={<Admin />} />
+                        <Route path="/admin" element={token ? <Admin />: <Login/>} />
                       
                         <Route
                           path="/admin/addnewadmin"
                           element={<AddAdmin />}
                         />
-                        <Route path="/admin/packages" element={<Package />} />
-                         <Route path="/admin/bookings" element={<Booking />} />
-                         <Route path="/admin/feedbacks" element={<FeedBack />} />
-                         <Route path='/admin/changeinfo/' element={<ChangeInfo/>}/>
+                        <Route path="/admin/packages" element={token ? <Package />: <Login/>} />
+                         <Route path="/admin/bookings" element={token ? <Booking />:<Login/>} />
+                         <Route path="/admin/feedbacks" element={token ? <FeedBack />:<Login/>} />
+                         <Route path='/admin/changeinfo/' element={token ? <ChangeInfo/> : <Login/>}/>
                       </Routes>
                     </div>
                   </div>

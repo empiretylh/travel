@@ -771,3 +771,13 @@ section {
   object-fit: cover;
   
 } */
+
+.lastelement{
+  padding:30px;
+  color:white;
+}
+
+.lastelement a{
+  color:white !important;
+  font-size: medium !important;
+}

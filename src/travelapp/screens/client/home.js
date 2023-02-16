@@ -25,16 +25,25 @@ import {
 } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
-import { ArrowRightCircle, GeoAlt, Search,Telephone,Mailbox } from "react-bootstrap-icons";
+import {
+  ArrowRightCircle,
+  GeoAlt,
+  Search,
+  Telephone,
+  Mailbox,
+} from "react-bootstrap-icons";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const PackageCard = ({ data }) => {
   return (
     <Col xs={12} sm={6} md={4} className="mb-3">
-      <Card className="pkcard" onClick={()=>{
-       window.location.href = `#/packages/${data.id}`;
-      }}>
+      <Card
+        className="pkcard"
+        onClick={() => {
+          window.location.href = `#/packages/${data.id}`;
+        }}
+      >
         <Card.Body
           style={{
             display: "flex",
@@ -228,15 +237,14 @@ const Home = () => {
                 alignItems: "center",
               }}
             >
-              <div className={"hshowmore"} onClick={()=>{
-                window.location.href='#/packages'
-              }}>
+              <div
+                className={"hshowmore"}
+                onClick={() => {
+                  window.location.href = "#/packages";
+                }}
+              >
                 <div>Show More</div>{" "}
-                <ArrowRightCircle
-                  size={18}
-                  style={{ marginLeft: 5 }}
-               
-                />
+                <ArrowRightCircle size={18} style={{ marginLeft: 5 }} />
               </div>
             </div>
           </Row>
@@ -255,7 +263,8 @@ const Home = () => {
                 <img src={IMAGE.bus} />
                 <h4>Modem Express Bus</h4>
                 <p>
-                  Modern express bus services offer a comfortable, efficent, and eco-friendly mode of transportation for travelers.
+                  Modern express bus services offer a comfortable, efficent, and
+                  eco-friendly mode of transportation for travelers.
                 </p>
               </div>
             </Col>
@@ -264,7 +273,9 @@ const Home = () => {
                 <img src={IMAGE.food} />
                 <h4>Food</h4>
                 <p>
-                 Food is an integral part of any travel experience, and traveler can choose from a variety of food services such as restaurants, cafes, and fast food chains.
+                  Food is an integral part of any travel experience, and
+                  traveler can choose from a variety of food services such as
+                  restaurants, cafes, and fast food chains.
                 </p>
               </div>
             </Col>
@@ -273,8 +284,10 @@ const Home = () => {
                 <img src={IMAGE.hotel} />
                 <h4>Hotel</h4>
                 <p>
-                 Hotels provide travelers with a comfortable and convenient place to stay, whether they're on a leisure trip or a business trip. From budget-friendly options to luxury hotels.
-                 </p>
+                  Hotels provide travelers with a comfortable and convenient
+                  place to stay, whether they're on a leisure trip or a business
+                  trip. From budget-friendly options to luxury hotels.
+                </p>
               </div>
             </Col>
             <Col>
@@ -282,7 +295,8 @@ const Home = () => {
                 <img src={IMAGE.fan} />
                 <h4>AirCon Bus</h4>
                 <p>
-                 AirCon Bus is a luxury bus service that provides a comfortable and convenient way to travel.
+                  AirCon Bus is a luxury bus service that provides a comfortable
+                  and convenient way to travel.
                 </p>
               </div>
             </Col>
@@ -291,27 +305,40 @@ const Home = () => {
       </section>
       <section>
         <Container>
-          <h2 style={{fontFamily:'Roboto-Bold'}}>Contact Us</h2>
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>Contact Us</h2>
           <Row>
-            <Col style={{display:'flex',justifyContent:'center',alignItems:'center'}}>{cinfo_data.data && 
-            <div className='conantuswrap'>
-              
-                <h4><Telephone size={25}/>  {infodata.phoneno}</h4>
-                <h4><Mailbox size={25}/>  {infodata.email}</h4>
-                <h4><GeoAlt size={25}/>  {infodata.companyaddress}</h4>
-        
-            </div>}</Col>
-            <Col>
+            <Col
+              lg={6}
+              md={12}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {cinfo_data.data && (
+                <div className="conantuswrap">
+                  <h4>
+                    <Telephone size={25} /> {infodata.phoneno}
+                  </h4>
+                  <h4>
+                    <Mailbox size={25} /> {infodata.email}
+                  </h4>
+                  <h4>
+                    <GeoAlt size={25} /> {infodata.companyaddress}
+                  </h4>
+                </div>
+              )}
+            </Col>
+            <Col lg={6} md={12}>
               <div class="mapouter">
                 <div class="gmap_canvas">
                   <iframe
                     src="https://maps.google.com/maps?q=university%20of%20computer%20studies%20dawei&amp;t=&amp;z=18&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
                     id="gmap_canvas"
-                  
                     style={{
-                      width:'100%',
-                      height:300,
-                  
+                      width: "100%",
+                      height: 300,
                     }}
                   ></iframe>
                   <a href="https://fnfmods.net">fnf mod</a>
@@ -322,9 +349,57 @@ const Home = () => {
         </Container>
       </section>
       <section className="lastelement">
-        <Container>
-          <h1>Company Info</h1>
-        </Container>
+        <h4>Company Info</h4>
+        <Row>
+        
+            <Col>
+              <a href="#/packages">Packages</a>
+              <br />
+              <a href="#/bookings">Booking</a>
+              <br />
+            
+              <a href="#/about">About</a>
+              <br />
+              <a href="#/bookings">Check Code</a>
+              <br />
+            </Col>
+            <Col>
+              <a
+                href={
+                  infodata &&
+                  "https://mail.google.com/mail/u/" +
+                    infodata.email +
+                    "/#compose"
+                }
+              >
+                Email
+              </a>
+              <br />
+              <a href={infodata && "tel:" + infodata.phoneno}>Phone Number</a>
+              <br />
+          
+              <a href="#/admin">Admin</a>
+              <br />
+              <a href="#/login">Login</a>
+              <br />
+            </Col>
+      
+          <Col md={12} lg={4}>
+            {cinfo_data.data && (
+              <div className="conantuswrap">
+                <h4>
+                  <Telephone size={25} /> {infodata.phoneno}
+                </h4>
+                <h4>
+                  <Mailbox size={25} /> {infodata.email}
+                </h4>
+                <h4>
+                  <GeoAlt size={25} /> {infodata.companyaddress}
+                </h4>
+              </div>
+            )}
+          </Col>
+        </Row>
       </section>
     </div>
   );
