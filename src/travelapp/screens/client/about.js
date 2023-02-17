@@ -108,11 +108,11 @@ const Booking = () => {
         >
           {/* {JSON.stringify(booked_data.data)} */}
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-          <h2>Founder</h2>
+          <h2 style={{fontFamily:'Roboto-Bold'}}>Founder</h2>
           <div style={{display:'flex',flexDirection:'row',marginTop:10}}>
           <img src={IMAGE.tzp} style={{width:160,height:160, borderRadius:160,objectFit:'cover'}}/>
             <div style={{marginLeft:10}}>
-              <h4>Thawe Zin Phyo</h4>
+              <h4>Thwe Zin Phyo</h4>
               <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
                 Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
             </div>
@@ -126,6 +126,48 @@ const Booking = () => {
             </div>
           </div>
           </div>
+
+          <div style={{marginTop:50,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+          <h2 style={{fontFamily:'Roboto-Bold'}}>Programming Languages & Tools</h2>
+          <Container style={{marginTop:30}}>
+            <Row>
+              <Col>
+              <img src={IMAGE.pythonlogo} style={{width:100,height:100,objectFit:'contain'}}/>
+            <div style={{marginLeft:10}}>
+              <h4>Python</h4>
+              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
+                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
+            </div>
+              </Col>
+              <Col>
+              <img src={IMAGE.jslogo} style={{width:100,height:100,objectFit:'contain'}}/>
+            <div style={{marginLeft:10}}>
+              <h4>JavaScript</h4>
+              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
+                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
+            </div>
+              </Col>
+              <Col>
+              <img src={IMAGE.reactlogo} style={{width:100,height:100,objectFit:'contain'}}/>
+            <div style={{marginLeft:10}}>
+              <h4>React</h4>
+              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
+                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
+            </div>
+              </Col>
+              <Col>
+              <img src={IMAGE.djangologo} style={{width:100,height:100,objectFit:'contain'}}/>
+            <div style={{marginLeft:10}}>
+              <h4>Django</h4>
+              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
+                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
+            </div>
+              </Col>
+            </Row>
+          </Container>
+                 </div>
+
+
         </div>
     </div>
   );

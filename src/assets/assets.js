@@ -20,4 +20,9 @@ export const IMAGE = {
   bus:require('./travel/bus.png'),
   hotel:require('./travel/hotel.png'),
   food:require('./travel/tray.png'),
+
+  djangologo:require('./travel/djangolog.webp'),
+  jslogo:require('./travel/js.png'),
+  pythonlogo:require('./travel/pythonlogo.jpg'),
+  reactlogo:require('./travel/reactjs.png'),
 };

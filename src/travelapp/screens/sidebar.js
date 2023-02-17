@@ -15,6 +15,7 @@ import {
 import { Link as NavLink } from "react-router-dom";
 
 import services from "../data/services";
+import { IMAGE } from "../../assets/assets";
 
 const SideBar = (props) => {
 	
@@ -79,13 +80,13 @@ const SideBar = (props) => {
 					style={{ padding: 0, margin: 0 }}
 					prefix={<i className="fa fa-bars fa-large"></i>}
 				>
-					{/* <img src={PICTURE.logo} style={{ width: "30px", height: "30px" }} /> */}
+					<img src={IMAGE.logo} style={{ width: "30px", height: "30px" }} />
 					<a
 						href="/"
 						className="text-decoration-none"
 						style={{ color: "inherit", marginLeft: 5 }}
 					>
-						Travel Admin
+						Admin
 					</a>
 				</CDBSidebarHeader>
 

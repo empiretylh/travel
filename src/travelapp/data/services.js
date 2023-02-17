@@ -136,7 +136,7 @@ class AuthService {
 
   getBooked({queryKey}){
     const [_,travelcode] = queryKey;
-    console.log(travelcode,'-----------------')
+   
     return axios.get(API_URL+"/api/checkcode/",{
       params:{
         travelcode:JSON.stringify(travelcode),
