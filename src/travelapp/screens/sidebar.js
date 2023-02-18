@@ -60,7 +60,7 @@ const SideBar = (props) => {
 						onClick={(e) =>{
 
 							services.logout();
-							window.location.href='home'
+							window.location.href='#/home'
 							setShowLogout(false);
 						}}
 					>
@@ -82,7 +82,7 @@ const SideBar = (props) => {
 				>
 					<img src={IMAGE.logo} style={{ width: "30px", height: "30px" }} />
 					<a
-						href="/"
+						href="#/admin"
 						className="text-decoration-none"
 						style={{ color: "inherit", marginLeft: 5 }}
 					>
