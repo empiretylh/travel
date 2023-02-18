@@ -18,7 +18,12 @@ import NavBar from "../navbar";
 import { Link } from "react-router-dom";
 
 import services from "../../data/services";
-import { TokenContext, LoadingContext, CAContext,BookedContext } from "../../context/Context";
+import {
+  TokenContext,
+  LoadingContext,
+  CAContext,
+  BookedContext,
+} from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import {
@@ -42,7 +47,7 @@ import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { nrcdata } from "../../data/data";
 import { Icon } from "react-bootstrap-icons";
 
-const StarRating = ({rating,setRating}) => {
+const StarRating = ({ rating, setRating }) => {
   // const [rating, setRating] = useState(0);
 
   const handleClick = (starindex) => {
@@ -51,14 +56,26 @@ const StarRating = ({rating,setRating}) => {
   const stars = [];
   for (let i = 0; i < 5; i++) {
     if (i >= rating) {
-      stars.push(<Star style={{marginRight:5}}  onClick={() => handleClick(i)} size={20}/>);
+      stars.push(
+        <Star
+          style={{ marginRight: 5 }}
+          onClick={() => handleClick(i)}
+          size={20}
+        />
+      );
     } else {
-      stars.push(<StarFill style={{marginRight:5}} onClick={() => handleClick(i)} size={20} color={'yellow'}/>);
+      stars.push(
+        <StarFill
+          style={{ marginRight: 5 }}
+          onClick={() => handleClick(i)}
+          size={20}
+          color={"yellow"}
+        />
+      );
     }
-
   }
-      
-  return <div style={{display:'flex',flexDirection:'row'}}>{stars}</div>;
+
+  return <div style={{ display: "flex", flexDirection: "row" }}>{stars}</div>;
 };
 
 function nwc(x = 0) {
@@ -124,7 +141,7 @@ const PackageDetail = () => {
 
   const { is_loading, setIsLoading } = useContext(LoadingContext);
 
-  const {booked,setBooked} =  useContext(BookedContext);
+  const { booked, setBooked } = useContext(BookedContext);
 
   const [ticketShow, setTicketShow] = useState(false);
 
@@ -154,7 +171,7 @@ const PackageDetail = () => {
   const cinfo_data = useQuery(["cinfodata"], services.getCompanyInfo);
 
   const [rating, setRating] = useState(0);
-  const [message,setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const [paidtype, setPaidtype] = useState(0);
 
@@ -165,6 +182,8 @@ const PackageDetail = () => {
   }, [cinfo_data.data]);
 
   const [successShow, setSuccessShow] = useState(false);
+
+  const callRef = useRef(0);
 
   const handleChange = (event) => {
     setTravelerInfo({
@@ -187,7 +206,6 @@ const PackageDetail = () => {
     setClietView(true);
   });
 
-  
   const postBooking = useMutation(services.RegisterBooking, {
     onMutate: () => {
       setIsLoading(true);
@@ -197,10 +215,13 @@ const PackageDetail = () => {
       setSuccessShow(true);
       setSData(e.data);
       package_data.refetch();
-      setBooked((booked)=>booked.concat([e.data.travelcode]))
-      console.log(e.data.travelcode)
-      localStorage.setItem('booked',JSON.stringify(booked.concat([e.data.travelcode])));
-      console.log(localStorage.getItem('booked'))
+      setBooked((booked) => booked.concat([e.data.travelcode]));
+      console.log(e.data.travelcode);
+      localStorage.setItem(
+        "booked",
+        JSON.stringify(booked.concat([e.data.travelcode]))
+      );
+      console.log(localStorage.getItem("booked"));
     },
     onError: () => {
       setIsLoading(false);
@@ -264,21 +285,29 @@ const PackageDetail = () => {
             <h4 style={{ color: "black" }}>
               <Chat /> Write FeedBack
             </h4>
-            <Form onSubmit={(e)=>{
-              e.preventDefault();
-              postFeedBack.mutate({
-                star:rating,
-                packageid:packagedata.id,
-                message:message,
-              })
-              setFeedbackShow(false);
-            }}>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                postFeedBack.mutate({
+                  star: rating,
+                  packageid: packagedata.id,
+                  message: message,
+                });
+                setFeedbackShow(false);
+              }}
+            >
               <Form.Group>
                 <StarRating rating={rating} setRating={setRating} />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Feedback</Form.Label>
-                <Form.Control type="textarea" placeholder="your feedback" required disabled={rating===0} onChange={e=>setMessage(e.target.value)}/>
+                <Form.Control
+                  type="textarea"
+                  placeholder="your feedback"
+                  required
+                  disabled={rating === 0}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
               </Form.Group>
               <Button
                 type="submit"
@@ -296,10 +325,7 @@ const PackageDetail = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant={"danger"}
-              onClick={(e) => setFeedbackShow(false)}
-            >
+            <Button variant={"danger"} onClick={(e) => setFeedbackShow(false)}>
               Cancel
             </Button>
           </Modal.Footer>
@@ -709,15 +735,13 @@ const PackageDetail = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
+          <a href={infodata.phoneno && "tel:" + infodata.phoneno} >
             <Button
-              varinat={"success"}
-              onClick={() => {
-                window.location.href =
-                  "tel:" + infodata.phoneno && infodata.phoneno;
-              }}
+              variant={"success"}
             >
               <Telephone /> Call
             </Button>
+            </a>
             <Button variant={"primary"} onClick={(e) => setSuccessShow(false)}>
               Close
             </Button>
@@ -749,19 +773,31 @@ const PackageDetail = () => {
                 </div>
               </Col>
               <Col style={{ display: "flex", flexDirection: "row-reverse" }}>
-                <h5
-                  style={{
-                    padding: 10,
-                    backgroundColor: "red",
-                    color: "white",
-                    borderRadius: 15,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {nwc(packagedata.cost)}
-                </h5>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <h5
+                    style={{
+                      padding: 10,
+                      backgroundColor: "red",
+                      color: "white",
+                      borderRadius: 15,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {nwc(packagedata.cost)}
+                  </h5>
+                  <p
+                    style={{
+                      color: "red",
+                      fontFamily: "Roboto-Bold",
+                      marginTop: 2,
+                      textAlign:'right',
+                    }}
+                  >
+                    {packagedata.discount}
+                  </p>
+                </div>
               </Col>
             </Row>
             <div className="divider" />
@@ -850,7 +886,7 @@ const PackageDetail = () => {
                       className="bookingbtn"
                       style={{ marginTop: 10 }}
                       onClick={() => {
-                       setFeedbackShow(true)
+                        setFeedbackShow(true);
                       }}
                     >
                       <Chat style={{ marginRight: 10 }} />

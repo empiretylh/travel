@@ -206,6 +206,7 @@ const Package = () => {
 
   const dnameRef = useRef(0);
   const costRef = useRef(0);
+  const proRef = useRef(0);
   const durationRef = useRef(0);
   const placeimageRef = useRef(0);
   const peoplelimtRef = useRef(0);
@@ -308,6 +309,7 @@ const Package = () => {
         people_limit: peoplelimtRef.current.value,
         travel_sdate: sdateRef.current.value + " " + stimeRef.current.value,
         image: placeimageRef.current.files[0],
+        discount:proRef.current.value,
       });
     } else {
       alert("Please Filled Required Filled");
@@ -335,6 +337,7 @@ const Package = () => {
         image: placeimageRef.current.files[0]
           ? placeimageRef.current.files[0]
           : "",
+          discount:proRef.current.value,
       });
     } else {
       alert("Please Filled Required Filled");
@@ -372,7 +375,7 @@ const Package = () => {
     peoplelimtRef.current = data.people_limit;
     sdateRef.current = data.travel_sdate.slice(0,10);
     stimeRef.current = data.travel_sdate.slice(11,16);
-
+    proRef.current = data.discount;
     console.log(sdateRef.current)
     console.log(stimeRef.current)
     // placeimageRef.current = null;
@@ -742,6 +745,15 @@ const Package = () => {
               required
               ref={costRef}
             />
+            
+            <Form.Label>Promotion Text</Form.Label>
+            <Form.Control
+              type="text"
+              className="mb-3"
+              placeholder="Promotion Text Eg: 15% Dicount"
+              
+              ref={proRef}
+            />
             <Form.Label>Duration</Form.Label>
             <Form.Control
               type="text"
@@ -825,6 +837,14 @@ const Package = () => {
               required
               defaultValue={costRef.current && costRef.current}
               ref={costRef}
+            />
+             <Form.Label>Promotion Text</Form.Label>
+            <Form.Control
+              type="text"
+              className="mb-3"
+              placeholder="Promotion Text Eg: 15% Dicount"
+              defaultValue={proRef.current && proRef.current}
+              ref={proRef}
             />
             <Form.Label>Duration</Form.Label>
             <Form.Control
