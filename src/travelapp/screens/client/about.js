@@ -61,9 +61,8 @@ const Booking = () => {
     services.getBooked,
     {
       onSuccess: (e) => {
-      
         const data = e.data;
-     
+
         const filter =
           data && data.filter((e) => searchText.includes(e.travelcode));
 
@@ -95,80 +94,134 @@ const Booking = () => {
 
   return (
     <div className="home">
-  
-      
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 100,
+          flexDirection: "column",
+        }}
+      >
+        {/* {JSON.stringify(booked_data.data)} */}
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
             alignItems: "center",
-            marginTop: 100,
+            justifyContent: "center",
             flexDirection: "column",
           }}
         >
-          {/* {JSON.stringify(booked_data.data)} */}
-          <div style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-          <h2 style={{fontFamily:'Roboto-Bold'}}>Founder</h2>
-          <div style={{display:'flex',flexDirection:'row',marginTop:10}}>
-          <img src={IMAGE.tzp} style={{width:160,height:160, borderRadius:160,objectFit:'cover'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>Thwe Zin Phyo</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
-          </div>
-          <div style={{display:'flex',flexDirection:'row',marginTop:30}}>
-          <img src={IMAGE.tmt} style={{width:160,height:160, borderRadius:160,objectFit:'cover'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>Thin Myat Thazin Aye</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
-          </div>
-          </div>
-
-          <div style={{marginTop:50,display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-          <h2 style={{fontFamily:'Roboto-Bold'}}>Programming Languages & Tools</h2>
-          <Container style={{marginTop:30}}>
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>Founder</h2>
+          <Container>
             <Row>
-              <Col>
-              <img src={IMAGE.pythonlogo} style={{width:100,height:100,objectFit:'contain'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>Python</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
+              <Col md={12} lg={4} style={{display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
+                <img
+                  src={IMAGE.tzp}
+                  style={{
+                    width: 160,
+                    height: 160,
+                    borderRadius: 160,
+                    objectFit: "cover",
+                  }}
+                />
               </Col>
-              <Col>
-              <img src={IMAGE.jslogo} style={{width:100,height:100,objectFit:'contain'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>JavaScript</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
+              <Col md={12} lg={8}>
+                <div style={{ marginLeft: 10 }}>
+                  <h4>Thwe Zin Phyo</h4>
+                  <p>
+                    Thwe Zin Phyo graduated from the University of Computer
+                    Studies (Dawei) with a degree in computer science. She is
+                    currently working as a software developer at a tech company
+                    in Yangon, Myanmar. Her job involves designing and
+                    implementing software applications for clients, as well as
+                    troubleshooting and maintaining existing software systems.
+                  </p>
+                </div>
               </Col>
-              <Col>
-              <img src={IMAGE.reactlogo} style={{width:100,height:100,objectFit:'contain'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>React</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
+            </Row>
+            <Row style={{marginTop:13}}>
+              <Col md={12} lg={4} style={{display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
+                <img
+                  src={IMAGE.tmt}
+                  style={{
+                    width: 160,
+                    height: 160,
+                    borderRadius: 160,
+                    objectFit: "cover",
+                  }}
+                />
               </Col>
-              <Col>
-              <img src={IMAGE.djangologo} style={{width:100,height:100,objectFit:'contain'}}/>
-            <div style={{marginLeft:10}}>
-              <h4>Django</h4>
-              <p>Lorem Ispem span asdf adsfk lInaw KLiw iEaa ejadh jasdfl Jljad <br/>
-                Lorem Ispem Thuer adf adfkj ldfjiad adjfokajwi ueiiI iwe I whdfwokde</p>
-            </div>
+              <Col md={12} lg={8} >
+                <h4>Thin Myat Thazin Aye</h4>
+                <p>
+                  Thin Myat Thazin Aye graduated from the University of Computer
+                  Studies (Dawei) with 
+                  a degree in computer science. She is currently working as a
+                  software developer at 
+                  a tech company in Naypyi Taw, Myanmar. Her job involves
+                  coding, debugging, and working on UI/UX design.
+                 
+                </p>
               </Col>
             </Row>
           </Container>
-                 </div>
-
-
         </div>
+
+        <div
+          style={{
+            marginTop: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>
+            Programming Languages & Tools
+          </h2>
+          <Container style={{ marginTop: 30 }}>
+            <Row>
+              <Col>
+                <img
+                  src={IMAGE.pythonlogo}
+                  style={{ width: 100, height: 100, objectFit: "contain" }}
+                />
+                <div style={{ marginLeft: 10 }}>
+                  <h4>Python</h4>
+                </div>
+              </Col>
+              <Col>
+                <img
+                  src={IMAGE.jslogo}
+                  style={{ width: 100, height: 100, objectFit: "contain" }}
+                />
+                <div style={{ marginLeft: 10 }}>
+                  <h4>JavaScript</h4>
+                </div>
+              </Col>
+              <Col>
+                <img
+                  src={IMAGE.reactlogo}
+                  style={{ width: 100, height: 100, objectFit: "contain" }}
+                />
+                <div style={{ marginLeft: 10 }}>
+                  <h4>React</h4>
+                </div>
+              </Col>
+              <Col>
+                <img
+                  src={IMAGE.djangologo}
+                  style={{ width: 100, height: 100, objectFit: "contain" }}
+                />
+                <div style={{ marginLeft: 10 }}>
+                  <h4>Django</h4>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
     </div>
   );
 };

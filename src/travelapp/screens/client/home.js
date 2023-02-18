@@ -101,25 +101,25 @@ function ControlledCarousel() {
       <Carousel.Item>
         <img className="hpimage" src={IMAGE.wall1} alt="First slide" />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>Beaches</h3>
+          <p>You can explore famous beaches in Myanmar</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img className="hpimage" src={IMAGE.wall2} alt="Second slide" />
 
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>Cities</h3>
+          <p>You can travel famous cities</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
         <img className="hpimage" src={IMAGE.wall3} alt="Third slide" />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
+          <h3>Pagodas</h3>
           <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+           You can travel famous pagoda in myanmar
           </p>
         </Carousel.Caption>
       </Carousel.Item>
