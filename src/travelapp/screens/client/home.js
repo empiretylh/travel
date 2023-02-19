@@ -99,28 +99,45 @@ function ControlledCarousel() {
   return (
     <Carousel>
       <Carousel.Item>
-        <img className="hpimage" src={IMAGE.wall1} alt="First slide" />
+        <img className="hpimage" src={IMAGE.dawei} alt="First slide" />
         <Carousel.Caption>
-          <h3>Beaches</h3>
-          <p>You can explore famous beaches in Myanmar</p>
+          <h3>Dawei</h3>
+          <p>Dawei is the capital of Tanintharyi Region, the southern part of Myanmar. Historically, it has been an important trading port. Dawei is dotted with islands, beautiful beaches and famous historical pagodas.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="hpimage" src={IMAGE.wall2} alt="Second slide" />
+        <img className="hpimage" src={IMAGE.maungmakan} alt="Second slide" />
 
         <Carousel.Caption>
-          <h3>Cities</h3>
-          <p>You can travel famous cities</p>
+          <h3>Maungmagan</h3>
+          <p>Maungmagan is one of the most popular beaches and a village located near Dawei, in southern Myanmar. It is the second oldest beach after Ngapali and is among the top tourist attractions for people looking for a beach holiday in the country.</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
-        <img className="hpimage" src={IMAGE.wall3} alt="Third slide" />
+        <img className="hpimage" src={IMAGE.myawyit} alt="Third slide" />
 
         <Carousel.Caption>
-          <h3>Pagodas</h3>
+          <h3>Myaw Yit Pagoda</h3>
           <p>
-           You can travel famous pagoda in myanmar
+          Myaw Yit Pagoda is a Buddhist pagoda located in Dawei off the coast of Maungmagan Beach. It is situated on a small island surrounded by the sea, and that makes it worth visiting as the temple isn't otherwise unique. A wooden bridge connects the pagoda with the shore, and there are a few viewpoints near the temple which are hotspots among the tourists for witnessing gorgeous sunsets.
           </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img className="hpimage" src={IMAGE.paradisebeach} alt="Fouth slide" />
+
+        <Carousel.Caption>
+          <h3>Paridase Beach</h3>
+          <p>Paradise Beach is one of the most popular beaches located close to the city of Dawei in Myanmar. It is a white sand beach surrounded by dense jungle, and is cleaner and scenic compared to others close to the town, making it a famous hangout place for the locals during the weekends and holidays. Tourists can enjoy swimming and snorkelling on Paradise beach.
+           </p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img className="hpimage" src={IMAGE.grandbeach} alt="Fouth slide" />
+
+        <Carousel.Caption>
+          <h3>Grandfather Beach</h3>
+          <p>Grandfather Beach is located close to the town of Dawei in Myanmar. It is one of the cleanest and most beautiful beaches in the region with clear turquoise waters. The beach is vast and clean, and also receives fewer visitors compared to others in southern Myanmar, making it a recommended attraction for tourists to enjoy a quiet beach holiday</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

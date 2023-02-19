@@ -85,6 +85,19 @@ body::-webkit-scrollbar-thumb:hover{
 .pkbuydetail tbody tr th{
   text-align:'left';
 }
+.carousel-caption {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+   left: 0 !important;
+    padding-right: 15%;
+    padding-left: 15%;
+    color: #fff;
+    text-align: center;
+    background-color: rgb(0,0,0,0.7);
+    width: 100vw!important;
+}
+
 
 
 .btn {
