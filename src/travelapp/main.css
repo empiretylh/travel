@@ -300,7 +300,16 @@ body::-webkit-scrollbar-thumb:hover{
   margin-bottom: 2px;
 }
 
+.tmtcpolicy{
+  text-indent: 70px;
+  text-align: justify;
+}
+
 @media (max-width: 1000px) {
+  
+.tmtcpolicy{
+  text-indent: 70px;
+}
   .loginForm {
     width: 100px;
     max-width: 370px;
@@ -318,6 +327,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 800px) {
+  
+.tmtcpolicy{
+  text-indent: 60px;
+}
   .loginForm {
     max-width: 370px;
     min-width: 370px;
@@ -334,6 +347,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 500px) {
+  
+.tmtcpolicy{
+  text-indent: 0px;
+}
   .loginForm {
     width: 400px;
     max-width: 400px;
@@ -359,6 +376,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 400px) {
+  
+.tmtcpolicy{
+  text-indent: 0px;
+}
   .profile_card {
     display: grid; /* Enable the grid layout */
     grid-template-columns: repeat(

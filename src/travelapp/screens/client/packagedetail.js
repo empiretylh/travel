@@ -426,6 +426,55 @@ const PackageDetail = () => {
                         </th>
                       </tr>
                       <tr>
+                        <td>Hotels</td>
+                        <th>
+                          <p style={{ fontSize: 18 }}>
+                            {packagedata.includeplace &&
+                            packagedata.includeplace
+                              .filter(
+                                (obj, index) =>
+                                  packagedata.includeplace.findIndex((item) =>
+                                    item.hotels.includes(obj.hotels)
+                                  ) == index
+                              )
+                              .filter((i) => i.hotels !== "No Hotel").length > 0
+                              ? packagedata.includeplace
+                                  .filter(
+                                    (obj, index) =>
+                                      packagedata.includeplace.findIndex(
+                                        (item) =>
+                                          item.hotels.includes(obj.hotels)
+                                      ) == index
+                                  )
+                                  .filter((i) => i.hotels !== "No Hotel")
+                                  .map((data, id) => {
+                                    return (
+                                      <>
+                                        {data.hotels +
+                                          (id + 1 ===
+                                          packagedata.includeplace
+                                            .filter(
+                                              (obj, index) =>
+                                                packagedata.includeplace.findIndex(
+                                                  (item) =>
+                                                    item.hotels.includes(
+                                                      obj.hotels
+                                                    )
+                                                ) == index
+                                            )
+                                            .filter(
+                                              (i) => i.hotels !== "No Hotel"
+                                            ).length
+                                            ? ""
+                                            : ", ")}
+                                      </>
+                                    );
+                                  })
+                              : "No Hotel"}
+                          </p>
+                        </th>
+                      </tr>
+                      <tr>
                         <td>Price</td>
                         <th>{nwc(packagedata.cost)}</th>
                       </tr>
@@ -735,12 +784,10 @@ const PackageDetail = () => {
             </div>
           </Modal.Body>
           <Modal.Footer>
-          <a href={infodata.phoneno && "tel:" + infodata.phoneno} >
-            <Button
-              variant={"success"}
-            >
-              <Telephone /> Call
-            </Button>
+            <a href={infodata.phoneno && "tel:" + infodata.phoneno}>
+              <Button variant={"success"}>
+                <Telephone /> Call
+              </Button>
             </a>
             <Button variant={"primary"} onClick={(e) => setSuccessShow(false)}>
               Close
@@ -787,16 +834,18 @@ const PackageDetail = () => {
                   >
                     {nwc(packagedata.cost)}
                   </h5>
-                  <p
-                    style={{
-                      color: "red",
-                      fontFamily: "Roboto-Bold",
-                      marginTop: 2,
-                      textAlign:'right',
-                    }}
-                  >
-                    {packagedata.discount}
-                  </p>
+                  {packagedata.discount !== "." ? (
+                    <p
+                      style={{
+                        color: "red",
+                        fontFamily: "Roboto-Bold",
+                        marginTop: 2,
+                        textAlign: "right",
+                      }}
+                    >
+                      Discount : <s>{packagedata.discount}</s>
+                    </p>
+                  ) : null}
                 </div>
               </Col>
             </Row>
@@ -859,6 +908,57 @@ const PackageDetail = () => {
                                     return <>{data.placename + ", "}</>;
                                   })}
                                 {packagedata.destination}
+                              </p>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Hotels</td>
+                            <th>
+                              <p style={{ fontSize: 18 }}>
+                                {packagedata.includeplace &&
+                                packagedata.includeplace
+                                  .filter(
+                                    (obj, index) =>
+                                      packagedata.includeplace.findIndex(
+                                        (item) =>
+                                          item.hotels.includes(obj.hotels)
+                                      ) == index
+                                  )
+                                  .filter((i) => i.hotels !== "No Hotel")
+                                  .length > 0
+                                  ? packagedata.includeplace
+                                      .filter(
+                                        (obj, index) =>
+                                          packagedata.includeplace.findIndex(
+                                            (item) =>
+                                              item.hotels.includes(obj.hotels)
+                                          ) == index
+                                      )
+                                      .filter((i) => i.hotels !== "No Hotel")
+                                      .map((data, id) => {
+                                        return (
+                                          <>
+                                            {data.hotels +
+                                              (id + 1 ===
+                                              packagedata.includeplace
+                                                .filter(
+                                                  (obj, index) =>
+                                                    packagedata.includeplace.findIndex(
+                                                      (item) =>
+                                                        item.hotels.includes(
+                                                          obj.hotels
+                                                        )
+                                                    ) == index
+                                                )
+                                                .filter(
+                                                  (i) => i.hotels !== "No Hotel"
+                                                ).length
+                                                ? ""
+                                                : ", ")}
+                                          </>
+                                        );
+                                      })
+                                  : "No Hotel"}
                               </p>
                             </th>
                           </tr>

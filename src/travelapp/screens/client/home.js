@@ -73,6 +73,9 @@ const PackageCard = ({ data }) => {
             </div>
             <div className="packageinfo">
               <p>{nwc(data.cost)}</p>
+              <s style={{ color: "red", marginLeft: 3 }}>
+                {data.discount !== "." ? data.discount : null}
+              </s>
             </div>
           </div>
           <div className="divider" />
@@ -102,7 +105,12 @@ function ControlledCarousel() {
         <img className="hpimage" src={IMAGE.dawei} alt="First slide" />
         <Carousel.Caption>
           <h3>Dawei</h3>
-          <p>Dawei is the capital of Tanintharyi Region, the southern part of Myanmar. Historically, it has been an important trading port. Dawei is dotted with islands, beautiful beaches and famous historical pagodas.</p>
+          <p>
+            Dawei is the capital of Tanintharyi Region, the southern part of
+            Myanmar. Historically, it has been an important trading port. Dawei
+            is dotted with islands, beautiful beaches and famous historical
+            pagodas.
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -110,7 +118,12 @@ function ControlledCarousel() {
 
         <Carousel.Caption>
           <h3>Maungmagan</h3>
-          <p>Maungmagan is one of the most popular beaches and a village located near Dawei, in southern Myanmar. It is the second oldest beach after Ngapali and is among the top tourist attractions for people looking for a beach holiday in the country.</p>
+          <p>
+            Maungmagan is one of the most popular beaches and a village located
+            near Dawei, in southern Myanmar. It is the second oldest beach after
+            Ngapali and is among the top tourist attractions for people looking
+            for a beach holiday in the country.
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -119,7 +132,12 @@ function ControlledCarousel() {
         <Carousel.Caption>
           <h3>Myaw Yit Pagoda</h3>
           <p>
-          Myaw Yit Pagoda is a Buddhist pagoda located in Dawei off the coast of Maungmagan Beach. It is situated on a small island surrounded by the sea, and that makes it worth visiting as the temple isn't otherwise unique. A wooden bridge connects the pagoda with the shore, and there are a few viewpoints near the temple which are hotspots among the tourists for witnessing gorgeous sunsets.
+            Myaw Yit Pagoda is a Buddhist pagoda located in Dawei off the coast
+            of Maungmagan Beach. It is situated on a small island surrounded by
+            the sea, and that makes it worth visiting as the temple isn't
+            otherwise unique. A wooden bridge connects the pagoda with the
+            shore, and there are a few viewpoints near the temple which are
+            hotspots among the tourists for witnessing gorgeous sunsets.
           </p>
         </Carousel.Caption>
       </Carousel.Item>
@@ -128,8 +146,14 @@ function ControlledCarousel() {
 
         <Carousel.Caption>
           <h3>Paridase Beach</h3>
-          <p>Paradise Beach is one of the most popular beaches located close to the city of Dawei in Myanmar. It is a white sand beach surrounded by dense jungle, and is cleaner and scenic compared to others close to the town, making it a famous hangout place for the locals during the weekends and holidays. Tourists can enjoy swimming and snorkelling on Paradise beach.
-           </p>
+          <p>
+            Paradise Beach is one of the most popular beaches located close to
+            the city of Dawei in Myanmar. It is a white sand beach surrounded by
+            dense jungle, and is cleaner and scenic compared to others close to
+            the town, making it a famous hangout place for the locals during the
+            weekends and holidays. Tourists can enjoy swimming and snorkelling
+            on Paradise beach.
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
@@ -137,7 +161,14 @@ function ControlledCarousel() {
 
         <Carousel.Caption>
           <h3>Grandfather Beach</h3>
-          <p>Grandfather Beach is located close to the town of Dawei in Myanmar. It is one of the cleanest and most beautiful beaches in the region with clear turquoise waters. The beach is vast and clean, and also receives fewer visitors compared to others in southern Myanmar, making it a recommended attraction for tourists to enjoy a quiet beach holiday</p>
+          <p>
+            Grandfather Beach is located close to the town of Dawei in Myanmar.
+            It is one of the cleanest and most beautiful beaches in the region
+            with clear turquoise waters. The beach is vast and clean, and also
+            receives fewer visitors compared to others in southern Myanmar,
+            making it a recommended attraction for tourists to enjoy a quiet
+            beach holiday
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
@@ -278,8 +309,8 @@ const Home = () => {
             <Col>
               <div className="SerCard">
                 <img src={IMAGE.bus} />
-                <h4>Modem Express Bus</h4>
-                <p>
+                <h4>Modern Express Bus</h4>
+                <p style={{ textAlign: "justify" }}>
                   Modern express bus services offer a comfortable, efficent, and
                   eco-friendly mode of transportation for travelers.
                 </p>
@@ -289,7 +320,7 @@ const Home = () => {
               <div className="SerCard">
                 <img src={IMAGE.food} />
                 <h4>Food</h4>
-                <p>
+                <p style={{ textAlign: "justify" }}>
                   Food is an integral part of any travel experience, and
                   traveler can choose from a variety of food services such as
                   restaurants, cafes, and fast food chains.
@@ -300,7 +331,7 @@ const Home = () => {
               <div className="SerCard">
                 <img src={IMAGE.hotel} />
                 <h4>Hotel</h4>
-                <p>
+                <p style={{ textAlign: "justify" }}>
                   Hotels provide travelers with a comfortable and convenient
                   place to stay, whether they're on a leisure trip or a business
                   trip. From budget-friendly options to luxury hotels.
@@ -311,7 +342,7 @@ const Home = () => {
               <div className="SerCard">
                 <img src={IMAGE.fan} />
                 <h4>AirCon Bus</h4>
-                <p>
+                <p style={{ textAlign: "justify" }}>
                   AirCon Bus is a luxury bus service that provides a comfortable
                   and convenient way to travel.
                 </p>
@@ -365,42 +396,61 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+      <section>
+        <Container>
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>Booking Cancellation</h2>
+          <p className={'tmtcpolicy'}>
+          At TMT Agency, we understand that plans can change and we strive to be flexible while also ensuring the smooth running of our operations. However, cancellations can cause inconvenience and financial losses for our company. Therefore, we have put in place the following policy regarding booking cancellations:
+
+Cancellation Requests: If you need to cancel your booking, please notify us as soon as possible by contacting our customer service team. You can do so by phone, email or through our website. We will confirm the cancellation and send you an email detailing the cancellation.
+
+Cancellation Fees: If you cancel your booking, you may be charged a cancellation fee. The amount of the fee will depend on the specific circumstances of your booking and will be determined at the time of cancellation.
+
+Refunds: If you cancel your booking, we may not be able to offer you a refund. However, we will try our best to offer you an alternative service or reschedule your booking if possible. Refunds will only be issued in exceptional circumstances and at the discretion of TMT Agency.
+
+No-Show Policy: If you fail to show up for your booking without notifying us in advance, you will be charged the full amount of the booking.
+
+Changes to Bookings: If you need to make changes to your booking, please contact us as soon as possible. We will do our best to accommodate your request, but changes may be subject to availability and additional fees.
+
+Force Majeure: In the event of unforeseen circumstances beyond our control, such as natural disasters or pandemics, TMT Agency reserves the right to cancel bookings without penalty or refund.
+
+We appreciate your understanding of our cancellation policy. By making a booking with TMT Agency, you agree to comply with this policy. If you have any questions or concerns, please do not hesitate to contact us.
+          </p>
+        </Container>
+      </section>
       <section className="lastelement">
         <h4>Company Info</h4>
         <Row>
-        
-            <Col>
-              <a href="#/packages">Packages</a>
-              <br />
-              <a href="#/bookings">Booking</a>
-              <br />
-            
-              <a href="#/about">About</a>
-              <br />
-              <a href="#/bookings">Check Code</a>
-              <br />
-            </Col>
-            <Col>
-              <a
-                href={
-                  infodata &&
-                  "https://mail.google.com/mail/u/" +
-                    infodata.email +
-                    "/#compose"
-                }
-              >
-                Email
-              </a>
-              <br />
-              <a href={infodata && "tel:" + infodata.phoneno}>Phone Number</a>
-              <br />
-          
-              <a href="#/admin">Admin</a>
-              <br />
-              <a href="#/login">Login</a>
-              <br />
-            </Col>
-      
+          <Col>
+            <a href="#/packages">Packages</a>
+            <br />
+            <a href="#/bookings">Booking</a>
+            <br />
+
+            <a href="#/about">About</a>
+            <br />
+            <a href="#/bookings">Check Code</a>
+            <br />
+          </Col>
+          <Col>
+            <a
+              href={
+                infodata &&
+                "https://mail.google.com/mail/u/" + infodata.email + "/#compose"
+              }
+            >
+              Email
+            </a>
+            <br />
+            <a href={infodata && "tel:" + infodata.phoneno}>Phone Number</a>
+            <br />
+
+            <a href="#/admin">Admin</a>
+            <br />
+            <a href="#/login">Login</a>
+            <br />
+          </Col>
+
           <Col md={12} lg={4}>
             {cinfo_data.data && (
               <div className="conantuswrap">
