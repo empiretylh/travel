@@ -182,16 +182,7 @@ const Booking = () => {
           </h2>
           <Container style={{ marginTop: 30 }}>
             <Row>
-              <Col>
-                <img
-                  src={IMAGE.pythonlogo}
-                  style={{ width: 100, height: 100, objectFit: "contain" }}
-                />
-                <div style={{ marginLeft: 10 }}>
-                  <h4>Python</h4>
-                </div>
-              </Col>
-              <Col>
+                <Col>
                 <img
                   src={IMAGE.jslogo}
                   style={{ width: 100, height: 100, objectFit: "contain" }}
