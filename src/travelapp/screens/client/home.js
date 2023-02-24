@@ -319,12 +319,10 @@ const Home = () => {
             </Col>
             <Col sm={12} md={6} lg={3}>
               <div className="SerCard">
-                <img src={IMAGE.food} />
-                <h4>Food</h4>
+                <img src={IMAGE.telephone} />
+                <h4>Call</h4>
                 <p style={{ textAlign: "justify" }}>
-                  Food is an integral part of any travel experience, and
-                  traveler can choose from a variety of food services such as
-                  restaurants, cafes, and fast food chains.
+                  Call services are a critical component of the traveling system, providing travelers with a quick and easy way to access support and assistance.
                 </p>
               </div>
             </Col>
@@ -335,7 +333,7 @@ const Home = () => {
                 <p style={{ textAlign: "justify" }}>
                   Hotels provide travelers with a comfortable and convenient
                   place to stay, whether they're on a leisure trip or a business
-                  trip. From budget-friendly options to luxury hotels.
+                  trip.
                 </p>
               </div>
             </Col>
