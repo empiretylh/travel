@@ -21,7 +21,7 @@ import {
 } from "react-bootstrap-icons";
 
 import services from "../../data/services";
-import { TokenContext, LoadingContext, CAContext,NavigationContext } from "../../context/Context";
+import { TokenContext, LoadingContext, CAContext, NavigationContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
@@ -131,7 +131,7 @@ const PackageCard = ({ data, edit, onDelete, openDes, openPlace }) => {
               {data.destination}
             </div>
             <div className="packageinfo">
-              <p style={{color:'red'}}>{data.duration}, {data.people_limit} People, {new Date(data.travel_sdate).toLocaleDateString()}</p>
+              <p style={{ color: 'red' }}>{data.duration}, {data.people_limit} People, {new Date(data.travel_sdate).toLocaleDateString()}</p>
               <p>{nwc(data.cost)}</p>
             </div>
           </div>
@@ -193,7 +193,7 @@ const Package = () => {
   const { is_loading, setIsLoading } = useContext(LoadingContext);
 
   const { setClietView } = useContext(CAContext);
-  const {active,UpdateActive} = useContext(NavigationContext)
+  const { active, UpdateActive } = useContext(NavigationContext)
   useEffect(() => {
     // console.log("You Entering.....");
     UpdateActive('packages')
@@ -309,7 +309,7 @@ const Package = () => {
         people_limit: peoplelimtRef.current.value,
         travel_sdate: sdateRef.current.value + " " + stimeRef.current.value,
         image: placeimageRef.current.files[0],
-        discount:proRef.current.value,
+        discount: proRef.current.value,
       });
     } else {
       alert("Please Filled Required Filled");
@@ -320,9 +320,9 @@ const Package = () => {
     if (
       dnameRef.current.value &&
       costRef.current.value &&
-      durationRef.current.value&&
+      durationRef.current.value &&
       peoplelimtRef.current.value &&
-      sdateRef.current.value 
+      sdateRef.current.value
       // placeimageRef.current.files[0]
     ) {
       // console.log(placeimageRef.current.files[0],'I am Image')
@@ -332,12 +332,12 @@ const Package = () => {
         destination: dnameRef.current.value,
         cost: costRef.current.value,
         duration: durationRef.current.value,
-        people_limit:peoplelimtRef.current.value,
-        travel_sdate:sdateRef.current.value + ' ' +stimeRef.current.value,
+        people_limit: peoplelimtRef.current.value,
+        travel_sdate: sdateRef.current.value + ' ' + stimeRef.current.value,
         image: placeimageRef.current.files[0]
           ? placeimageRef.current.files[0]
           : "",
-          discount:proRef.current.value,
+        discount: proRef.current.value,
       });
     } else {
       alert("Please Filled Required Filled");
@@ -373,8 +373,8 @@ const Package = () => {
     costRef.current = data.cost;
     durationRef.current = data.duration;
     peoplelimtRef.current = data.people_limit;
-    sdateRef.current = data.travel_sdate.slice(0,10);
-    stimeRef.current = data.travel_sdate.slice(11,16);
+    sdateRef.current = data.travel_sdate.slice(0, 10);
+    stimeRef.current = data.travel_sdate.slice(11, 16);
     proRef.current = data.discount;
     console.log(sdateRef.current)
     console.log(stimeRef.current)
@@ -745,15 +745,15 @@ const Package = () => {
               required
               ref={costRef}
             />
-            
-            <Form.Label>Promotion Text</Form.Label>
-            <Form.Control
-              type="text"
-              className="mb-3"
-              placeholder="Promotion Text Eg: 15% Dicount"
-              
-              ref={proRef}
-            />
+            <Form.Group className="mb-3">
+              <Form.Label>Promotion Text</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Promotion Text Eg: 5000 Ks Dicount"
+                ref={proRef}
+              />
+              <Form.Text>If this package has a discount, you need to add original price in this field.</Form.Text>
+            </Form.Group>
             <Form.Label>Duration</Form.Label>
             <Form.Control
               type="text"
@@ -838,14 +838,16 @@ const Package = () => {
               defaultValue={costRef.current && costRef.current}
               ref={costRef}
             />
-             <Form.Label>Promotion Text</Form.Label>
-            <Form.Control
-              type="text"
-              className="mb-3"
-              placeholder="Promotion Text Eg: 15% Dicount"
-              defaultValue={proRef.current && proRef.current}
-              ref={proRef}
-            />
+            <Form.Group className="mb-3">
+              <Form.Label>Promotion Text</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Promotion Text Eg: 5000 Ks Dicount"
+                defaultValue={proRef.current && proRef.current}
+                ref={proRef}
+              />
+              <Form.Text>If this package has a discount, you need to add original price in this field.</Form.Text>
+            </Form.Group>
             <Form.Label>Duration</Form.Label>
             <Form.Control
               type="text"
@@ -855,7 +857,7 @@ const Package = () => {
               defaultValue={durationRef.current && durationRef.current}
               ref={durationRef}
             />
-            
+
             <Form.Label>People Limit</Form.Label>
             <Form.Control
               type="number"
@@ -940,15 +942,15 @@ const Package = () => {
           <Row>
             {package_data.data
               ? packagedata.map((item, id) => (
-                  <PackageCard
-                    data={item}
-                    key={id}
-                    edit={OpenEdit}
-                    onDelete={OpenDelete}
-                    openDes={OpenDescription}
-                    openPlace={OpenPlaceShow}
-                  />
-                ))
+                <PackageCard
+                  data={item}
+                  key={id}
+                  edit={OpenEdit}
+                  onDelete={OpenDelete}
+                  openDes={OpenDescription}
+                  openPlace={OpenPlaceShow}
+                />
+              ))
               : null}
           </Row>
         </Container>
