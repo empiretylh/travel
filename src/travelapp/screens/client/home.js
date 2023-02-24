@@ -10,6 +10,7 @@ import {
   Form,
   InputGroup,
   Button,
+  Accordion,
   Modal,
   Card,
   Carousel,
@@ -306,7 +307,7 @@ const Home = () => {
             services.
           </p>
           <Row style={{ marginTop: 10 }}>
-            <Col>
+            <Col sm={12} md={6} lg={3} >
               <div className="SerCard">
                 <img src={IMAGE.bus} />
                 <h4>Modern Express Bus</h4>
@@ -316,7 +317,7 @@ const Home = () => {
                 </p>
               </div>
             </Col>
-            <Col>
+            <Col sm={12} md={6} lg={3}>
               <div className="SerCard">
                 <img src={IMAGE.food} />
                 <h4>Food</h4>
@@ -327,7 +328,7 @@ const Home = () => {
                 </p>
               </div>
             </Col>
-            <Col>
+            <Col sm={12} md={6} lg={3}>
               <div className="SerCard">
                 <img src={IMAGE.hotel} />
                 <h4>Hotel</h4>
@@ -338,7 +339,7 @@ const Home = () => {
                 </p>
               </div>
             </Col>
-            <Col>
+            <Col sm={12} md={6} lg={3}>
               <div className="SerCard">
                 <img src={IMAGE.fan} />
                 <h4>AirCon Bus</h4>
@@ -398,8 +399,12 @@ const Home = () => {
       </section>
       <section>
         <Container>
-          <h2 style={{ fontFamily: "Roboto-Bold" }}>Booking Cancellation</h2>
-          <p className={'tmtcpolicy'}>
+
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Booking Cancellation Policy</Accordion.Header>
+              <Accordion.Body>
+                {/* <p className={'tmtcpolicy'}>
           At TMT Agency, we understand that plans can change and we strive to be flexible while also ensuring the smooth running of our operations. However, cancellations can cause inconvenience and financial losses for our company. Therefore, we have put in place the following policy regarding booking cancellations:
 
 Cancellation Requests: If you need to cancel your booking, please notify us as soon as possible by contacting our customer service team. You can do so by phone, email or through our website. We will confirm the cancellation and send you an email detailing the cancellation.
@@ -415,7 +420,17 @@ Changes to Bookings: If you need to make changes to your booking, please contact
 Force Majeure: In the event of unforeseen circumstances beyond our control, such as natural disasters or pandemics, TMT Agency reserves the right to cancel bookings without penalty or refund.
 
 We appreciate your understanding of our cancellation policy. By making a booking with TMT Agency, you agree to comply with this policy. If you have any questions or concerns, please do not hesitate to contact us.
-          </p>
+          </p> */}
+                <h3>TMT Agency Booking Cancellation Policy</h3>
+                <p>At TMT Agency, we understand that plans can change and sometimes it becomes necessary to cancel a booking. However, we have certain policies in place to ensure that our business runs smoothly and our clients receive the best possible service.</p>
+                <h4>Cancellation Policy</h4>
+                <p>If you need to cancel your booking with TMT Agency, please do so as soon as possible. We require a minimum of 48 hours' notice prior to the scheduled booking time. If you cancel within 48 hours of the scheduled booking time, you will not be eligible for a refund.</p>
+                <h4>No Refunds for Cancellations</h4>
+                <p>Please note that we do not offer refunds for cancelled bookings. If you cancel a booking, we will not be able to pay your money back to you. We appreciate your understanding in this matter.</p>
+                     </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+
         </Container>
       </section>
       <section className="lastelement">

@@ -843,7 +843,7 @@ const PackageDetail = () => {
                         textAlign: "right",
                       }}
                     >
-                      Discount : <s>{packagedata.discount}</s>
+                      Orginal Price : <s>{packagedata.discount}</s>
                     </p>
                   ) : null}
                 </div>
