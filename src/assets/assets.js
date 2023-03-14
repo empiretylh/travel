@@ -13,6 +13,11 @@ export const IMAGE = {
   wall1: require('./travel/wall1.jpg'),
   wall2:require('./travel/wall2.jpg'),
   wall3:require('./travel/wall3.jpg'),
+  dawei:require('./travel/dawei.jpeg'),
+  maungmakan:require('./travel/maungmakan.jpg'),
+  myawyit:require('./travel/myawyit.jpg'),
+  paradisebeach:require('./travel/pbeach.jpg'),
+  grandbeach:require('./travel/grandbeach.jpg'),
 
   error:require('./travel/error.png'),
 
@@ -20,7 +25,7 @@ export const IMAGE = {
   bus:require('./travel/bus.png'),
   hotel:require('./travel/hotel.png'),
   food:require('./travel/tray.png'),
-
+  telephone:require('./travel/telephone.png'),
   djangologo:require('./travel/djangolog.webp'),
   jslogo:require('./travel/js.png'),
   pythonlogo:require('./travel/pythonlogo.jpg'),

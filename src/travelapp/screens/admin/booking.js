@@ -80,7 +80,11 @@ const PersonDetail = ({ show, setShow, travelerid, bookingdate }) => {
               </tr>
               <tr>
                 <td>Booking Date</td>
-                <th>{new Date(bookingdate).toUTCString()}</th>
+                <th>{new Date(bookingdate).toDateString()}</th>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <th>{data.address}</th>
               </tr>
             </tbody>
           </Table>

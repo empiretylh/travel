@@ -85,6 +85,19 @@ body::-webkit-scrollbar-thumb:hover{
 .pkbuydetail tbody tr th{
   text-align:'left';
 }
+.carousel-caption {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+   left: 0 !important;
+    padding-right: 15%;
+    padding-left: 15%;
+    color: #fff;
+    text-align: center;
+    background-color: rgb(0,0,0,0.7);
+    width: 100vw!important;
+}
+
 
 
 .btn {
@@ -287,7 +300,16 @@ body::-webkit-scrollbar-thumb:hover{
   margin-bottom: 2px;
 }
 
+.tmtcpolicy{
+  text-indent: 70px;
+  text-align: justify;
+}
+
 @media (max-width: 1000px) {
+  
+.tmtcpolicy{
+  text-indent: 70px;
+}
   .loginForm {
     width: 100px;
     max-width: 370px;
@@ -305,6 +327,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 800px) {
+  
+.tmtcpolicy{
+  text-indent: 60px;
+}
   .loginForm {
     max-width: 370px;
     min-width: 370px;
@@ -321,6 +347,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 500px) {
+  
+.tmtcpolicy{
+  text-indent: 0px;
+}
   .loginForm {
     width: 400px;
     max-width: 400px;
@@ -346,6 +376,10 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 @media (max-width: 400px) {
+  
+.tmtcpolicy{
+  text-indent: 0px;
+}
   .profile_card {
     display: grid; /* Enable the grid layout */
     grid-template-columns: repeat(

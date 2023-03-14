@@ -64,6 +64,7 @@ const PackageCard = ({ data }) => {
             </div>
             <div className="packageinfo">
               <p>{nwc(data.cost)}</p>
+              <s style={{color:'red',marginLeft:3}}>{data.discount !=='.'?data.discount:null}</s>
             </div>
           </div>
           <div className="divider" />
