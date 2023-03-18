@@ -1,4 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
+
 import {
   Col,
   Row,
@@ -28,6 +29,7 @@ const AddAdmin = () => {
   const r_email = useRef(0);
   const r_phoneno = useRef(0);
   const r_password = useRef(0);
+  const r_address = useRef(0);
 
   const { setClietView } = useContext(CAContext);
   const { active, UpdateActive } = useContext(NavigationContext);
@@ -84,6 +86,7 @@ const AddAdmin = () => {
         email: r_email.current.value,
         phoneno: r_phoneno.current.value,
         password: r_password.current.value,
+        address : r_address.current.value,
         is_admin:true
       });
     } else {
@@ -199,6 +202,15 @@ const AddAdmin = () => {
             placeholder="09xxxxxxxxx"
             required
             ref={r_phoneno}
+          />
+
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            type="text"
+            className="mb-3"
+            placeholder="Address"
+            required
+            ref={r_address}
           />
           <Form.Group className={"mb-3"}>
             <Form.Label>New Admin Password</Form.Label>

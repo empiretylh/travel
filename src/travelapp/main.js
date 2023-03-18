@@ -20,7 +20,7 @@ import ChangeInfo from "./screens/admin/ChaneInfo";
 import PackageClient from './screens/client/package';
 import PackageDetail from "./screens/client/packagedetail";
 import BookingsClient from "./screens/client/booking";
-
+import Profile from "./screens/client/Profile";
 import { useEffect } from "react";
 import services from "./data/services";
 import "./main.css";
@@ -61,6 +61,7 @@ import {
 import NavBar from "./screens/navbar";
 import SideBar from "./screens/sidebar";
 
+import { createBrowserHistory } from 'history';
 import { IMAGE } from "../assets/assets";
 
 import { useLocation } from 'react-router-dom'
@@ -84,7 +85,7 @@ const TravelMain = () => {
   const NavValue =  useMemo(()=>({active,UpdateActive}),[active,UpdateActive]);
   const LoginValue = useMemo(()=>({isLoginS,setIsLoginS}),[isLoginS,setIsLoginS]);
 
-
+  const history = createBrowserHistory();
 
   const [booked,setBooked] = useState([]);
 
@@ -180,16 +181,17 @@ const TravelMain = () => {
                     <NavBar/>:
                     <SideBar />:null}
                     <div className="pagewarpper">
-                      <Routes>
+                      <Routes history={history}>
                         <Route path="/" element={<Home />} />
                         <Route path="/home" element={<Home />} />
                         <Route path='/packages' element={<PackageClient/>}/>
                         <Route path='/packages/:pkid' element={<PackageDetail/>}/>
                         <Route path='/bookings' element={<BookingsClient/>}/>
                         <Route path='/about' element={<About/>}/>
-
+                        <Route path='/profile' element={<Profile/>}/>
 
                         <Route path="/login" element={<Login />} />
+                        <Route path="/login/:gobackurl" element={<Login />} />
                         <Route path="/admin" element={token ? <Admin />: <Login/>} />
                       
                         <Route

@@ -144,6 +144,16 @@ class AuthService {
     })
   }
 
+  getClientUser({queryKey}){
+    const [_,type] = queryKey;
+
+    return axios.get(API_URL+"/api/user/",{
+      params:{
+        type:type
+      }
+    })
+  }
+
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));
   }

@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useRef, useState, useContext, useEffect, useMemo } from "react";
-
 import {
   Col,
   Row,
@@ -46,6 +45,8 @@ import { useParams } from "react-router-dom";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { nrcdata } from "../../data/data";
 import { Icon } from "react-bootstrap-icons";
+
+import { createBrowserHistory } from 'history';
 
 const StarRating = ({ rating, setRating }) => {
   // const [rating, setRating] = useState(0);
@@ -143,7 +144,20 @@ const PackageDetail = () => {
 
   const { booked, setBooked } = useContext(BookedContext);
 
+
+  
+  const { token, setToken } = useContext(TokenContext);
+
+
+  let history = createBrowserHistory();
+
   const [ticketShow, setTicketShow] = useState(false);
+
+
+  const UserData = useQuery(['clientuser','one'],services.getClientUser)
+
+
+
 
   const [travelerInfo, setTravelerInfo] = useState({
     name: "",
@@ -151,6 +165,24 @@ const PackageDetail = () => {
     email: "",
     address: "",
   });
+
+
+
+  const currentUser = useMemo(()=>{
+    if(UserData.data){
+      const a = UserData.data.data
+      if(!travelerInfo.name){
+        setTravelerInfo({
+          name:a.name,
+          phoneno:a.phoneno,
+          email:a.email,
+          address:a.address,
+        })
+      }
+
+      return UserData.data.data
+    }
+  },[UserData.data])
 
   const [feedbackShow, setFeedbackShow] = useState(false);
 
@@ -205,6 +237,9 @@ const PackageDetail = () => {
   useEffect(() => {
     setClietView(true);
   });
+
+
+
 
   const postBooking = useMutation(services.RegisterBooking, {
     onMutate: () => {
@@ -491,6 +526,7 @@ const PackageDetail = () => {
                       <Form.Control
                         type="text"
                         name="name"
+                        defaultValue={currentUser.name}
                         value={travelerInfo.travelerName}
                         onChange={handleChange}
                         placeholder={"Name"}
@@ -503,6 +539,7 @@ const PackageDetail = () => {
                       <Form.Control
                         type="tel"
                         name="phoneno"
+                         defaultValue={currentUser.phoneno}
                         value={travelerInfo.phoneNo}
                         placeholder={"09xxxxxxxxx"}
                         max={11}
@@ -576,6 +613,7 @@ const PackageDetail = () => {
                       <Form.Label>Address</Form.Label>
                       <Form.Control
                         type="text"
+                         defaultValue={currentUser.address}
                         name="address"
                         value={travelerInfo.address}
                         onChange={handleChange}
@@ -972,11 +1010,17 @@ const PackageDetail = () => {
                     <div
                       className="bookingbtn"
                       onClick={() => {
-                        if (packagedata.people_limit > 0) {
+                        if(token){
+                            if (packagedata.people_limit > 0) {
                           setTicketShow(true);
                         } else {
                           setPLimitShow(true);
                         }
+                      }else{
+                       // history.push('#/package/'+packagedata.id)
+                       window.location.href='#/login/'+packagedata.id
+                      }
+                      
                       }}
                     >
                       <PencilFill style={{ marginRight: 10 }} />

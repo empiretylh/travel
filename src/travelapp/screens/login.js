@@ -14,11 +14,22 @@ import services from "../data/services";
 import { TokenContext,LoginContext,IsAdminContext } from "../context/Context";
 import { useMutation } from "react-query";
 import { IMAGE } from "../../assets/assets";
+
+import { createBrowserHistory } from 'history';
+
+
+import { useParams } from "react-router-dom";
+
 import axios from "axios";
 const Login = () => {
+
+  let params = useParams();
+
   const loginSubmit = () => {
     console.log("Login Submit");
   };
+
+
 
   const { token, setToken } = useContext(TokenContext);
   const {isLoginS,setIsLoginS} = useContext(LoginContext);
@@ -47,7 +58,7 @@ const Login = () => {
   const r_email = useRef(0);
   const r_phoneno = useRef(0);
   const r_password = useRef(0);
-
+  const r_address = useRef(0);
   const Register = useMutation(services.register, {
     onSuccess: (e) => {
       // localStorage.setItem("user_token", e.data.token);
@@ -83,7 +94,8 @@ const Login = () => {
         email: r_email.current.value,
         phoneno: r_phoneno.current.value,
         password: r_password.current.value,
-        is_admin:false
+        is_admin:false,
+        address : r_address.current.value,
       });
     } else {
       alert("Please fill require fields.");
@@ -108,10 +120,19 @@ const Login = () => {
         window.location.href='#/home'
         localStorage.setItem("user_isadmin",false)
        }
+
+
+       // history.goBack()
+
      
       setToken(e.data.token);
       setIsLoading(false);
       console.log('data' ,e.data);
+
+       if(params.gobackurl){
+        window.location.href='#/packages/'+params.gobackurl;
+       }
+
 
     },
     onMutate: (e) => {
@@ -210,6 +231,15 @@ const Login = () => {
             required
             maxLength={11}
             ref={r_phoneno}
+          />
+          <Form.Label>Address</Form.Label>
+          <Form.Control
+            type="text"
+            className="mb-3"
+            placeholder="Address"
+            required
+            maxLength={11}
+            ref={r_address}
           />
           <Form.Group className={"mb-3"}>
             <Form.Label>Password</Form.Label>
