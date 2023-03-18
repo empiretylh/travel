@@ -20,6 +20,8 @@ import ChangeInfo from "./screens/admin/ChaneInfo";
 import PackageClient from './screens/client/package';
 import PackageDetail from "./screens/client/packagedetail";
 import BookingsClient from "./screens/client/booking";
+import Payment from "./screens/client/payment";
+
 import Profile from "./screens/client/Profile";
 import { useEffect } from "react";
 import services from "./data/services";
@@ -57,6 +59,7 @@ import {
   LoginContext,
   IsAdminContext,
   LoadingContext,
+  RegisterPackageContext,
 } from "./context/Context";
 import NavBar from "./screens/navbar";
 import SideBar from "./screens/sidebar";
@@ -78,6 +81,10 @@ const TravelMain = () => {
   const [is_loading, setIsLoading] = useState(false);
 
   const [isLoginS,setIsLoginS] = useState(false);
+
+  const [rpackageinfo,setRPackageInfo] = useState([]);
+
+  const RPackageValue = useMemo(()=>({rpackageinfo,setRPackageInfo}),[rpackageinfo,setRPackageInfo]);
 
 
   const [active, UpdateActive] = useState("home");
@@ -158,6 +165,7 @@ const TravelMain = () => {
   const BookedValue = useMemo(()=>({booked,setBooked}),[booked,setBooked])
 
   return (
+    <RegisterPackageContext.Provider value={RPackageValue}>
     <IsAdminContext.Provider value={AdminValue}>
 
   <LoginContext.Provider value={LoginValue}>
@@ -186,6 +194,7 @@ const TravelMain = () => {
                         <Route path="/home" element={<Home />} />
                         <Route path='/packages' element={<PackageClient/>}/>
                         <Route path='/packages/:pkid' element={<PackageDetail/>}/>
+                        <Route path='/payment/:pkid' element={<Payment/>}/>
                         <Route path='/bookings' element={<BookingsClient/>}/>
                         <Route path='/about' element={<About/>}/>
                         <Route path='/profile' element={<Profile/>}/>
@@ -273,6 +282,7 @@ const TravelMain = () => {
     </BookedContext.Provider>
      </LoginContext.Provider>
       </IsAdminContext.Provider>
+      </RegisterPackageContext.Provider>
   );
 };
 

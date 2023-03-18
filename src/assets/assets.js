@@ -32,4 +32,12 @@ export const IMAGE = {
   jslogo:require('./travel/js.png'),
   pythonlogo:require('./travel/pythonlogo.jpg'),
   reactlogo:require('./travel/reactjs.png'),
+
+
+  mytelpay: require('./travel/mytelpay.png'),
+  wavepay:require('./travel/wavepay.png'),
+  kbzpay:require('./travel/kbzpay.png'),
+  okdollar:require('./travel/okdollar.png'),
+  ayapay:require('./travel/ayapay.jpeg'),
+
 };

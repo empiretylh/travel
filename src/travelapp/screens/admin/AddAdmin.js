@@ -200,6 +200,8 @@ const AddAdmin = () => {
             type="number"
             className="mb-3"
             placeholder="09xxxxxxxxx"
+            maxLength={11}
+            minLength={11}
             required
             ref={r_phoneno}
           />

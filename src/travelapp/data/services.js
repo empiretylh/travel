@@ -154,6 +154,11 @@ class AuthService {
     })
   }
 
+  editUser(data){
+    
+    return axios.put(API_URL+"/api/user/",data);
+  }
+
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));
   }

@@ -21,6 +21,7 @@ import {
   TokenContext,
   LoadingContext,
   CAContext,
+  RegisterPackageContext,
   BookedContext,
 } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
@@ -145,8 +146,15 @@ const PackageDetail = () => {
   const { booked, setBooked } = useContext(BookedContext);
 
 
+  useEffect(()=>{
+    setClietView(true);
+  })
+
   
   const { token, setToken } = useContext(TokenContext);
+
+
+  const  {rpackageinfo,setRPackageInfo} = useContext(RegisterPackageContext);
 
 
   let history = createBrowserHistory();
@@ -204,8 +212,6 @@ const PackageDetail = () => {
 
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
-
-  const [paidtype, setPaidtype] = useState(0);
 
   const infodata = useMemo(() => {
     if (cinfo_data.data) {
@@ -280,9 +286,9 @@ const PackageDetail = () => {
 
   const onSumbitBooking = (e) => {
     e.preventDefault();
-    postBooking.mutate(
+
+    setRPackageInfo(
       Object.assign(travelerInfo, {
-        paidtype,
         package_id: packagedata.id,
         idcardno:
           NRCCodeSelect +
@@ -292,8 +298,10 @@ const PackageDetail = () => {
           NRCTypeSelect +
           ")" +
           NRCCode,
-      })
-    );
+      }))
+
+    window.location.href='#/payment/'+params.pkid
+
     setTicketShow(false);
   };
 
@@ -526,7 +534,7 @@ const PackageDetail = () => {
                       <Form.Control
                         type="text"
                         name="name"
-                        defaultValue={currentUser.name}
+                        defaultValue={currentUser && currentUser.name}
                         value={travelerInfo.travelerName}
                         onChange={handleChange}
                         placeholder={"Name"}
@@ -539,7 +547,7 @@ const PackageDetail = () => {
                       <Form.Control
                         type="tel"
                         name="phoneno"
-                         defaultValue={currentUser.phoneno}
+                         defaultValue={currentUser && currentUser.phoneno}
                         value={travelerInfo.phoneNo}
                         placeholder={"09xxxxxxxxx"}
                         max={11}
@@ -613,45 +621,13 @@ const PackageDetail = () => {
                       <Form.Label>Address</Form.Label>
                       <Form.Control
                         type="text"
-                         defaultValue={currentUser.address}
+                         defaultValue={currentUser && currentUser.address}
                         name="address"
                         value={travelerInfo.address}
                         onChange={handleChange}
                         placeHolder="St.0, Dawei, Computer University"
                         required
                       />
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Label>Kpay, Wave : {infodata.phoneno}</Form.Label>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
-                        <div onClick={() => setPaidtype("prepaid")}>
-                          <Form.Check
-                            type="checkbox"
-                            name="address"
-                            // value={travelerInfo.address}
-                            // onChange={handleChange}
-                            value={paidtype === "prepaid"}
-                            checked={paidtype === "prepaid"}
-                            label="Pre Paid"
-                            required={paidtype === 0}
-                          />
-                        </div>
-                        <div
-                          style={{ marginLeft: 10 }}
-                          onClick={() => setPaidtype("fullpaid")}
-                        >
-                          <Form.Check
-                            type="checkbox"
-                            name="address"
-                            value={paidtype === "fullpaid"}
-                            checked={paidtype === "fullpaid"}
-                            // value={travelerInfo.address}
-                            // onChange={handleChange}
-                            label="Full Paid"
-                            required={paidtype === 0}
-                          />
-                        </div>
-                      </div>
                     </Form.Group>
                     <Button
                       type="submit"
@@ -662,7 +638,7 @@ const PackageDetail = () => {
                         padding: 10,
                       }}
                     >
-                      Register
+                      Apply Booking
                     </Button>
                   </Form>
                 </Col>

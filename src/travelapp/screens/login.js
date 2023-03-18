@@ -230,6 +230,7 @@ const Login = () => {
             placeholder="09xxxxxxxxx"
             required
             maxLength={11}
+            minLength={11}
             ref={r_phoneno}
           />
           <Form.Label>Address</Form.Label>
@@ -238,7 +239,6 @@ const Login = () => {
             className="mb-3"
             placeholder="Address"
             required
-            maxLength={11}
             ref={r_address}
           />
           <Form.Group className={"mb-3"}>
@@ -301,7 +301,7 @@ const Login = () => {
                                     setIsRegister(true)}
                                    
                                   >
-                                    Create An Account
+                                    Register
                                   </Button>
                                 
                                 </Form.Group>}
