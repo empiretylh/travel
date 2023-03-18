@@ -18,7 +18,7 @@ import NavBar from "../navbar";
 import { Link, useParams } from "react-router-dom";
 
 import services from "../../data/services";
-import { TokenContext, BookedContext, CAContext } from "../../context/Context";
+import { TokenContext, BookedContext, CAContext,LoginContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import {
@@ -48,6 +48,11 @@ function nwc(x = 0) {
 
 const Booking = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
+
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
 
   const [searchText, setSearchText] = useState("");
 

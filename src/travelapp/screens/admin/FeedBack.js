@@ -30,7 +30,7 @@ import {
 } from "react-bootstrap-icons";
 
 import services from "../../data/services";
-import { LoadingContext, CAContext,NavigationContext } from "../../context/Context";
+import { LoadingContext, CAContext,NavigationContext,LoginContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
@@ -134,6 +134,14 @@ const FeedBack = () => {
     UpdateActive('feedbacks');
     setClietView(false);
   }, []);
+
+
+
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
+
 
   const { is_loading, setIsLoading } = useContext(LoadingContext);
 

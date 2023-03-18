@@ -12,3 +12,7 @@ export const LoadingContext = createContext(null);
 export const NavigationContext = createContext(null);
 
 export const BookedContext = createContext(null);
+
+export const LoginContext = createContext(null);
+
+export const IsAdminContext = createContext(null);

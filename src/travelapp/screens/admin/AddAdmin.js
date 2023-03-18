@@ -16,6 +16,7 @@ import {
   TokenContext,
   LoadingContext,
   NavigationContext,
+  LoginContext,
   CAContext,
 } from "../../context/Context";
 import { useMutation } from "react-query";
@@ -30,6 +31,15 @@ const AddAdmin = () => {
 
   const { setClietView } = useContext(CAContext);
   const { active, UpdateActive } = useContext(NavigationContext);
+
+
+  
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
+
+
   useEffect(() => {
     // console.log("You Entering.....");
     UpdateActive("changeinfo");
@@ -74,6 +84,7 @@ const AddAdmin = () => {
         email: r_email.current.value,
         phoneno: r_phoneno.current.value,
         password: r_password.current.value,
+        is_admin:true
       });
     } else {
       alert("Please fill require fields.");

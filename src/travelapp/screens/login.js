@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext ,useEffect} from "react";
 import {
   Col,
   Row,
@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 import services from "../data/services";
-import { TokenContext } from "../context/Context";
+import { TokenContext,LoginContext,IsAdminContext } from "../context/Context";
 import { useMutation } from "react-query";
 import { IMAGE } from "../../assets/assets";
 import axios from "axios";
@@ -21,8 +21,17 @@ const Login = () => {
   };
 
   const { token, setToken } = useContext(TokenContext);
+  const {isLoginS,setIsLoginS} = useContext(LoginContext);
+  const {isAdmin,setIsAdmin} = useContext(IsAdminContext);
 
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [IsRegister,setIsRegister] = useState(false)
+
+  useEffect(()=>{
+    setIsLoginS(true)
+  },[])
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [modalShow, setModalShow] = useState(false);
   const [modalText, setModalText] = useState(
@@ -33,15 +42,76 @@ const Login = () => {
   const l_username = useRef(0);
   const l_password = useRef(0);
 
+  const r_name = useRef(0);
+  const r_username = useRef(0);
+  const r_email = useRef(0);
+  const r_phoneno = useRef(0);
+  const r_password = useRef(0);
+
+  const Register = useMutation(services.register, {
+    onSuccess: (e) => {
+      // localStorage.setItem("user_token", e.data.token);
+      // setToken(e.data.token);
+      setIsLoading(false);
+      setIsRegister(false);
+      // setSsShow(true);
+    },
+    onMutate: (e) => {
+      setIsLoading(true);
+      // console.log('mutating')
+    },
+    onError: (e) => {
+      setIsLoading(false);
+      // setModalText(
+      //  "Register Error, When your username is exisiting in our server, You cannot not register, So change your username to register."
+      // );
+      setModalShow(true);
+    },
+  });
+
+  const ONRegisterClick = () => {
+    if (
+      r_name.current.value &&
+      l_username.current.value &&
+      r_email.current.value &&
+      r_phoneno.current.value &&
+      r_password.current.value
+    ) {
+      Register.mutate({
+        name: r_name.current.value,
+        username: l_username.current.value,
+        email: r_email.current.value,
+        phoneno: r_phoneno.current.value,
+        password: r_password.current.value,
+        is_admin:false
+      });
+    } else {
+      alert("Please fill require fields.");
+    }
+    // console.log(r_name.current.value)
+  };
+
+
+
   const LoginS = useMutation(services.login, {
     onSuccess: (e) => {
       localStorage.setItem("user_token", e.data.token);
       axios.defaults.headers.common = {
         Authorization: `Token ${e.data.token}`,
       };
-      window.location.href = '#/admin'  
+      if(e.data.is_admin){
+        setIsAdmin(true);
+         window.location.href = '#/admin'  
+         localStorage.setItem("user_isadmin",true)
+       }else{
+        setIsAdmin(false);
+        window.location.href='#/home'
+        localStorage.setItem("user_isadmin",false)
+       }
+     
       setToken(e.data.token);
       setIsLoading(false);
+      console.log('data' ,e.data);
 
     },
     onMutate: (e) => {
@@ -87,41 +157,124 @@ const Login = () => {
               <Form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  if(IsRegister){
+                    ONRegisterClick();
+                  }else{
+
                   onLoginClick();
+                  }
+                  
+
                 }}
                 className={"loginForm"}
               >
-                <h3 style={{ color: "#fff", fontFamily: "Roboto-Light" }}>
-               Travel Admin
+                <h3 style={{ color: "#000", fontFamily: "Roboto-Light" }}>
+                TMT Agency
                 </h3>
-                <Form.Group className="mb-3" controlId="login-control">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control
-                    type="username"
-                    className="mb-3 loginfield"
-                    placeholder="Username"
-                    ref={l_username}
-                    required
-                  />
+                {IsRegister?
+                   <Form.Group className="mb-3" controlId="login-control">
+                    <Form.Group className={"mb-3"}>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="username"
+              placeholder="Username"
+              required
+              ref={l_username}
+            />
+            <Form.Text>Username could not be space.</Form.Text>
+          </Form.Group>
+                                    <Form.Label>Name</Form.Label>
+          <Form.Control
+            // type="username"
+            className="mb-3"
+            placeholder="Full Name"
+            required
+            ref={r_name}
+          />
+         
 
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    className="mb-3 loginfield"
-                    placeholder="Password"
-                    required
-                    ref={l_password}
-                  />
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            className="mb-3"
+            placeholder="mgmg@travel.com"
+            required
+            ref={r_email}
+          />
 
-                  <Button
-                    type="submit"
-                    className={"loginbtn"}
-                   
-                  >
-                    Login
-                  </Button>
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            type="number"
+            className="mb-3"
+            placeholder="09xxxxxxxxx"
+            required
+            maxLength={11}
+            ref={r_phoneno}
+          />
+          <Form.Group className={"mb-3"}>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              required
+              ref={r_password}
+            />
+            <Form.Text>Password must be contains letters and numbers</Form.Text>
+          </Form.Group>
+                                  <Button
+                                    type="submit"
+                                    className={"loginbtn mb-3"}
+                                   
+                                  >
+                                    Create An Account
+                                  </Button>
+                                     <Button
+                                    type="submit"
+                                    className={"loginbtn mb-3"}
+                                    onClick={()=>setIsRegister(false)}
+                                   
+                                  >
+                                    Already have an account
+                                  </Button>
+                                                                </Form.Group>
+                :
+                                <Form.Group className="mb-3" controlId="login-control">
+                                  <Form.Label>Username</Form.Label>
+                                  <Form.Control
+                                    type="username"
+                                    className="mb-3 loginfield"
+                                    placeholder="Username"
+                                    ref={l_username}
+                                    required
+                                  />
                 
-                </Form.Group>
+                                  <Form.Label>Password</Form.Label>
+                                  <Form.Control
+                                    type="password"
+                                    className="mb-3 loginfield"
+                                    placeholder="Password"
+                                    required
+                                    ref={l_password}
+                                  />
+                
+                                  <Button
+                                    type="submit"
+                                    className={"loginbtn mb-3"}
+                                   
+                                  >
+                                    Login
+                                  </Button>
+                                      <Button
+                                    className={"registerbtn"}
+
+                                    onClick={()=>
+                                    setIsRegister(true)}
+                                   
+                                  >
+                                    Create An Account
+                                  </Button>
+                                
+                                </Form.Group>}
               </Form>
           
      

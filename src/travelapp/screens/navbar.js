@@ -2,12 +2,15 @@ import React, { useContext,useState } from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav,Offcanvas } from "react-bootstrap";
 import { IMAGE } from "../../assets/assets";
-import { LogoutContext, CAContext, TokenContext } from "../context/Context";
+import { LogoutContext, CAContext, TokenContext,IsAdminContext } from "../context/Context";
 
 const NavigationBar = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
   const { token, setToken } = useContext(TokenContext);
   const [shown,setShow] = useState(false);
+
+
+  const {isAdmin,setIsAdmin} = useContext(IsAdminContext);
 
   return (
     <Navbar collapseOnSelect expand='lg' fixed="top" className="navbar">
@@ -39,11 +42,18 @@ const NavigationBar = () => {
           <Nav.Link>
             <Link to="about"  onClick={()=>setShow(false)}>About</Link>
           </Nav.Link>
+         
           <Nav.Link  onClick={()=>setShow(false)}>
-            {token ? (
+            {token ? (<>
+               {isAdmin?
               <Link to="admin" onClick={() => setClietView(false)}>
                 Admin
+              </Link>:
+              <Link to="profile">
+                Profile
               </Link>
+            }
+            </>
             ) : (
               <Link to="login">Login</Link>
             )}

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
-import { CAContext,NavigationContext } from "../../context/Context";
+import { CAContext,NavigationContext ,LoginContext} from "../../context/Context";
 import {
   BookFill,
   ChatRightFill,
@@ -17,6 +17,12 @@ import services from "../../data/services";
 const Admin = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
   const {active,UpdateActive} = useContext(NavigationContext);
+  
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
+
 
   useEffect(() => {
     setClietView(false);

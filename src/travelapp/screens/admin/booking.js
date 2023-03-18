@@ -31,6 +31,7 @@ import {
   LoadingContext,
   CAContext,
   NavigationContext,
+  LoginContext,
 } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
@@ -102,6 +103,12 @@ const PersonDetail = ({ show, setShow, travelerid, bookingdate }) => {
 const Bookings = () => {
   const { setClietView } = useContext(CAContext);
   const { active, UpdateActive } = useContext(NavigationContext);
+
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
+
   useEffect(() => {
     // console.log("You Entering.....");
     UpdateActive("bookings");

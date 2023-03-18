@@ -2,7 +2,7 @@ import React, { useState,useContext } from "react";
 import { Nav,Modal,Button, } from "react-bootstrap";
 import "../main.css";
 import Sidebar from "react-bootstrap-sidebar-menu";
-import {CAContext,NavigationContext} from '../context/Context';
+import {CAContext,NavigationContext,TokenContext,IsAdminContext} from '../context/Context';
 
 import {
 	CDBSidebar,
@@ -18,8 +18,13 @@ import services from "../data/services";
 import { IMAGE } from "../../assets/assets";
 
 const SideBar = (props) => {
+		
+
+	const {isAdmin,setIsAdmin} = useContext(IsAdminContext);
+
+
 	
-	
+ 	 const { token, setToken } = useContext(TokenContext);
 
 	const {is_clientview,setClietView} = useContext(CAContext);
 
@@ -58,8 +63,10 @@ const SideBar = (props) => {
 					<Button
 						variant={"danger"}
 						onClick={(e) =>{
-
+							 setIsAdmin(false);
+							setToken(false);
 							services.logout();
+
 							window.location.href='#/home'
 							setShowLogout(false);
 						}}

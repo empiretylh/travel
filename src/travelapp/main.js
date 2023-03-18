@@ -54,6 +54,8 @@ import {
   NavigationContext,
   LogoutContext,
   BookedContext,
+  LoginContext,
+  IsAdminContext,
   LoadingContext,
 } from "./context/Context";
 import NavBar from "./screens/navbar";
@@ -74,12 +76,21 @@ const TravelMain = () => {
 
   const [is_loading, setIsLoading] = useState(false);
 
+  const [isLoginS,setIsLoginS] = useState(false);
+
+
   const [active, UpdateActive] = useState("home");
   
-  const NavValue =  useMemo(()=>({active,UpdateActive}),[active,UpdateActive])
+  const NavValue =  useMemo(()=>({active,UpdateActive}),[active,UpdateActive]);
+  const LoginValue = useMemo(()=>({isLoginS,setIsLoginS}),[isLoginS,setIsLoginS]);
+
+
 
   const [booked,setBooked] = useState([]);
 
+  const [isAdmin,setIsAdmin] = useState(false);
+
+  const AdminValue = useMemo(()=>({isAdmin,setIsAdmin}),[isAdmin,setIsAdmin]);
 
   useEffect(() => {
     // services.logout();
@@ -97,6 +108,17 @@ const TravelMain = () => {
     setToken(current_token);
   }, [token]);
 
+
+
+  useEffect(()=>{
+    //  localStorage.removeItem('booked');
+    const is_admin = localStorage.getItem('user_isadmin')
+    console.log(is_admin);
+    if(is_admin){
+      setBooked(is_admin);
+    }
+    
+  },[])
 
   useEffect(()=>{
     //  localStorage.removeItem('booked');
@@ -135,6 +157,9 @@ const TravelMain = () => {
   const BookedValue = useMemo(()=>({booked,setBooked}),[booked,setBooked])
 
   return (
+    <IsAdminContext.Provider value={AdminValue}>
+
+  <LoginContext.Provider value={LoginValue}>
   <BookedContext.Provider value={BookedValue}>
     <NavigationContext.Provider value={NavValue}>
     <LoadingContext.Provider value={loadingValue}>
@@ -150,9 +175,10 @@ const TravelMain = () => {
                       flexDirection: "row",
                     }}
                   >
-                  {is_clientview?
+
+                  {!isLoginS ? is_clientview?
                     <NavBar/>:
-                    <SideBar />}
+                    <SideBar />:null}
                     <div className="pagewarpper">
                       <Routes>
                         <Route path="/" element={<Home />} />
@@ -243,6 +269,8 @@ const TravelMain = () => {
     </LoadingContext.Provider>
     </NavigationContext.Provider>
     </BookedContext.Provider>
+     </LoginContext.Provider>
+      </IsAdminContext.Provider>
   );
 };
 

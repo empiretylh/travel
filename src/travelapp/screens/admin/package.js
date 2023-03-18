@@ -21,7 +21,7 @@ import {
 } from "react-bootstrap-icons";
 
 import services from "../../data/services";
-import { TokenContext, LoadingContext, CAContext, NavigationContext } from "../../context/Context";
+import { TokenContext, LoadingContext, CAContext, NavigationContext,LoginContext } from "../../context/Context";
 import { useMutation, useQuery } from "react-query";
 import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
@@ -199,6 +199,13 @@ const Package = () => {
     UpdateActive('packages')
     setClietView(false);
   }, []);
+
+  
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
+
 
   const package_data = useQuery("package_data", services.getPackage);
 

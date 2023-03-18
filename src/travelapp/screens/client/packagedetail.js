@@ -834,7 +834,7 @@ const PackageDetail = () => {
                   >
                     {nwc(packagedata.cost)}
                   </h5>
-                  {packagedata.discount !== "." ? (
+                  {packagedata.discount !== "."? (
                     <p
                       style={{
                         color: "red",

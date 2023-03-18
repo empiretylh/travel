@@ -21,6 +21,8 @@ import { Link } from "react-router-dom";
 import services from "../../data/services";
 import {
   TokenContext,
+  LoadingContext,
+  LoginContext,
   VotingCodeContext,
   CAContext,
 } from "../../context/Context";
@@ -182,6 +184,12 @@ const Home = () => {
   const [searchText, setSearchText] = useState("");
 
   const package_data = useQuery("package_data", services.getPackage);
+
+
+   const {isLoginS,setIsLoginS} = useContext(LoginContext);
+   useEffect(()=>{
+    setIsLoginS(false)
+   })
 
   useEffect(() => {
     setClietView(true);

@@ -46,7 +46,7 @@ function nwc(x = 0) {
     .concat(" Ks");
 }
 
-const Booking = () => {
+const Profile = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
 
    const {isLoginS,setIsLoginS} = useContext(LoginContext);
@@ -116,59 +116,9 @@ const Booking = () => {
             flexDirection: "column",
           }}
         >
-          <h2 style={{ fontFamily: "Roboto-Bold" }}>Founder</h2>
+          <h2 style={{ fontFamily: "Roboto-Bold" }}>Profile</h2>
           <Container>
-            <Row>
-              <Col md={12} lg={4} style={{display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
-                <img
-                  src={IMAGE.tzp}
-                  style={{
-                    width: 160,
-                    height: 160,
-                    borderRadius: 160,
-                    objectFit: "cover",
-                  }}
-                />
-              </Col>
-              <Col md={12} lg={8}>
-                <div style={{ marginLeft: 10 }}>
-                  <h4>Thwe Zin Phyo</h4>
-                  <p>
-                    Thwe Zin Phyo graduated from the University of Computer
-                    Studies (Dawei) with a degree in computer science. She is
-                    currently working as a software developer at a tech company
-                    in Yangon, Myanmar. Her job involves designing and
-                    implementing software applications for clients, as well as
-                    troubleshooting and maintaining existing software systems.
-                  </p>
-                </div>
-              </Col>
-            </Row>
-            <Row style={{marginTop:13}}>
-              <Col md={12} lg={4} style={{display:'flex',justifyContent:'flex-end',alignItems:'center'}}>
-                <img
-                  src={IMAGE.tmt}
-                  style={{
-                    width: 160,
-                    height: 160,
-                    borderRadius: 160,
-                    objectFit: "cover",
-                  }}
-                />
-              </Col>
-              <Col md={12} lg={8} >
-                <h4>Thin Myat Thazin Aye</h4>
-                <p>
-                  Thin Myat Thazin Aye graduated from the University of Computer
-                  Studies (Dawei) with 
-                  a degree in computer science. She is currently working as a
-                  software developer at 
-                  a tech company in Naypyi Taw, Myanmar. Her job involves
-                  coding, debugging, and working on UI/UX design.
-                 
-                </p>
-              </Col>
-            </Row>
+            
           </Container>
         </div>
 
@@ -220,7 +170,7 @@ const Booking = () => {
     </div>
   );
 };
-export default Booking;
+export default Profile;
 
 const isData = (d = []) => {
   return d.length >= 1;

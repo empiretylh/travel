@@ -162,26 +162,27 @@ body::-webkit-scrollbar-thumb:hover{
 }
 
 .login {
+  position: relative;
   /*background-color:#005bd1;*/
   background-color: royalblue;
-  background-image: url("../assets/travel/travelimage.jpg");
+  background-image: url("../assets/travel/mainbg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  position: relative;
+ 
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: black;
 }
 
 .loginForm,
 .RegisterForm {
   padding: 20px;
-  background-color: transparent;
+  background-color: rgb(255,255,255,0.8);
   border-radius: 20px;
-  color: white;
+  color: black;
   font-family: "Roboto-Regular";
   min-width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -224,24 +225,33 @@ body::-webkit-scrollbar-thumb:hover{
 
 .loginbtn {
   width: 100%;
-  background-color: transparent !important;
+/*  background-color: transparent !important;*/
+  max-height: 50px;
+  min-height: 50px;
+  border: white solid 2px !important;
+}
+
+
+.registerbtn {
+  width: 100%;
+  background-color: #1a2c44 !important;
   max-height: 50px;
   min-height: 50px;
   border: white solid 2px !important;
 }
 
 .loginfield {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+ /* background-color: rgba(0, 0, 0, 0.5) !important;
   border: white solid 2px !important;
-  color: white !important;
+  color: black !important;*/
 }
 
 .loginbtn:hover {
   width: 100%;
   max-height: 50px;
   min-height: 50px;
-  background-color: white !important;
-  border: transparent 2px !important;
+  background-color: transparent !important;
+  border: white solid 2px !important;
   color: black !important;
 }
 

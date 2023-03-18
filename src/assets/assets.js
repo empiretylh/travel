@@ -1,5 +1,7 @@
 export const IMAGE = {
  
+  mainbg:require("./travel/mainbg.jpg"),
+
   loading: require("./travel/spinnerloading.gif"),
   logo:require('./travel/logo.png'),
 
