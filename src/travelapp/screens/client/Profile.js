@@ -67,6 +67,9 @@ const Profile = () => {
   const [showCP, setShowCP] = useState(false);
 
 
+  const [sPassword, setSPassword] = useState(false);
+
+
   const nameRef = useRef(0);
   const phoneRef = useRef(0);
   const addressRef = useRef(0);
@@ -105,6 +108,24 @@ const Profile = () => {
       setIsLoading(false);
     },
   });
+
+  const ChangePassword = useMutation(services.changepassword, {
+    onMutate: () => {
+      setIsLoading(true);
+    },
+    onSuccess: (e) => {
+      setIsLoading(false);
+      alert("Password Changed Successful")
+
+    },
+    onError: (e) => {
+      setIsLoading(false);
+      alert("Invalid Old Password")
+    },
+  });
+
+
+
 
   const [showLogout, setShowLogout] = useState(false);
 
@@ -255,62 +276,89 @@ const Profile = () => {
       >
         <Modal.Body>
           <h3>Change Password</h3>
-          <Form.Group controlId="formName">
-            <Form.Label>Old Password</Form.Label>
-            <Form.Control
-              type="password"
 
-              ref={oldRef}
-              defaultValue={nameRef.current}
+          <Form onSubmit={e => {
+            setShowCP(false);
+            e.preventDefault();
+            if (newRef.current.value === conRef.current.value) {
+              ChangePassword.mutate({
+                old_password: oldRef.current.value,
+                new_password: conRef.current.value,
+              })
+            } else {
+              alert("Passwords didn't match")
+            }
 
-              // defaultValue={currentUser.name}
-              // value={travelerInfo.travelerName}
 
-              placeholder={"Name"}
-              required
-            />
-          </Form.Group>
+          }}>
+            <Form.Group controlId="formName">
+              <Form.Label>Old Password</Form.Label>
+              <Form.Control
+                type={sPassword ? "text" : "password"}
 
-          <Form.Group controlId="formName">
-            <Form.Label>New Password</Form.Label>
-            <Form.Control
-              type="password"
+                ref={oldRef}
 
-              ref={newRef}
-            
-              // defaultValue={currentUser.name}
-              // value={travelerInfo.travelerName}
 
-              placeholder={"Email"}
-              required
-            />
-          </Form.Group>
+                // defaultValue={currentUser.name}
+                // value={travelerInfo.travelerName}
 
-          <Form.Group controlId="formName">
-            <Form.Label>Confirm New Password</Form.Label>
-            <Form.Control
-              type="password"
+                placeholder={"Old Password"}
+                required
+              />
+            </Form.Group>
 
-              ref={conRef}
-             
-              // defaultValue={currentUser.name}
-              // value={travelerInfo.travelerName}
+            <Form.Group controlId="formName">
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                type={sPassword ? "text" : "password"}
+                ref={newRef}
 
-              placeholder={"Email"}
-              required
-            />
-          </Form.Group>
+                // defaultValue={currentUser.name}
+                // value={travelerInfo.travelerName}
+
+                placeholder={"New Password"}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formName">
+              <Form.Label>Confirm New Password</Form.Label>
+              <Form.Control
+                type={sPassword ? "text" : "password"}
+
+                ref={conRef}
+
+                // defaultValue={currentUser.name}
+                // value={travelerInfo.travelerName}
+
+                placeholder={"Confirm New Password"}
+                required
+              />
+            </Form.Group>
+            <div onClick={() => setSPassword(prev => !prev)}>
+              <Form.Check
+                type="checkbox"
+                value={sPassword}
+                checked={sPassword}
+                label="Show Passwords"
+
+              />
+            </div>
+            <Button
+              style={{
+                width: '100%',
+                padding: 5,
+              }}
+              type="submit"
+              variant={"primary"}
+
+            >
+              Change
+            </Button>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            variant={"primary"}
-            onClick={(e) => {
 
-              setShowCP(false)
-            }}
-          >
-            Change
-          </Button>
           <Button
             variant={"danger"}
             onClick={(e) => setShowCP(false)}
@@ -329,6 +377,7 @@ const Profile = () => {
           flexDirection: "column",
         }}
       >
+        <h4>User Profile </h4>
         {/* {JSON.stringify(booked_data.data)} */}
         <div
           style={{
@@ -338,6 +387,7 @@ const Profile = () => {
             flexDirection: "column",
           }}
         >
+
           {UserData.data && <Container className="py-5">
             <Row>
               <Col md={3} className="d-flex align-items-center">
@@ -345,6 +395,7 @@ const Profile = () => {
               </Col>
               <Col md={9}>
                 <h2 className="mb-4">{currentUser.name}</h2>
+                <p className="mb-3 d-flex-row"><strong>Username:</strong> {currentUser.username}</p>
                 <p className="mb-3 d-flex-row"><strong>Email:</strong> {currentUser.email}</p>
                 <p className="mb-3 d-flex-row"><strong>Phone:</strong> {currentUser.phoneno}</p>
                 <p className="mb-3 d-flex-row"><strong>Address:</strong> {currentUser.address}</p>

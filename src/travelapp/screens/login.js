@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext ,useEffect} from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   Col,
   Row,
@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 
 import services from "../data/services";
-import { TokenContext,LoginContext,IsAdminContext } from "../context/Context";
+import { TokenContext, LoginContext, IsAdminContext } from "../context/Context";
 import { useMutation } from "react-query";
 import { IMAGE } from "../../assets/assets";
 
@@ -32,15 +32,17 @@ const Login = () => {
 
 
   const { token, setToken } = useContext(TokenContext);
-  const {isLoginS,setIsLoginS} = useContext(LoginContext);
-  const {isAdmin,setIsAdmin} = useContext(IsAdminContext);
+  const { isLoginS, setIsLoginS } = useContext(LoginContext);
+  const { isAdmin, setIsAdmin } = useContext(IsAdminContext);
 
 
-  const [IsRegister,setIsRegister] = useState(false)
+  const [IsRegister, setIsRegister] = useState(false)
 
-  useEffect(()=>{
+  const [sPassword,setSPassword] = useState(false);
+
+  useEffect(() => {
     setIsLoginS(true)
-  },[])
+  }, [])
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -94,8 +96,8 @@ const Login = () => {
         email: r_email.current.value,
         phoneno: r_phoneno.current.value,
         password: r_password.current.value,
-        is_admin:false,
-        address : r_address.current.value,
+        is_admin: false,
+        address: r_address.current.value,
       });
     } else {
       alert("Please fill require fields.");
@@ -111,27 +113,27 @@ const Login = () => {
       axios.defaults.headers.common = {
         Authorization: `Token ${e.data.token}`,
       };
-      if(e.data.is_admin){
+      if (e.data.is_admin) {
         setIsAdmin(true);
-         window.location.href = '#/admin'  
-         localStorage.setItem("user_isadmin",true)
-       }else{
+        window.location.href = '#/admin'
+        localStorage.setItem("user_isadmin", true)
+      } else {
         setIsAdmin(false);
-        window.location.href='#/home'
-        localStorage.setItem("user_isadmin",false)
-       }
+        window.location.href = '#/home'
+        localStorage.setItem("user_isadmin", false)
+      }
 
 
-       // history.goBack()
+      // history.goBack()
 
-     
+
       setToken(e.data.token);
       setIsLoading(false);
-      console.log('data' ,e.data);
+      console.log('data', e.data);
 
-       if(params.gobackurl){
-        window.location.href='#/packages/'+params.gobackurl;
-       }
+      if (params.gobackurl) {
+        window.location.href = '#/packages/' + params.gobackurl;
+      }
 
 
     },
@@ -175,139 +177,147 @@ const Login = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-              <Form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  if(IsRegister){
-                    ONRegisterClick();
-                  }else{
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (IsRegister) {
+            ONRegisterClick();
+          } else {
 
-                  onLoginClick();
-                  }
-                  
+            onLoginClick();
+          }
 
-                }}
-                className={"loginForm"}
-              >
-                <h3 style={{ color: "#000", fontFamily: "Roboto-Light" }}>
-                TMT Agency
-                </h3>
-                {IsRegister?
-                   <Form.Group className="mb-3" controlId="login-control">
-                    <Form.Group className={"mb-3"}>
+
+        }}
+        className={"loginForm"}
+      >
+        <h3 style={{ color: "#000", fontFamily: "Roboto-Light" }}>
+          TMT Agency
+        </h3>
+        {IsRegister ?
+          <Form.Group className="mb-3" controlId="login-control">
+            <Form.Group className={"mb-3"}>
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="username"
+                placeholder="Username"
+                required
+                ref={l_username}
+              />
+              <Form.Text>Username could not be space.</Form.Text>
+            </Form.Group>
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              // type="username"
+              className="mb-3"
+              placeholder="Full Name"
+              required
+              ref={r_name}
+            />
+
+
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              className="mb-3"
+              placeholder="mgmg@travel.com"
+              required
+              ref={r_email}
+            />
+
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              type="number"
+              className="mb-3"
+              placeholder="09xxxxxxxxx"
+              required
+              maxLength={11}
+              minLength={11}
+              ref={r_phoneno}
+            />
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              className="mb-3"
+              placeholder="Address"
+              required
+              ref={r_address}
+            />
+            <Form.Group className={"mb-3"}>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                required
+                ref={r_password}
+              />
+              <Form.Text>Password must be contains letters and numbers</Form.Text>
+            </Form.Group>
+            <Button
+              type="submit"
+              className={"loginbtn mb-3"}
+
+            >
+              Register
+            </Button>
+            <Button
+              type="submit"
+              className={"loginbtn mb-3"}
+              onClick={() => setIsRegister(false)}
+
+            >
+              Login
+            </Button>
+          </Form.Group>
+          :
+          <Form.Group className="mb-3" controlId="login-control">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="username"
+              className="mb-3 loginfield"
               placeholder="Username"
-              required
               ref={l_username}
+              required
             />
-            <Form.Text>Username could not be space.</Form.Text>
-          </Form.Group>
-                                    <Form.Label>Name</Form.Label>
-          <Form.Control
-            // type="username"
-            className="mb-3"
-            placeholder="Full Name"
-            required
-            ref={r_name}
-          />
-         
 
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            className="mb-3"
-            placeholder="mgmg@travel.com"
-            required
-            ref={r_email}
-          />
-
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control
-            type="number"
-            className="mb-3"
-            placeholder="09xxxxxxxxx"
-            required
-            maxLength={11}
-            minLength={11}
-            ref={r_phoneno}
-          />
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="text"
-            className="mb-3"
-            placeholder="Address"
-            required
-            ref={r_address}
-          />
-          <Form.Group className={"mb-3"}>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type="password"
+              type={sPassword?"text":"password"}
+              className="loginfield"
               placeholder="Password"
               required
-              ref={r_password}
+              ref={l_password}
             />
-            <Form.Text>Password must be contains letters and numbers</Form.Text>
-          </Form.Group>
-                                  <Button
-                                    type="submit"
-                                    className={"loginbtn mb-3"}
-                                   
-                                  >
-                                    Create An Account
-                                  </Button>
-                                     <Button
-                                    type="submit"
-                                    className={"loginbtn mb-3"}
-                                    onClick={()=>setIsRegister(false)}
-                                   
-                                  >
-                                    Already have an account
-                                  </Button>
-                                                                </Form.Group>
-                :
-                                <Form.Group className="mb-3" controlId="login-control">
-                                  <Form.Label>Username</Form.Label>
-                                  <Form.Control
-                                    type="username"
-                                    className="mb-3 loginfield"
-                                    placeholder="Username"
-                                    ref={l_username}
-                                    required
-                                  />
-                
-                                  <Form.Label>Password</Form.Label>
-                                  <Form.Control
-                                    type="password"
-                                    className="mb-3 loginfield"
-                                    placeholder="Password"
-                                    required
-                                    ref={l_password}
-                                  />
-                
-                                  <Button
-                                    type="submit"
-                                    className={"loginbtn mb-3"}
-                                   
-                                  >
-                                    Login
-                                  </Button>
-                                      <Button
-                                    className={"registerbtn"}
+            <div onClick={() => setSPassword(prev => !prev)} className="mb-3">
+              <Form.Check
+                type="checkbox"
+                value={sPassword}
+                checked={sPassword}
+                label="Show Password"
 
-                                    onClick={()=>
-                                    setIsRegister(true)}
-                                   
-                                  >
-                                    Register
-                                  </Button>
-                                
-                                </Form.Group>}
-              </Form>
-          
-     
+              />
+            </div>
+            <Button
+              type="submit"
+              className={"loginbtn mb-3"}
+
+            >
+              Login
+            </Button>
+            <Button
+              className={"registerbtn"}
+
+              onClick={() =>
+                setIsRegister(true)}
+
+            >
+              Register
+            </Button>
+
+          </Form.Group>}
+      </Form>
+
+
       {isLoading && (
         <div
           style={{

@@ -44,7 +44,7 @@ const AddAdmin = () => {
 
   useEffect(() => {
     // console.log("You Entering.....");
-    UpdateActive("changeinfo");
+    UpdateActive("admin");
     setClietView(false);
   }, []);
 

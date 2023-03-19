@@ -180,6 +180,22 @@ const SideBar = (props) => {
 							</CDBSidebarMenuItem>
 						</NavLink>
 						<NavLink
+							to="/admin/manageusers"
+							onClick={() => UpdateActive("users")}
+						>
+							<CDBSidebarMenuItem
+								iconSize="lg"
+								icon="users"
+								className={
+									active === "users"
+										? "sidebar-menu-item active"
+										: "sidebar-menu-item"
+								}
+							>
+								Manage Users
+							</CDBSidebarMenuItem>
+						</NavLink>
+						<NavLink
 							to="/admin/changeinfo"
 							onClick={() => UpdateActive("changeinfo")}
 						>

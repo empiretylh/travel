@@ -24,7 +24,7 @@ const ChangeInfo = () => {
   const {active,UpdateActive} = useContext(NavigationContext)
   useEffect(() => {
     // console.log("You Entering.....");
-    UpdateActive('admin')
+    UpdateActive('changeinfo')
     setClietView(false);
   }, []);
 

@@ -13,6 +13,7 @@ import Login from "./screens/login";
 import Admin from "./screens/admin/admin";
 import AddAdmin from "./screens/admin/AddAdmin";
 import Package from "./screens/admin/package";
+import ManageUsers from "./screens/admin/Users";
 import About from "./screens/client/about";
 import Booking from "./screens/admin/booking";
 import FeedBack from "./screens/admin/FeedBack";
@@ -21,7 +22,6 @@ import PackageClient from './screens/client/package';
 import PackageDetail from "./screens/client/packagedetail";
 import BookingsClient from "./screens/client/booking";
 import Payment from "./screens/client/payment";
-
 import Profile from "./screens/client/Profile";
 import { useEffect } from "react";
 import services from "./data/services";
@@ -123,7 +123,7 @@ const TravelMain = () => {
     const is_admin = localStorage.getItem('user_isadmin')
     console.log(is_admin);
     if(is_admin){
-      setBooked(is_admin);
+      setIsAdmin(is_admin);
     }
     
   },[])
@@ -201,16 +201,17 @@ const TravelMain = () => {
 
                         <Route path="/login" element={<Login />} />
                         <Route path="/login/:gobackurl" element={<Login />} />
-                        <Route path="/admin" element={token ? <Admin />: <Login/>} />
+                        <Route path="/admin" element={isAdmin ? <Admin />: <Login/>} />
                       
                         <Route
                           path="/admin/addnewadmin"
-                          element={<AddAdmin />}
+                          element={isAdmin ? <AddAdmin /> : <Login/>}
                         />
-                        <Route path="/admin/packages" element={token ? <Package />: <Login/>} />
-                         <Route path="/admin/bookings" element={token ? <Booking />:<Login/>} />
-                         <Route path="/admin/feedbacks" element={token ? <FeedBack />:<Login/>} />
-                         <Route path='/admin/changeinfo/' element={token ? <ChangeInfo/> : <Login/>}/>
+                        <Route path="/admin/packages" element={isAdmin ? <Package />: <Login/>} />
+                         <Route path="/admin/bookings" element={isAdmin ? <Booking />:<Login/>} />
+                         <Route path="/admin/feedbacks" element={isAdmin ? <FeedBack />:<Login/>} />
+                         <Route path='/admin/changeinfo/' element={isAdmin ? <ChangeInfo/> : <Login/>}/>
+                         <Route path='/admin/manageusers/' element={isAdmin?<ManageUsers/>: <Login/>}/>
                       </Routes>
                     </div>
                   </div>

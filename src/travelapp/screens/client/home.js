@@ -186,10 +186,10 @@ const Home = () => {
   const package_data = useQuery("package_data", services.getPackage);
 
 
-   const {isLoginS,setIsLoginS} = useContext(LoginContext);
-   useEffect(()=>{
+  const { isLoginS, setIsLoginS } = useContext(LoginContext);
+  useEffect(() => {
     setIsLoginS(false)
-   })
+  })
 
   useEffect(() => {
     setClietView(true);
@@ -433,7 +433,7 @@ We appreciate your understanding of our cancellation policy. By making a booking
                 <p>If you need to cancel your booking with TMT Agency, please do so as soon as possible. We require a minimum of 48 hours' notice prior to the scheduled booking time. If you cancel within 48 hours of the scheduled booking time, you will not be eligible for a refund.</p>
                 <h4>No Refunds for Cancellations</h4>
                 <p>Please note that we do not offer refunds for cancelled bookings. If you cancel a booking, we will not be able to pay your money back to you. We appreciate your understanding in this matter.</p>
-                     </Accordion.Body>
+              </Accordion.Body>
             </Accordion.Item>
           </Accordion>
 
@@ -452,13 +452,14 @@ We appreciate your understanding of our cancellation policy. By making a booking
             <br />
             <a href="#/bookings">Check Code</a>
             <br />
+            <a href="#/profile">Profile</a>
+            <br />
           </Col>
           <Col>
             <a
               href={
                 infodata &&
-                "https://mail.google.com/mail/u/" + infodata.email + "/#compose"
-              }
+                "mailto:" + infodata.email}
             >
               Email
             </a>

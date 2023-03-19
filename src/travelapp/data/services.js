@@ -144,6 +144,14 @@ class AuthService {
     })
   }
 
+  deleteBooking(data){
+    return axios.delete(API_URL+"/api/adminbooking/",{
+      params:{
+        bookingid:data.bookingid
+      }
+    })
+  }
+
   getClientUser({queryKey}){
     const [_,type] = queryKey;
 
@@ -159,6 +167,15 @@ class AuthService {
     return axios.put(API_URL+"/api/user/",data);
   }
 
+  deleteUser(data){
+    
+    return axios.delete(API_URL+"/api/user/",{
+      params:{
+        id:data.id
+      }
+    });
+  }
+
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));
   }
@@ -171,9 +188,15 @@ class AuthService {
     return axios.post(API_URL + "/auth/register/", data);
   }
 
+  changepassword(data){
+    return axios.put(API_URL+"/auth/changepassword/",data);
+  }
+
   getCurrentUserToken() {
     return localStorage.getItem("user_token");
   }
+
+
 }
 
 export default new AuthService();

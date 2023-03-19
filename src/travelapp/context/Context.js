@@ -18,3 +18,5 @@ export const LoginContext = createContext(null);
 export const IsAdminContext = createContext(null);
 
 export const RegisterPackageContext = createContext(null);
+
+export const TableColContext = createContext(null);

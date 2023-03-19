@@ -37,6 +37,41 @@ body::-webkit-scrollbar-thumb:hover{
   background-color: #5555;
 } */
 
+
+.letter {
+  font-size: 60px;
+  font-weight: bold;
+  color: #000;
+  margin: 0 20px;
+  opacity: 0;
+  transform: scale(0);
+  animation: loader-animation 1.5s ease-out infinite;
+}
+
+.letter:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.letter:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loader-animation {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+
 /* Include Package  */
 
 .ipc{
@@ -559,7 +594,15 @@ a {
 }
 
 .booking_card .input-group {
-  margin-left: 10px;
+  position:relative;
+  width:100%;
+  margin:5px;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
 }
 
 .booking_data {

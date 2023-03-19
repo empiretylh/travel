@@ -148,7 +148,7 @@ const Admin = () => {
     <div className="pages">
       <Container fluid style={{marginTop:15}}>
         <h2 style={{fontFamily:'Roboto-Bold'}}>Dashboard</h2>
-        <p style={{fontFamily:'Roboto-Black'}}>Travel Admin Panel manage and create your own packages and bookings</p>
+        <p style={{fontFamily:'Roboto-Black'}}>Travel Admin Panel can manage and create your own packages and bookings</p>
         <Row style={{ marginBottom: 10 }}>
           <Col lg={3} md={6} sm={12}>
             <div className="box1" onClick={()=>{
