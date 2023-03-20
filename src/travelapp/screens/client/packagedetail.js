@@ -34,6 +34,8 @@ import {
   Telephone,
   Mailbox,
   PhoneFill,
+  CheckCircleFill,
+  XCircleFill,
   Chat,
   Send,
   Stars,
@@ -46,7 +48,7 @@ import { useParams } from "react-router-dom";
 import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { nrcdata } from "../../data/data";
 import { Icon } from "react-bootstrap-icons";
-
+import LoadingScreen from '../../loading';
 import { createBrowserHistory } from 'history';
 
 const StarRating = ({ rating, setRating }) => {
@@ -286,7 +288,7 @@ const PackageDetail = () => {
 
   const onSumbitBooking = (e) => {
     e.preventDefault();
-
+    if(checkPhone(travelerInfo.phoneno) && checkEmail(travelerInfo.email)){
     setRPackageInfo(
       Object.assign(travelerInfo, {
         package_id: packagedata.id,
@@ -303,6 +305,9 @@ const PackageDetail = () => {
     window.location.href='#/payment/'+params.pkid
 
     setTicketShow(false);
+  }else{
+    alert('Please Filled Required Fields.')
+  }
   };
 
   const packagedata = useMemo(() => {
@@ -541,23 +546,30 @@ const PackageDetail = () => {
                         required
                       />
                     </Form.Group>
-
+                   
                     <Form.Group controlId="formPhoneNo">
                       <Form.Label>Phone No</Form.Label>
+                       <InputGroup>
                       <Form.Control
                         type="tel"
                         name="phoneno"
                          defaultValue={currentUser && currentUser.phoneno}
-                        value={travelerInfo.phoneNo}
+                        value={travelerInfo.phoneno}
                         placeholder={"09xxxxxxxxx"}
                         max={11}
                         onChange={handleChange}
                         required
                       />
+                      <InputGroup.Text>{checkPhone(travelerInfo.phoneno)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                      </InputGroup.Text>
+                       </InputGroup>
                     </Form.Group>
-
+                   
                     <Form.Group controlId="formEmail">
                       <Form.Label>Email</Form.Label>
+                      <InputGroup>
                       <Form.Control
                         type="email"
                         name="email"
@@ -566,6 +578,11 @@ const PackageDetail = () => {
                         placeholder={"travel@gmail.com"}
                         required
                       />
+                        <InputGroup.Text>{checkEmail(travelerInfo.email)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                      </InputGroup.Text>
+                      </InputGroup>
                     </Form.Group>
 
                     <Form.Group controlId="formNRCNo">
@@ -886,10 +903,10 @@ const PackageDetail = () => {
                 </Col>
                 <Col lg={6}>
                   <div>
-                    <h3 style={{ color: "#1d4a85" }}>
+                    <h4 style={{ color: "#1d4a85" }}>
                       <GeoAlt style={{ marginRight: 5 }} />{" "}
                       {packagedata.destination}
-                    </h3>
+                    </h4>
                     <div>
                       <Table striped responsive hover className="pkdetail">
                         <tbody>
@@ -980,9 +997,14 @@ const PackageDetail = () => {
                             <td>Price</td>
                             <th>{nwc(packagedata.cost)}</th>
                           </tr>
+                          <tr>
+                          <td>Ticket </td>
+                            <th style={{color: packagedata.people_limit >= 1 ? 'blue':'red'}}>{packagedata.people_limit} Ticket(s) Left</th>
+                          </tr>
                         </tbody>
                       </Table>
                     </div>
+
                     <div
                       className="bookingbtn"
                       onClick={() => {
@@ -1048,10 +1070,24 @@ const PackageDetail = () => {
       </div>
     );
   }
-  return <div>Loading</div>;
+  return <div style={{display:'flex',width:'100vw',height:'100vh',alignItems:'center',justifyContent:'center'}}>
+         <LoadingScreen/>
+                </div>;
 };
 export default PackageDetail;
 
 const isData = (d = []) => {
   return d.length >= 1;
 };
+
+
+const checkPhone=(a)=>{
+  console.log(a)
+  const regex = /^\d{11}$/;
+  return regex.test(a);
+}
+
+const checkEmail = (a)=>{
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return regex.test(a);
+}

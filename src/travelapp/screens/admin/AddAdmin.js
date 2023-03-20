@@ -107,8 +107,7 @@ const AddAdmin = () => {
           <h4 style={{ color: "red" }}>Error</h4>
           <p style={{ color: "red", fontFamily: "Roboto-Regular" }}>
             {
-              "Register Error, When your username is exisiting in our server, You cannot not register, So change your username to register."
-            }
+        "Registration Error, If your username already exists on our server, you cannot register with that username. Please choose a different username to complete the registration process."     }
           </p>
         </Modal.Body>
         <Modal.Footer>

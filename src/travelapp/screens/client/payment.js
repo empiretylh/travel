@@ -35,6 +35,8 @@ import {
   PencilFill,
   Telephone,
   Mailbox,
+  CheckCircleFill,
+  XCircleFill,
   PhoneFill,
   Chat,
   Send,
@@ -109,6 +111,9 @@ const Payment = () => {
   const sphoneRef = useRef(0);
 
   const [sdata, setSData] = useState([]);
+
+  const [phoneno,setPhoneno] = useState(0);
+  const [sphoneno,setsPhoneno] = useState(0);
 
 
   const cinfo_data = useQuery(["cinfodata"], services.getCompanyInfo);
@@ -547,6 +552,7 @@ const Payment = () => {
 
                     <Form.Group controlId="formPhoneNo">
                       <Form.Label>Receiver Phone No</Form.Label>
+                      <InputGroup>
                       <Form.Control
                         type="tel"
                         name="rphoneno"
@@ -557,12 +563,18 @@ const Payment = () => {
                         placeholder={"09xxxxxxxxx"}
                         minLength={11}
                         maxLength={11}
-
+                        onChange={(e)=>setPhoneno(e.target.value)}
                         required
                       />
+                       <InputGroup.Text>{checkPhone(rphoneRef.current.value)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                      </InputGroup.Text>
+                      </InputGroup>
                     </Form.Group>
                     <Form.Group>
                       <Form.Label>Sender Name</Form.Label>
+
                       <Form.Control
                         type="text"
                         name="sname"
@@ -570,7 +582,6 @@ const Payment = () => {
                         defaultValue={rpackageinfo.name}
                         // defaultValue={currentUser.name}
                         // value={travelerInfo.travelerName}
-
                         placeholder={"Sender Name"}
                         required
                       />
@@ -578,6 +589,7 @@ const Payment = () => {
 
                     <Form.Group controlId="formPhoneNo">
                       <Form.Label>Sender Phone No</Form.Label>
+                      <InputGroup>
                       <Form.Control
                         type="tel"
                         name="sphoneno"
@@ -587,9 +599,16 @@ const Payment = () => {
                         // value={travelerInfo.phoneNo}
                         placeholder={"09xxxxxxxxx"}
                         minLength={11}
+
+                        onChange={(e)=>setPhoneno(e.target.value)}
                         maxLength={11}
                         required
                       />
+                        <InputGroup.Text>{checkPhone(sphoneRef.current.value)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                      </InputGroup.Text>
+                      </InputGroup>
                     </Form.Group>
 
                     <Form.Group controlId="formPhoneNo" className="mb-3">
@@ -660,3 +679,15 @@ export default Payment;
 const isData = (d = []) => {
   return d.length >= 1;
 };
+
+
+const checkPhone=(a)=>{
+  console.log(a)
+  const regex = /^\d{11}$/;
+  return regex.test(a);
+}
+
+const checkEmail = (a)=>{
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return regex.test(a);
+}

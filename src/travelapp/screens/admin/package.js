@@ -29,7 +29,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-
+import LoadingScreen from '../../loading';
 import htmlToDraft from "html-to-draftjs";
 
 String.prototype.replaceAllTxt = function replaceAll(search, replace) {
@@ -959,6 +959,13 @@ const Package = () => {
                 />
               ))
               : null}
+
+               {package_data.isFetching?
+           <div style={{width:'100%',margin: '0 auto', textAlign: 'center' }}><LoadingScreen/>
+          </div>
+           :null
+
+          }
           </Row>
         </Container>
       </div>

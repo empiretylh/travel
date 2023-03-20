@@ -10,6 +10,23 @@ import {
   Modal,
 } from "react-bootstrap";
 
+import {
+  ArrowRightCircle,
+  GeoAlt,
+  Search,
+  PencilFill,
+  Telephone,
+  Mailbox,
+  CheckCircleFill,
+  XCircleFill,
+  PhoneFill,
+  Chat,
+  Send,
+  Stars,
+  StarFill,
+  Star,
+} from "react-bootstrap-icons";
+
 import services from "../data/services";
 import { TokenContext, LoginContext, IsAdminContext } from "../context/Context";
 import { useMutation } from "react-query";
@@ -49,7 +66,9 @@ const Login = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalText, setModalText] = useState(
     "Username Or Password is incorrect. Please try agian. If you forgot your password contact your adminstatior."
-  );
+  ); 
+
+  const [phoneno,setPhoneno] = useState(false);
 
 
   const l_username = useRef(0);
@@ -75,9 +94,9 @@ const Login = () => {
     },
     onError: (e) => {
       setIsLoading(false);
-      // setModalText(
-      //  "Register Error, When your username is exisiting in our server, You cannot not register, So change your username to register."
-      // );
+      setModalText(
+       "If your username already exists on our server, you cannot register with that username. Please choose a different username to complete the registration process."
+      );
       setModalShow(true);
     },
   });
@@ -214,27 +233,40 @@ const Login = () => {
               required
               ref={r_name}
             />
-
-
-            <Form.Label>Email</Form.Label>
+             <Form.Label>Email</Form.Label>
+          <div className={'mb-3'} style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
             <Form.Control
               type="email"
-              className="mb-3"
               placeholder="mgmg@travel.com"
               required
+              onChange={e=>setPhoneno(e.target.value)}
               ref={r_email}
             />
+            <div style={{marginLeft:5}}>
+           {checkEmail(r_email.current && r_email.current.value)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                                          </div>
+                                          </div>
 
             <Form.Label>Phone Number</Form.Label>
+          <div className={'mb-3'} style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
             <Form.Control
               type="number"
-              className="mb-3"
               placeholder="09xxxxxxxxx"
               required
               maxLength={11}
               minLength={11}
+              onChange={e=>setPhoneno(e.target.value)}
               ref={r_phoneno}
             />
+            <div style={{marginLeft:5}}>
+           {checkPhone(r_phoneno.current && r_phoneno.current.value)?
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                                          </div>
+                                          </div>
+                   
             <Form.Label>Address</Form.Label>
             <Form.Control
               type="text"
@@ -246,17 +278,24 @@ const Login = () => {
             <Form.Group className={"mb-3"}>
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="password"
+                type={sPassword  ? "text":"password"}
                 placeholder="Password"
                 required
                 ref={r_password}
               />
               <Form.Text>Password must be contains letters and numbers</Form.Text>
             </Form.Group>
+            <div onClick={() => setSPassword(prev => !prev)} className="mb-3">
+              <Form.Check
+                type="checkbox"
+                value={sPassword}
+                checked={sPassword}
+                label="Show Password"
+              />
+            </div>
             <Button
               type="submit"
               className={"loginbtn mb-3"}
-
             >
               Register
             </Button>
@@ -264,7 +303,6 @@ const Login = () => {
               type="submit"
               className={"loginbtn mb-3"}
               onClick={() => setIsRegister(false)}
-
             >
               Login
             </Button>
@@ -352,3 +390,17 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
+
+const checkPhone=(a)=>{
+  console.log(a)
+  const regex = /^\d{11}$/;
+  return regex.test(a);
+}
+
+const checkEmail = (a)=>{
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+  return regex.test(a);
+}

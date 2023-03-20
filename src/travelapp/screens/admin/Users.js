@@ -41,6 +41,8 @@ import { IMAGE } from "../../../assets/assets";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import TableDropDown from './DropDownCheck';
+import LoadingScreen from '../../loading';
+
 String.prototype.replaceAllTxt = function replaceAll(search, replace) {
   return this.split(search).join(replace);
 };
@@ -308,6 +310,7 @@ const ManageUsers = () => {
         travelerid={travelerid.current}
         bookingdate={bookingdate.current}
       />
+
        <ButtonGroup className={"mb-3"}>
               {radios.map((radio, idx) => (
                 <ToggleButton
@@ -377,7 +380,15 @@ const ManageUsers = () => {
                 </tr>
               ))}
           </tbody>
+
+         
         </Table>
+         {usersdata.isFetching?
+           <div style={{width:'100%',margin: '0 auto', textAlign: 'center' }}><LoadingScreen/>
+          </div>
+           :null
+
+          }
       </div>
     </div>
     </>

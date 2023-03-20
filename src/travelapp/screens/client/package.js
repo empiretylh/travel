@@ -28,6 +28,7 @@ import { IMAGE } from "../../../assets/assets";
 import { ArrowRightCircle, GeoAlt, Search,Telephone,Mailbox } from "react-bootstrap-icons";
 import axios from "axios";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import LoadingScreen from '../../loading';
 
 const PackageCard = ({ data }) => {
   return (
@@ -140,7 +141,10 @@ const Home = () => {
 
         <Container className="PackageContainer">
           <Row>
-            {package_data.data ? (
+           {package_data.isFetching?
+           <div style={{width:'100%',margin: '0 auto', textAlign: 'center' }}><LoadingScreen/>
+          </div>
+           : package_data.data ? (
               <>
                 {isData(packagedata) ? (
                   packagedata.map((item, id) => (

@@ -68,6 +68,7 @@ import { createBrowserHistory } from 'history';
 import { IMAGE } from "../assets/assets";
 
 import { useLocation } from 'react-router-dom'
+import LoadingScreen from './loading';
 
 const queryClient = new QueryClient();
 axios.defaults.baseURL = baseURL;
@@ -79,6 +80,8 @@ const TravelMain = () => {
   const [is_clientview, setClietView] = useState(true);
 
   const [is_loading, setIsLoading] = useState(false);
+
+  const [mLoading,setmLoading] = useState(true);
 
   const [isLoginS,setIsLoginS] = useState(false);
 
@@ -135,8 +138,14 @@ const TravelMain = () => {
     if(Booked){
       setBooked(JSON.parse(Booked));
     }
-    
+  // setmLoading(false);
   },[])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setmLoading(false);
+    }, 3000); 
+  }, []);
 
   const tokenValue = useMemo(() => ({ token, setToken }), [token, setToken]);
 
@@ -163,6 +172,13 @@ const TravelMain = () => {
   );
 
   const BookedValue = useMemo(()=>({booked,setBooked}),[booked,setBooked])
+
+  if(mLoading){
+return(
+           <div style={{display:'flex',width:'100vw',height:'100vh', margin: '0 auto', textAlign: 'center',alignItems:'center',justifyContent:'center' }}><LoadingScreen/>
+          </div>)
+          
+  }
 
   return (
     <RegisterPackageContext.Provider value={RPackageValue}>
