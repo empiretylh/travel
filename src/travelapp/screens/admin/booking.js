@@ -542,10 +542,10 @@ const Bookings = () => {
                   {colSelected.some(selectedOption => selectedOption.value === 'Package')&&    <td>{item.package && item.package}</td>}
                       {colSelected.some(selectedOption => selectedOption.value === 'Cost')&&  <td style={{ textAlign: "right" }}>{nwc(item.cost,currencyShow)}</td>}
                
-                     {colSelected.some(selectedOption => selectedOption.value === 'Paid')&&    <td style={{ textAlign: "right" }}>{nwc(item.paid,currencyShow)}</td>}
+                     {colSelected.some(selectedOption => selectedOption.value === 'Paid')&&    <td style={{ textAlign: "right" }}>{item.is_cancel?nwc(0,currencyShow):nwc(item.paid,currencyShow)}</td>}
                      
                      {colSelected.some(selectedOption => selectedOption.value === 'Balance')&&    <td style={{ textAlign: "right" }}>
-                    {nwc(item.cost - item.paid,currencyShow)}
+                    {item.is_cancel? nwc(0,currencyShow) :nwc(item.cost - item.paid,currencyShow)}
                   </td>}                
                   {colSelected.some(selectedOption => selectedOption.value === 'Cancellation')&&   <td style={{ textAlign: "right" }}>
                {item.is_cancel?nwc(item.paid * 0.3,currencyShow):nwc(0,currencyShow)}
