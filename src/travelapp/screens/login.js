@@ -62,6 +62,7 @@ const Login = () => {
   }, [])
 
   const [isLoading, setIsLoading] = useState(false)
+  const [p,setP] = useState('');
 
   const [modalShow, setModalShow] = useState(false);
   const [modalText, setModalText] = useState(
@@ -95,7 +96,7 @@ const Login = () => {
     onError: (e) => {
       setIsLoading(false);
       setModalText(
-       "If your username already exists on our server, you cannot register with that username. Please choose a different username to complete the registration process."
+       "We're sorry, but it looks like the username or email you entered is already registered on our server. Please choose a different username and email to complete the registration process."
       );
       setModalShow(true);
     },
@@ -161,7 +162,7 @@ const Login = () => {
     },
     onError: (e) => {
       setModalText(
-        "Username Or Password is incorrect. Please try agian. If you forgot your password contact your adminstatior."
+        "Username Or Password is incorrect. Please try agian. If you forgot your password click forgot password"
       );
       setModalShow(true);
       setIsLoading(false);
@@ -210,8 +211,8 @@ const Login = () => {
         }}
         className={"loginForm"}
       >
-        <h3 style={{ color: "#000", fontFamily: "Roboto-Light" }}>
-          TMT Agency
+        <h3 style={{ color: "#000", fontFamily: "Roboto-Light" ,textAlign:'center' }}>
+          <img src={IMAGE.logo} style={{width:60,height:60}}/>
         </h3>
         {IsRegister ?
           <Form.Group className="mb-3" controlId="login-control">
@@ -223,7 +224,7 @@ const Login = () => {
                 required
                 ref={l_username}
               />
-              <Form.Text>Username could not be space.</Form.Text>
+              <Form.Text>Your username cannot include spaces</Form.Text>
             </Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -277,13 +278,23 @@ const Login = () => {
             />
             <Form.Group className={"mb-3"}>
               <Form.Label>Password</Form.Label>
+                <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          
               <Form.Control
                 type={sPassword  ? "text":"password"}
                 placeholder="Password"
                 required
                 ref={r_password}
+                onChange={(e)=>setP(e.target.value)}
               />
-              <Form.Text>Password must be contains letters and numbers</Form.Text>
+              <div style={{marginLeft:5}}>
+               {checkPassword(p)?
+
+                                          <CheckCircleFill size={18} color={'green'}/>:
+                                          <XCircleFill size={18} color={'red'}/>}
+                                          </div>
+                                                                            </div>
+              <Form.Text>Your password must contain at least 8 characters, including both letters and numbers</Form.Text>
             </Form.Group>
             <div onClick={() => setSPassword(prev => !prev)} className="mb-3">
               <Form.Check
@@ -313,7 +324,7 @@ const Login = () => {
             <Form.Control
               type="username"
               className="mb-3 loginfield"
-              placeholder="Username"
+              placeholder="Username Or Email"
               ref={l_username}
               required
             />
@@ -326,14 +337,16 @@ const Login = () => {
               required
               ref={l_password}
             />
+            <div style={{display:'flex',justifyContent:'space-between'}}>
             <div onClick={() => setSPassword(prev => !prev)} className="mb-3">
               <Form.Check
                 type="checkbox"
                 value={sPassword}
                 checked={sPassword}
                 label="Show Password"
-
               />
+            </div>
+            <a href='#/forgotpassword' className={'forgotlink'}>Forgot Password?</a>
             </div>
             <Button
               type="submit"
@@ -354,8 +367,6 @@ const Login = () => {
 
           </Form.Group>}
       </Form>
-
-
       {isLoading && (
         <div
           style={{
@@ -392,6 +403,12 @@ const Login = () => {
 export default Login;
 
 
+
+
+const checkPassword=(a)=>{
+
+  return a.length >= 8;
+}
 
 
 const checkPhone=(a)=>{

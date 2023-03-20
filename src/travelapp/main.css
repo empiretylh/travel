@@ -36,7 +36,12 @@ body::-webkit-scrollbar-thumb{
 body::-webkit-scrollbar-thumb:hover{
   background-color: #5555;
 } */
-
+.forgotlink{
+  text-decoration-line: underline !important;
+  color: blue !important;
+  font-family: 'Roboto-Regular';
+  font-size: 15px;
+}
 
 .letter {
   font-size: 60px;

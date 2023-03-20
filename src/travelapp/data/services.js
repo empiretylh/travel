@@ -175,6 +175,9 @@ class AuthService {
       }
     });
   }
+  resetPassword(data){
+    return axios.post(API_URL+"/auth/forgotpassword/",data)
+  }
 
   admin() {
     axios.get(API_URL + "/login").then((res) => console.log(res));

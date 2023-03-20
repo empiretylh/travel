@@ -23,6 +23,7 @@ import PackageDetail from "./screens/client/packagedetail";
 import BookingsClient from "./screens/client/booking";
 import Payment from "./screens/client/payment";
 import Profile from "./screens/client/Profile";
+import ChangePassword from './screens/ChangePassword';
 import { useEffect } from "react";
 import services from "./data/services";
 import "./main.css";
@@ -69,6 +70,7 @@ import { IMAGE } from "../assets/assets";
 
 import { useLocation } from 'react-router-dom'
 import LoadingScreen from './loading';
+import ForgotPassword from './screens/forgotpassword';
 
 const queryClient = new QueryClient();
 axios.defaults.baseURL = baseURL;
@@ -214,11 +216,11 @@ return(
                         <Route path='/bookings' element={<BookingsClient/>}/>
                         <Route path='/about' element={<About/>}/>
                         <Route path='/profile' element={<Profile/>}/>
-
+                        <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+                        <Route path="/restpassword/:resttoken" element={<ChangePassword/>}/>
                         <Route path="/login" element={<Login />} />
                         <Route path="/login/:gobackurl" element={<Login />} />
-                        <Route path="/admin" element={isAdmin ? <Admin />: <Login/>} />
-                      
+                        <Route path="/admin" element={isAdmin ? <Admin />: <Login/>} />                      
                         <Route
                           path="/admin/addnewadmin"
                           element={isAdmin ? <AddAdmin /> : <Login/>}
