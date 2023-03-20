@@ -64,7 +64,11 @@ const Admin = () => {
       const bk = booking_data.data.data;
       let total = 0;
       bk.map((item, id) => {
+        if(item.is_cancel){
+          total = total +(parseInt(item.paid)*0.3)
+        }else{
         total = total + parseInt(item.paid);
+      }
       });
       return total;
     }

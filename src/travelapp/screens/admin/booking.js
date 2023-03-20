@@ -22,6 +22,7 @@ import {
   Trash,
   Person,
   BookFill,
+  PencilFill,
   ListColumns,
   List,
   Coin,
@@ -179,6 +180,8 @@ const Bookings = () => {
 
   const [bookingid,setBookingId] = useState(null);
 
+  const [isCancel,setIsCancel] = useState(null)
+
   const [searchText, setSearchText] = useState("");
 
   const [radioValue, setRadioValue] = useState("all");
@@ -210,6 +213,8 @@ const Bookings = () => {
   const booking_data = useQuery(["booking", radioValue], services.getBookings);
 
   const [showD,setShowD]= useState(false);
+  const [showDelete,setShowDelete] = useState(false);
+  const [showCancel,setShowCancel] = useState(false);
 
 
   const DeleteBooking = useMutation(services.deleteBooking, {
@@ -280,6 +285,75 @@ const Bookings = () => {
   return (
     <TableColContext.Provider value={ColValue}> 
 
+
+      <Modal
+        show={showDelete}
+        onHide={() => setShowD(false)}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h4 style={{ color: "red" }}>Delete</h4>
+          <p style={{color:'red'}}>Are you sure want to delete this booking?</p>
+          <p>If you choose to delete this booking, the associated data, including the paid amount, profit, and other related information, will also be deleted by the system</p>
+        </Modal.Body>
+        <Modal.Footer>
+           
+          <Button
+            variant={"danger"}
+            onClick={(e) => {setShowDelete(false);
+            DeleteBooking.mutate({
+              bookingid:bookingid
+            })
+          }}
+          >
+            Delete
+          </Button>
+          <Button
+            variant={"primary"}
+            onClick={(e) => setShowDelete(false)}
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showCancel}
+        onHide={() => setShowCancel(false)}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body>
+          <h4 style={{ color: "red" }}>{isCancel ?'Un Cancel Booking' :'Booking Cancellation'}</h4>
+         {isCancel?null:<> <p style={{color:'red'}}>Are you sure want to cancel this booking?</p>
+       <p>
+            If you cancel this booking, you will get the amount paid by the user as a 30% cancellation fee in your revenue   </p></>}
+  </Modal.Body>
+        <Modal.Footer>
+           
+          <Button
+            variant={"danger"}
+            onClick={(e) => {setShowCancel(false);
+            StatusUpdate.mutate({
+                            bookingid: bookingid,
+                            cancel:isCancel?false:true,
+                          });
+          }}
+          >
+            {isCancel? 'Un Cancel This Booking' : 'Cancel This Booking'}
+          </Button>
+          <Button
+            variant={"primary"}
+            onClick={(e) => setShowCancel(false)}
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Modal
         show={showD}
         onHide={() => setShowD(false)}
@@ -288,30 +362,33 @@ const Bookings = () => {
         centered
       >
         <Modal.Body>
-          <h4 style={{ color: "red" }}>Delete Booking</h4>
-          <p
-            style={{
-              color: "red",
-              fontSize: 20,
-              fontFamily: "Roboto-Regular",
-            }}
-          >
-            Are you sure want to Delete This Booking?
-          </p>
-
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant={"danger"}
+          <h4 style={{ color: "black" }}>Booking</h4>
+         
+           <Button
+            variant={"primary"}
+            style={{width:'100%',padding:15,margin:5}}
             onClick={(e) => {
-            DeleteBooking.mutate({
-              bookingid:bookingid
-            })
+           setShowCancel(true);
             setShowD(false);
             }}
           >
-           Delete
+          {isCancel?'Un Cancel This Booking':' Cancel This Booking'}
           </Button>
+        
+        <Button
+            variant={"danger"}
+            style={{width:'100%',padding:10,margin:5}}
+            onClick={(e) => {
+            setShowDelete(true)
+            setShowD(false);
+            }}
+          >
+           Delete This Booking
+          </Button>
+          
+           </Modal.Body>
+        <Modal.Footer>
+         
           <Button
             variant={"primary"}
             onClick={(e) => setShowD(false)}
@@ -429,7 +506,7 @@ const Bookings = () => {
         <Table striped responsive hover breakpoint='md'>
           <thead>
             <tr>
-              <th>#</th>
+              
               {colSelected.some(selectedOption => selectedOption.value === 'No')&& <th>No</th>}
               {colSelected.some(selectedOption => selectedOption.value === 'Code')&& <th>Code</th>}
               <th>Customer</th>
@@ -438,20 +515,111 @@ const Bookings = () => {
               {colSelected.some(selectedOption => selectedOption.value === 'Paid')&& <th>Paid</th>}
            {colSelected.some(selectedOption => selectedOption.value === 'Balance')&& <th>Balance</th>}
             {colSelected.some(selectedOption => selectedOption.value === 'Cancellation')&& 
-              <th>Cancellation %</th>}
-
-              
+              <th>Cancellation 30%</th>}
               <th>Status</th>
-
+              <th>#</th>
             </tr>
           </thead>
           <tbody>
             {booking_data.data &&
               BD.map((item, id) => (
                 <tr>
-                  <td style={{display:'flex',flexDirection:'row'}}>
+                                  {colSelected.some(selectedOption => selectedOption.value === 'No')&&   <td>{id + 1}</td>}
+                {colSelected.some(selectedOption => selectedOption.value === 'Code')&&   <td>
+                    {item.travelcode} {item.bookingdate}
+                  </td>}
+                
+                  
+                  <td
+                    onClick={() => {
+                      setShowTI(true);
+                      travelerid.current = item.travelerid;
+                      bookingdate.current = item.booking_date;
+                    }}
+                  >
+                    {item.traveler}
+                  </td>
+                  {colSelected.some(selectedOption => selectedOption.value === 'Package')&&    <td>{item.package && item.package}</td>}
+                      {colSelected.some(selectedOption => selectedOption.value === 'Cost')&&  <td style={{ textAlign: "right" }}>{nwc(item.cost,currencyShow)}</td>}
+               
+                     {colSelected.some(selectedOption => selectedOption.value === 'Paid')&&    <td style={{ textAlign: "right" }}>{nwc(item.paid,currencyShow)}</td>}
+                     
+                     {colSelected.some(selectedOption => selectedOption.value === 'Balance')&&    <td style={{ textAlign: "right" }}>
+                    {nwc(item.cost - item.paid,currencyShow)}
+                  </td>}                
+                  {colSelected.some(selectedOption => selectedOption.value === 'Cancellation')&&   <td style={{ textAlign: "right" }}>
+               {item.is_cancel?nwc(item.paid * 0.3,currencyShow):nwc(0,currencyShow)}
+                  </td>}
                   
                  
+                  <td
+                    style={{
+                     margin: '0 auto', textAlign: 'center' 
+                    }}
+                  >{item.is_cancel? <p style={{color:'red'}}> Booking Cancelled  </p>:
+                                      <ButtonGroup>
+                                        <ToggleButton
+                                          className="toogle"
+                                          disabled={item.is_fullpaid}
+                                          // id={`toogle-${id+100}`}
+                                          type="radio"
+                                          variant={"outline-danger"}
+                                          name={"toogleprepaid" + id}
+                                          defaultValue={item.is_halfpaid}
+                                          checked={item.is_halfpaid}
+                                          onClick={(e) => {
+                                            StatusUpdate.mutate({
+                                              bookingid: item.id,
+                                              prepaid: !item.is_halfpaid,
+                                            });
+                                          }}
+                                        >
+                                          Pre-Paid
+                                        </ToggleButton>
+                                        <ToggleButton
+                                          className="toogle"
+                                          disabled={!item.is_halfpaid || item.is_finish}
+                                          // id={`toogle-${id+100}`}
+                                          type="radio"
+                                          variant={"outline-success"}
+                                          name={"toogle-fullpaid" + id}
+                                          defaultValue={item.is_fullpaid}
+                                          checked={item.is_fullpaid}
+                                          onClick={(e) => {
+                                            StatusUpdate.mutate({
+                                              bookingid: item.id,
+                                              fullpaid: !item.is_fullpaid,
+                                            });
+                                          }}
+                                        >
+                                          Full-Paid
+                                        </ToggleButton>
+                  
+                                        <ToggleButton
+                                          className="toogle"
+                                          disabled={!item.is_fullpaid}
+                                          // id={`toogle-${id+100}`}
+                                          type="radio"
+                                          variant={"outline-primary"}
+                                          name={"toogle-complete" + id}
+                                          defaultValue={item.is_finish}
+                                          checked={item.is_finish}
+                                          onClick={(e) => {
+                                            StatusUpdate.mutate({
+                                              bookingid: item.id,
+                                              is_finish: !item.is_finish,
+                                            });
+                                          }}
+                                        >
+                                          Complete
+                                        </ToggleButton>
+                                      </ButtonGroup>}
+                  </td>
+                     <td style={{display:'flex',flexDirection:'row'}}>
+                  <Button style={{ margin: 2 }} variant="primary" onClick={() =>{setShowD(true); setBookingId(item.id); setIsCancel(item.is_cancel)}}>
+              <PencilFill />
+            </Button>
+
                     <Button
                       style={{ margin: 2 }}
                       variant="primary"
@@ -474,106 +642,6 @@ const Bookings = () => {
 
                       <Coin />
                     </Button>
-                   
-                  </td>
-                    {colSelected.some(selectedOption => selectedOption.value === 'No')&&   <td>{id + 1}</td>}
-                {colSelected.some(selectedOption => selectedOption.value === 'Code')&&   <td>
-                    {item.travelcode} {item.bookingdate}
-                  </td>}
-                
-                  
-                  <td
-                    onClick={() => {
-                      setShowTI(true);
-                      travelerid.current = item.travelerid;
-                      bookingdate.current = item.booking_date;
-                    }}
-                  >
-                    {item.traveler}
-                  </td>
-                  {colSelected.some(selectedOption => selectedOption.value === 'Package')&&    <td>{item.package && item.package}</td>}
-                      {colSelected.some(selectedOption => selectedOption.value === 'Cost')&&  <td style={{ textAlign: "right" }}>{nwc(item.cost,currencyShow)}</td>}
-               
-                     {colSelected.some(selectedOption => selectedOption.value === 'Paid')&&    <td style={{ textAlign: "right" }}>{nwc(item.paid,currencyShow)}</td>}
-                     
-                     {colSelected.some(selectedOption => selectedOption.value === 'Balance')&&    <td style={{ textAlign: "right" }}>
-                    {nwc(item.cost - item.paid,currencyShow)}
-                  </td>}
-               
-                
-                
-                  {colSelected.some(selectedOption => selectedOption.value === 'Cancellation')&&   <td style={{ textAlign: "right" }}>
-                    {nwc(item.paid * 0.3,currencyShow)}
-                  </td>}
-                  
-                 
-                  <td
-                    style={{
-                     margin: '0 auto', textAlign: 'center' 
-                    }}
-                  >
-                    <ButtonGroup>
-                      <ToggleButton
-                        className="toogle"
-                        disabled={item.is_fullpaid}
-                        // id={`toogle-${id+100}`}
-                        type="radio"
-                        variant={"outline-danger"}
-                        name={"toogleprepaid" + id}
-                        defaultValue={item.is_halfpaid}
-                        checked={item.is_halfpaid}
-                        onClick={(e) => {
-                          StatusUpdate.mutate({
-                            bookingid: item.id,
-                            prepaid: !item.is_halfpaid,
-                          });
-                        }}
-                      >
-                        Pre-Paid
-                      </ToggleButton>
-                      <ToggleButton
-                        className="toogle"
-                        disabled={!item.is_halfpaid || item.is_finish}
-                        // id={`toogle-${id+100}`}
-                        type="radio"
-                        variant={"outline-success"}
-                        name={"toogle-fullpaid" + id}
-                        defaultValue={item.is_fullpaid}
-                        checked={item.is_fullpaid}
-                        onClick={(e) => {
-                          StatusUpdate.mutate({
-                            bookingid: item.id,
-                            fullpaid: !item.is_fullpaid,
-                          });
-                        }}
-                      >
-                        Full-Paid
-                      </ToggleButton>
-
-                      <ToggleButton
-                        className="toogle"
-                        disabled={!item.is_fullpaid}
-                        // id={`toogle-${id+100}`}
-                        type="radio"
-                        variant={"outline-primary"}
-                        name={"toogle-complete" + id}
-                        defaultValue={item.is_finish}
-                        checked={item.is_finish}
-                        onClick={(e) => {
-                          StatusUpdate.mutate({
-                            bookingid: item.id,
-                            is_finish: !item.is_finish,
-                          });
-                        }}
-                      >
-                        Complete
-                      </ToggleButton>
-                    </ButtonGroup>
-                  </td>
-                  <td>
-                  <Button variant="danger" onClick={() =>{setShowD(true); setBookingId(item.id)}}>
-              <Trash />
-            </Button>
         </td>
                 </tr>
               ))}

@@ -87,11 +87,13 @@ class AuthService {
 
   getTraveler({ queryKey }) {
     const [_, travelerid] = queryKey;
+    if(travelerid !== 0){
     return axios.get(API_URL + "/api/traveler/", {
       params: {
         travelerid: travelerid,
       },
     });
+  }
   }
 
   getBookings({ queryKey }) {
