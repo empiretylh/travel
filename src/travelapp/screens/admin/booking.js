@@ -548,7 +548,7 @@ const Bookings = () => {
                     {item.is_cancel? nwc(0,currencyShow) :nwc(item.cost - item.paid,currencyShow)}
                   </td>}                
                   {colSelected.some(selectedOption => selectedOption.value === 'Cancellation')&&   <td style={{ textAlign: "right" }}>
-               {item.is_cancel?nwc(item.paid * 0.3,currencyShow):nwc(0,currencyShow)}
+               {item.is_cancel?nwc(item.cost * 0.3,currencyShow):nwc(0,currencyShow)}
                   </td>}
                   
                  

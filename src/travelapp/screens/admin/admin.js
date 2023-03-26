@@ -65,7 +65,7 @@ const Admin = () => {
       let total = 0;
       bk.map((item, id) => {
         if(item.is_cancel){
-          total = total +(parseInt(item.paid)*0.3)
+          total = total +(parseInt(item.cost)*0.3)
         }else{
         total = total + parseInt(item.paid);
       }
