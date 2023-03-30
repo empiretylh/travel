@@ -86,7 +86,7 @@ function nwc(x = 0) {
   return x
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    .concat(" Ks");
+    .concat(" MMK");
 }
 const IPC = ({ data }) => {
   return (

@@ -51,18 +51,16 @@ import { ClockCircleOutlined, HomeOutlined } from "@ant-design/icons";
 import { nrcdata } from "../../data/data";
 import { Icon } from "react-bootstrap-icons";
 
-import { createBrowserHistory } from 'history';
-
+import { createBrowserHistory } from "history";
 
 function nwc(x = 0) {
   return x
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    .concat(" Ks");
+    .concat(" MMK");
 }
 
 const Payment = () => {
-
   let params = useParams();
 
   const { is_clientview, setClietView } = useContext(CAContext);
@@ -71,30 +69,27 @@ const Payment = () => {
 
   const { booked, setBooked } = useContext(BookedContext);
 
-
   useEffect(() => {
     setClietView(true);
-  })
+  });
 
   const [paidtype, setPaidtype] = useState(0);
 
   const { token, setToken } = useContext(TokenContext);
 
-
   const { rpackageinfo, setRPackageInfo } = useContext(RegisterPackageContext);
-
 
   const [PaymentChoice, setPaymentChoice] = useState(null);
 
   const handlePaymentChoice = (val) => {
     setPaymentChoice(val);
-  }
+  };
 
   const images = [
-    { value: 'KBZ Pay', src: IMAGE.kbzpay },
-    { value: 'Wave Pay', src: IMAGE.wavepay },
-    { value: 'AYA Pay', src: IMAGE.ayapay },
-    { value: 'Mytel Pay', src: IMAGE.mytelpay },
+    { value: "KBZ Pay", src: IMAGE.kbzpay },
+    { value: "Wave Pay", src: IMAGE.wavepay },
+    { value: "AYA Pay", src: IMAGE.ayapay },
+    { value: "Mytel Pay", src: IMAGE.mytelpay },
   ];
 
   const [travelerInfo, setTravelerInfo] = useState({
@@ -104,7 +99,6 @@ const Payment = () => {
     address: "",
   });
 
-
   const rnameRef = useRef(0);
   const rphoneRef = useRef(0);
   const snameRef = useRef(0);
@@ -112,9 +106,8 @@ const Payment = () => {
 
   const [sdata, setSData] = useState([]);
 
-  const [phoneno,setPhoneno] = useState(0);
-  const [sphoneno,setsPhoneno] = useState(0);
-
+  const [phoneno, setPhoneno] = useState(0);
+  const [sphoneno, setsPhoneno] = useState(0);
 
   const cinfo_data = useQuery(["cinfodata"], services.getCompanyInfo);
 
@@ -148,7 +141,6 @@ const Payment = () => {
     },
   });
 
-
   const package_data = useQuery(
     ["package_data", params.pkid],
     services.getOnePackage
@@ -166,18 +158,15 @@ const Payment = () => {
     }
   }, [package_data.data]);
 
-
-
   const paymentvalue = useMemo(() => {
-    if (paidtype === 'prepaid') {
+    if (paidtype === "prepaid") {
       return packagedata.cost / 2;
-    } else if (paidtype === 'fullpaid') {
-      return packagedata.cost
+    } else if (paidtype === "fullpaid") {
+      return packagedata.cost;
     } else {
       return 0;
     }
-  }, [paidtype, setPaidtype, packagedata.cost])
-
+  }, [paidtype, setPaidtype, packagedata.cost]);
 
   const onSubmitBooking = () => {
     if (PaymentChoice) {
@@ -189,17 +178,15 @@ const Payment = () => {
           sendername: snameRef.current.value,
           senderphoneno: sphoneRef.current.value,
           amount: paymentvalue,
-          operator: PaymentChoice
+          operator: PaymentChoice,
         })
-      )
+      );
     } else {
-      alert('Please Choose Payment Operator')
+      alert("Please Choose Payment Operator");
     }
-  }
-
+  };
 
   if (package_data.data) {
-
     return (
       <div className="home">
         <Modal
@@ -348,16 +335,22 @@ const Payment = () => {
           </Modal.Body>
           <Modal.Footer>
             <a href={infodata.phoneno && "tel:" + infodata.phoneno}>
-              <Button variant={"success"} onClick={(e) => {
-                window.location.href = '#/bookings'
-              }}>
+              <Button
+                variant={"success"}
+                onClick={(e) => {
+                  window.location.href = "#/bookings";
+                }}
+              >
                 <Telephone /> Call
               </Button>
             </a>
-            <Button variant={"primary"} onClick={(e) => {
-              window.location.href = '#/bookings'
-              setSuccessShow(false)
-            }}>
+            <Button
+              variant={"primary"}
+              onClick={(e) => {
+                window.location.href = "#/bookings";
+                setSuccessShow(false);
+              }}
+            >
               Close
             </Button>
           </Modal.Footer>
@@ -373,21 +366,21 @@ const Payment = () => {
           }}
         >
           <Container>
-
             <Row>
-
               <Col sm={12} md={6} lg={4}>
-                <img src={axios.defaults.baseURL + packagedata.image} style={{
-                  display: "flex",
-                  width: "100%",
+                <img
+                  src={axios.defaults.baseURL + packagedata.image}
+                  style={{
+                    display: "flex",
+                    width: "100%",
 
-                  height: 250,
-                  objectFit: "cover",
-                  borderRadius: 15,
-                  marginBottom: 10,
-                }} />
+                    height: 250,
+                    objectFit: "cover",
+                    borderRadius: 15,
+                    marginBottom: 10,
+                  }}
+                />
                 <h3>{packagedata.destination}</h3>
-
               </Col>
               <Col sm={12} md={6} lg={4}>
                 <Table striped responsive hover>
@@ -450,28 +443,27 @@ const Payment = () => {
                       <th>
                         <p style={{ fontSize: 18 }}>
                           {packagedata.includeplace &&
-                            packagedata.includeplace
-                              .filter(
-                                (obj, index) =>
-                                  packagedata.includeplace.findIndex((item) =>
-                                    item.hotels.includes(obj.hotels)
-                                  ) == index
-                              )
-                              .filter((i) => i.hotels !== "No Hotel").length > 0
+                          packagedata.includeplace
+                            .filter(
+                              (obj, index) =>
+                                packagedata.includeplace.findIndex((item) =>
+                                  item.hotels.includes(obj.hotels)
+                                ) == index
+                            )
+                            .filter((i) => i.hotels !== "No Hotel").length > 0
                             ? packagedata.includeplace
-                              .filter(
-                                (obj, index) =>
-                                  packagedata.includeplace.findIndex(
-                                    (item) =>
+                                .filter(
+                                  (obj, index) =>
+                                    packagedata.includeplace.findIndex((item) =>
                                       item.hotels.includes(obj.hotels)
-                                  ) == index
-                              )
-                              .filter((i) => i.hotels !== "No Hotel")
-                              .map((data, id) => {
-                                return (
-                                  <>
-                                    {data.hotels +
-                                      (id + 1 ===
+                                    ) == index
+                                )
+                                .filter((i) => i.hotels !== "No Hotel")
+                                .map((data, id) => {
+                                  return (
+                                    <>
+                                      {data.hotels +
+                                        (id + 1 ===
                                         packagedata.includeplace
                                           .filter(
                                             (obj, index) =>
@@ -485,11 +477,11 @@ const Payment = () => {
                                           .filter(
                                             (i) => i.hotels !== "No Hotel"
                                           ).length
-                                        ? ""
-                                        : ", ")}
-                                  </>
-                                );
-                              })
+                                          ? ""
+                                          : ", ")}
+                                    </>
+                                  );
+                                })
                             : "No Hotel"}
                         </p>
                       </th>
@@ -499,22 +491,22 @@ const Payment = () => {
                       <th>{nwc(packagedata.cost)}</th>
                     </tr>
                   </tbody>
-
                 </Table>
               </Col>
               <Col sm={12} md={6} lg={4}>
                 <div>
                   <h5>Choose Payment Operator</h5>
-                  <Form onSubmit={(e) => {
-                    e.preventDefault();
-                    onSubmitBooking();
-                  }}>
+                  <Form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      onSubmitBooking();
+                    }}
+                  >
                     <ToggleButtonGroup
                       type="radio"
                       name="options"
                       value={PaymentChoice}
                       onChange={handlePaymentChoice}
-
                     >
                       {images.map((image, idx) => (
                         <ToggleButton
@@ -524,16 +516,21 @@ const Payment = () => {
                           type="radio"
                           variant={"outline-primary"}
                           name="toogle"
-
                           value={image.value}
                         >
-                          <img src={image.src} alt={`Option ${image.value}`} style={{ width: 50, height: 50 }} />
+                          <img
+                            src={image.src}
+                            alt={`Option ${image.value}`}
+                            style={{ width: 50, height: 50 }}
+                          />
                           <h6>{image.value}</h6>
                         </ToggleButton>
                       ))}
                     </ToggleButtonGroup>
                     <div style={{ marginTop: 6, marginBottom: 6 }}>
-                      <h5>Wallet Phone : {cinfo_data.data && infodata.phoneno}</h5>
+                      <h5>
+                        Wallet Phone : {cinfo_data.data && infodata.phoneno}
+                      </h5>
                     </div>
                     <Form.Group controlId="formReceiverName">
                       <Form.Label>Receiver Name</Form.Label>
@@ -541,10 +538,9 @@ const Payment = () => {
                         type="text"
                         name="rname"
                         ref={rnameRef}
-
-                        // defaultValue={currentUser.name}
+                        defaultValue={cinfo_data.data && infodata.name}
                         // value={travelerInfo.travelerName}
-
+                        disabled
                         placeholder={"Receiver Name"}
                         required
                       />
@@ -553,23 +549,27 @@ const Payment = () => {
                     <Form.Group controlId="formPhoneNo">
                       <Form.Label>Receiver Phone No</Form.Label>
                       <InputGroup>
-                      <Form.Control
-                        type="tel"
-                        name="rphoneno"
-                        ref={rphoneRef}
-                        defaultValue={cinfo_data.data && infodata.phoneno}
-                        //  defaultValue={currentUser.phoneno}
-                        // value={travelerInfo.phoneNo}
-                        placeholder={"09xxxxxxxxx"}
-                        minLength={11}
-                        maxLength={11}
-                        onChange={(e)=>setPhoneno(e.target.value)}
-                        required
-                      />
-                       <InputGroup.Text>{checkPhone(rphoneRef.current.value)?
-                                          <CheckCircleFill size={18} color={'green'}/>:
-                                          <XCircleFill size={18} color={'red'}/>}
-                      </InputGroup.Text>
+                        <Form.Control
+                          type="tel"
+                          name="rphoneno"
+                          ref={rphoneRef}
+                          defaultValue={cinfo_data.data && infodata.phoneno}
+                          disabled
+                          //  defaultValue={currentUser.phoneno}
+                          // value={travelerInfo.phoneNo}
+                          placeholder={"09xxxxxxxxx"}
+                          minLength={11}
+                          maxLength={11}
+                          onChange={(e) => setPhoneno(e.target.value)}
+                          required
+                        />
+                        <InputGroup.Text>
+                          {checkPhone(rphoneRef.current.value) ? (
+                            <CheckCircleFill size={18} color={"green"} />
+                          ) : (
+                            <XCircleFill size={18} color={"red"} />
+                          )}
+                        </InputGroup.Text>
                       </InputGroup>
                     </Form.Group>
                     <Form.Group>
@@ -590,24 +590,26 @@ const Payment = () => {
                     <Form.Group controlId="formPhoneNo">
                       <Form.Label>Sender Phone No</Form.Label>
                       <InputGroup>
-                      <Form.Control
-                        type="tel"
-                        name="sphoneno"
-                        defaultValue={rpackageinfo.phoneno}
-                        ref={sphoneRef}
-                        //  defaultValue={currentUser.phoneno}
-                        // value={travelerInfo.phoneNo}
-                        placeholder={"09xxxxxxxxx"}
-                        minLength={11}
-
-                        onChange={(e)=>setPhoneno(e.target.value)}
-                        maxLength={11}
-                        required
-                      />
-                        <InputGroup.Text>{checkPhone(sphoneRef.current.value)?
-                                          <CheckCircleFill size={18} color={'green'}/>:
-                                          <XCircleFill size={18} color={'red'}/>}
-                      </InputGroup.Text>
+                        <Form.Control
+                          type="tel"
+                          name="sphoneno"
+                          defaultValue={rpackageinfo.phoneno}
+                          ref={sphoneRef}
+                          //  defaultValue={currentUser.phoneno}
+                          // value={travelerInfo.phoneNo}
+                          placeholder={"09xxxxxxxxx"}
+                          minLength={11}
+                          onChange={(e) => setPhoneno(e.target.value)}
+                          maxLength={11}
+                          required
+                        />
+                        <InputGroup.Text>
+                          {checkPhone(sphoneRef.current.value) ? (
+                            <CheckCircleFill size={18} color={"green"} />
+                          ) : (
+                            <XCircleFill size={18} color={"red"} />
+                          )}
+                        </InputGroup.Text>
                       </InputGroup>
                     </Form.Group>
 
@@ -618,7 +620,6 @@ const Payment = () => {
                         <div onClick={() => setPaidtype("prepaid")}>
                           <Form.Check
                             type="checkbox"
-
                             // value={travelerInfo.address}
                             // onChange={handleChange}
                             value={paidtype === "prepaid"}
@@ -653,11 +654,10 @@ const Payment = () => {
                         required
                       />
                     </Form.Group>
-                    <Button type='submit' className='bookingbtn'>
+                    <Button type="submit" className="bookingbtn">
                       Register Booking
                     </Button>
                   </Form>
-
                 </div>
               </Col>
             </Row>
@@ -665,7 +665,6 @@ const Payment = () => {
         </div>
       </div>
     );
-
   }
 
   return <div>Loading</div>;
@@ -676,14 +675,13 @@ const isData = (d = []) => {
   return d.length >= 1;
 };
 
-
-const checkPhone=(a)=>{
-  console.log(a)
+const checkPhone = (a) => {
+  console.log(a);
   const regex = /^\d{11}$/;
   return regex.test(a);
-}
+};
 
-const checkEmail = (a)=>{
-  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+const checkEmail = (a) => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return regex.test(a);
-}
+};

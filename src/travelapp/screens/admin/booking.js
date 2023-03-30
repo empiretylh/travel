@@ -665,5 +665,5 @@ function nwc(x = 0,y=true) {
   return x
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    .concat(y ? " Ks":'');
+    .concat(y ? " MMK":'');
 }
