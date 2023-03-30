@@ -1028,7 +1028,11 @@ const PackageDetail = () => {
                       className="bookingbtn"
                       style={{ marginTop: 10 }}
                       onClick={() => {
+                        if(token){
                         setFeedbackShow(true);
+                      }else{
+                        window.location.href='#/login/'+packagedata.id
+                      }
                       }}
                     >
                       <Chat style={{ marginRight: 10 }} />

@@ -147,7 +147,7 @@ const ForgotPassword = () => {
         centered
       >
         <Modal.Body>
-          <h4 style={{ color: "black" }}>Password Rest</h4>
+          <h4 style={{ color: "black" }}>Password Reset</h4>
           <p style={{ color: "black", fontFamily: "Roboto-Regular" }}>
           A password reset link has been sent to your email address <strong>{r_email.current.value}</strong>
           </p>

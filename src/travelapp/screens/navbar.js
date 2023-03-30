@@ -1,9 +1,10 @@
-import React, { useContext,useState } from "react";
+import React, { useContext,useState,useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar, Nav,Offcanvas } from "react-bootstrap";
 import { IMAGE } from "../../assets/assets";
+import services from "../data/services";
 import { LogoutContext, CAContext, TokenContext,IsAdminContext } from "../context/Context";
-
+import {useQuery} from 'react-query';
 const NavigationBar = () => {
   const { is_clientview, setClietView } = useContext(CAContext);
   const { token, setToken } = useContext(TokenContext);
@@ -11,6 +12,14 @@ const NavigationBar = () => {
 
 
   const {isAdmin,setIsAdmin} = useContext(IsAdminContext);
+  const UserData = useQuery(['clientuser', 'one'], services.getClientUser)
+
+  const currentUser = useMemo(() => {
+    if (UserData.data) {
+      console.log(UserData.data.data)
+      return UserData.data.data
+    }
+  }, [UserData.data])
 
   return (
     <Navbar collapseOnSelect expand='lg' fixed="top" className="navbar">
@@ -50,7 +59,7 @@ const NavigationBar = () => {
                 Admin
               </Link>:
               <Link to="profile">
-                Profile
+              {currentUser.name}
               </Link>
             }
             </>

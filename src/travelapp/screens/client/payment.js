@@ -653,11 +653,7 @@ const Payment = () => {
                         required
                       />
                     </Form.Group>
-                    <Button type='submit' variant='primary' style={{
-                      width: '100%',
-                      padding: 10,
-
-                    }}>
+                    <Button type='submit' className='bookingbtn'>
                       Register Booking
                     </Button>
                   </Form>

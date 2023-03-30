@@ -164,7 +164,7 @@ const ForgotPassword = () => {
               className={"loginbtn mb-3"}
 
             >
-              Rest Password
+              Reset Password
             </Button>
           </Form.Group>
       </Form>

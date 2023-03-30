@@ -89,6 +89,7 @@ const TravelMain = () => {
 
   const [rpackageinfo,setRPackageInfo] = useState([]);
 
+
   const RPackageValue = useMemo(()=>({rpackageinfo,setRPackageInfo}),[rpackageinfo,setRPackageInfo]);
 
 
@@ -183,6 +184,7 @@ return(
   }
 
   return (
+       <QueryClientProvider client={queryClient}>
     <RegisterPackageContext.Provider value={RPackageValue}>
     <IsAdminContext.Provider value={AdminValue}>
 
@@ -193,7 +195,7 @@ return(
       <CAContext.Provider value={is_CAValue}>
         <LogoutContext.Provider value={logoutvalue}>
           <div>
-            <QueryClientProvider client={queryClient}>
+       
               <TokenContext.Provider value={tokenValue}>
                 <HashRouter>
                   <div
@@ -235,7 +237,7 @@ return(
                   </div>
                 </HashRouter>
               </TokenContext.Provider>
-            </QueryClientProvider>
+       
           </div>
           <Modal
             show={WTLogout}
@@ -302,6 +304,7 @@ return(
      </LoginContext.Provider>
       </IsAdminContext.Provider>
       </RegisterPackageContext.Provider>
+           </QueryClientProvider>
   );
 };
 

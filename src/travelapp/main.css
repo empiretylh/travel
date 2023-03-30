@@ -100,25 +100,6 @@ body::-webkit-scrollbar-thumb:hover{
   width:170px;
   height: 120px;
 }
-
-.bookingbtn{
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  color:white;
-  cursor:pointer;
-  border-radius: 15px;
-  width:100%;
-  padding:10px !important;
-  font-family: 'Roboto-Bold' !important;
-  background-color: #4e00ad !important;  
-}
-
-
-.bookingbtn:hover{
-  background-color: #2d6efa !important;  
-}
-
 .pkbuydetail{
   font-size:medium;
 }
@@ -873,4 +854,26 @@ section {
 .lastelement a{
   color:white !important;
   font-size: medium !important;
+}
+
+
+
+
+
+.bookingbtn{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color:white;
+  cursor:pointer;
+  border-radius: 15px;
+  width:100%;
+  padding:10px !important;
+  font-family: 'Roboto-Bold' !important;
+  background-color: #4e00ad !important;  
+}
+
+
+.bookingbtn:hover{
+  background-color: #2d6efa !important;  
 }
