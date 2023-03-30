@@ -538,7 +538,7 @@ const Payment = () => {
                         type="text"
                         name="rname"
                         ref={rnameRef}
-                        defaultValue={cinfo_data.data && infodata.name}
+                        defaultValue={cinfo_data.data && infodata.companyname}
                         // value={travelerInfo.travelerName}
                         disabled
                         placeholder={"Receiver Name"}

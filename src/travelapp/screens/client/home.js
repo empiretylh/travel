@@ -75,7 +75,7 @@ const PackageCard = ({ data }) => {
               {data.destination}
             </div>
             <div className="packageinfo">
-              <p>{nwc(data.cost)}, <p style={{color:data.people_limit >= 1 ? 'blue': 'red'}}>Ticket: {data.people_limit}</p></p>
+              <p>{nwc(data.cost)} <p style={{color:data.people_limit >= 1 ? 'blue': 'red'}}>Ticket: {data.people_limit}</p></p>
               <s style={{ color: "red", marginLeft: 3 }}>
                 {data.discount !== "." ? data.discount : null}
               </s>
